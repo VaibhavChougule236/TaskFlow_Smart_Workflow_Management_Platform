@@ -25,10 +25,10 @@ public class Task {
     private String description;
 
     @Column(nullable = false)
-    private String category; // work | personal | study
+    private String category; 
 
     @Column(nullable = false)
-    private String priority; // high | medium | low
+    private String priority; 
 
     @Column(name = "due_date", nullable = false)
     private LocalDate dueDate;
@@ -39,7 +39,6 @@ public class Task {
     @Column(name = "created_at")
     private LocalDateTime createdAt;
 
-    // Many tasks -> One user
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
