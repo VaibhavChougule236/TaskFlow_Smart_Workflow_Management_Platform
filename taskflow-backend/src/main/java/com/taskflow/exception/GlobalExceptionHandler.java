@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
-    @ExceptionHandler(AddTaskException.class)
-    public ResponseEntity<String> handleTaskException(AddTaskException ex) {
+    @ExceptionHandler(TaskException.class)
+    public ResponseEntity<String> handleTaskException(TaskException ex) {
 
         return ResponseEntity
                 .status(HttpStatus.BAD_REQUEST)

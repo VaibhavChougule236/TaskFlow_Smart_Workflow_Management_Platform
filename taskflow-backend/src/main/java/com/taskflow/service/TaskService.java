@@ -4,8 +4,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import com.taskflow.dto.TaskRequest;
+import com.taskflow.dto.TaskResponse;
 import com.taskflow.entity.Task;
-import com.taskflow.exception.AddTaskException;
+import com.taskflow.exception.TaskException;
 import com.taskflow.exception.TaskNotFoundException;
 import com.taskflow.repository.TaskRepository;
 
@@ -16,73 +17,99 @@ import java.util.List;
 @RequiredArgsConstructor
 public class TaskService {
 
-    private final TaskRepository taskRepository;
+	private final TaskRepository taskRepository;
 
-    public List<Task> getAllTasks() {
-        return taskRepository.findAll();
-    }
-    
-    public Task createTask(TaskRequest request) {
-    	
-    	if (request.getTitle() == null || request.getTitle().trim().isEmpty()) {
-            throw new AddTaskException("Task title cannot be empty");
-        }
+	public List<Task> getAllTasks() {
+		return taskRepository.findAll();
+	}
 
-        Task task = Task.builder()
-                .title(request.getTitle())
-                .description(request.getDescription())
-                .category(request.getCategory().toLowerCase())
-                .priority(request.getPriority().toLowerCase())
-                .dueDate(request.getDueDate())
-                .isDone(false)
-                .build();
+	public Task createTask(TaskRequest request) {
 
-        return taskRepository.save(task);
-    }
-    
-    public Task toggleTaskById(Long id) {
+		if (request.getTitle() == null || request.getTitle().trim().isEmpty()) {
+			throw new TaskException("Task title cannot be empty");
+		}
 
-        Task task = taskRepository.findById(id)
-                .orElseThrow(() -> new TaskNotFoundException("Task not found with id: " + id));
+		Task task = Task.builder().title(request.getTitle()).description(request.getDescription())
+				.category(request.getCategory().toLowerCase()).priority(request.getPriority().toLowerCase())
+				.dueDate(request.getDueDate()).isDone(false).build();
 
-        task.setDone(!task.isDone());
+		return taskRepository.save(task);
+	}
 
-        return taskRepository.save(task);
-    }
-    
-    public void deleteTask(Long id) {
+	public Task toggleTaskById(Long id) {
 
-        Task task = taskRepository.findById(id)
-                .orElseThrow(() -> new TaskNotFoundException("Task not found with id: " + id));
+		Task task = taskRepository.findById(id)
+				.orElseThrow(() -> new TaskNotFoundException("Task not found with id: " + id));
 
-        taskRepository.delete(task);
-    }
-    
-    public List<Task> getTasksByStatusAndCategory(String status, String category) {
+		task.setDone(!task.isDone());
 
-        if (status != null) {
+		return taskRepository.save(task);
+	}
 
-            switch (status.toLowerCase()) {
+	public void deleteTask(Long id) {
 
-                case "completed":
-                    return taskRepository.findByIsDone(true);
+		Task task = taskRepository.findById(id)
+				.orElseThrow(() -> new TaskNotFoundException("Task not found with id: " + id));
 
-                case "pending":
-                    return taskRepository.findByIsDone(false);
+		taskRepository.delete(task);
+	}
 
-                case "overdue":
-                    return taskRepository
-                            .findByIsDoneFalseAndDueDateBefore(LocalDate.now());
+	public List<Task> getTasksByStatusAndCategory(String status, String category) {
 
-                default:
-                    throw new AddTaskException("Invalid status filter");
-            }
-        }
+		if (status != null) {
 
-        if (category != null) {
-            return taskRepository.findByCategory(category.toLowerCase());
-        }
+			switch (status.toLowerCase()) {
 
-        return taskRepository.findAll();
-    }
+			case "completed":
+				return taskRepository.findByIsDone(true);
+
+			case "pending":
+				return taskRepository.findByIsDone(false);
+
+			case "overdue":
+				return taskRepository.findByIsDoneFalseAndDueDateBefore(LocalDate.now());
+
+			default:
+				throw new TaskException("Invalid status filter");
+			}
+		}
+
+		if (category != null) {
+			return taskRepository.findByCategory(category.toLowerCase());
+		}
+
+		return taskRepository.findAll();
+	}
+
+	public TaskResponse updateTask(Long id, TaskRequest request) {
+
+		Task task = taskRepository.findById(id)
+				.orElseThrow(() -> new TaskNotFoundException("Task not found with id: " + id));
+
+		if (request.getTitle() == null || request.getTitle().trim().isEmpty()) {
+			throw new TaskException("Task title cannot be empty");
+		}
+
+		task.setTitle(request.getTitle());
+		task.setDescription(request.getDescription());
+		task.setCategory(request.getCategory());
+		task.setPriority(request.getPriority());
+		task.setDueDate(request.getDueDate());
+
+		Task updatedTask = taskRepository.save(task);
+
+		return mapToResponse(updatedTask);
+	}
+	
+	private TaskResponse mapToResponse(Task task) {
+	    return TaskResponse.builder()
+	            .id(task.getId())
+	            .title(task.getTitle())
+	            .description(task.getDescription())
+	            .category(task.getCategory())
+	            .priority(task.getPriority())
+	            .dueDate(task.getDueDate())
+	            .isDone(task.isDone())
+	            .build();
+	}
 }
