@@ -36,7 +36,7 @@ public class TaskService {
 		return taskRepository.save(task);
 	}
 
-	public Task toggleTaskById(Long id) {
+	public Task updateTaskStatus(Long id) {
 
 		Task task = taskRepository.findById(id)
 				.orElseThrow(() -> new TaskNotFoundException("Task not found with id: " + id));

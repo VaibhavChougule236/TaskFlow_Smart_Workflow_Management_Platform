@@ -36,9 +36,9 @@ public class TaskController {
     }
     
     @PatchMapping("/{id}/done")
-    public ResponseEntity<Task> toggleTask(@PathVariable Long id) {
+    public ResponseEntity<Task> updateTaskStatus(@PathVariable Long id) {
 
-        Task updatedTask = taskService.toggleTaskById(id);
+        Task updatedTask = taskService.updateTaskStatus(id);
 
         return ResponseEntity.ok(updatedTask);
     }
