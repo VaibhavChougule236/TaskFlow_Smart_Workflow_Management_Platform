@@ -11,9 +11,124 @@
       "name": "/getTasks",
       "request": {
         "method": "GET",
-        "header": []
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8285/api/tasks?page=0&size=5",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8285",
+          "path": [
+            "api",
+            "tasks"
+          ],
+          "query": [
+            {
+              "key": "page",
+              "value": "0"
+            },
+            {
+              "key": "size",
+              "value": "5"
+            }
+          ]
+        }
       },
-      "response": []
+      "response": [
+        {
+          "name": "/getTasks",
+          "originalRequest": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8285/api/tasks?page=0&size=5",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8285",
+              "path": [
+                "api",
+                "tasks"
+              ],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "0"
+                },
+                {
+                  "key": "size",
+                  "value": "5"
+                }
+              ]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": null,
+          "header": [
+            {
+              "key": "Vary",
+              "value": "Origin"
+            },
+            {
+              "key": "Vary",
+              "value": "Access-Control-Request-Method"
+            },
+            {
+              "key": "Vary",
+              "value": "Access-Control-Request-Headers"
+            },
+            {
+              "key": "X-Content-Type-Options",
+              "value": "nosniff"
+            },
+            {
+              "key": "X-XSS-Protection",
+              "value": "0"
+            },
+            {
+              "key": "Cache-Control",
+              "value": "no-cache, no-store, max-age=0, must-revalidate"
+            },
+            {
+              "key": "Pragma",
+              "value": "no-cache"
+            },
+            {
+              "key": "Expires",
+              "value": "0"
+            },
+            {
+              "key": "X-Frame-Options",
+              "value": "DENY"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Transfer-Encoding",
+              "value": "chunked"
+            },
+            {
+              "key": "Date",
+              "value": "Wed, 04 Mar 2026 12:35:13 GMT"
+            },
+            {
+              "key": "Keep-Alive",
+              "value": "timeout=60"
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive"
+            }
+          ],
+          "cookie": [],
+          "body": "{\n    \"content\": [\n        {\n            \"category\": \"study\",\n            \"description\": \"DBMS assignment submission\",\n            \"done\": false,\n            \"dueDate\": \"2026-03-05\",\n            \"id\": 1,\n            \"priority\": \"high\",\n            \"title\": \"Submit Assignment\"\n        },\n        {\n            \"category\": \"work\",\n            \"description\": \"Weekly project sync meeting\",\n            \"done\": false,\n            \"dueDate\": \"2026-03-02\",\n            \"id\": 2,\n            \"priority\": \"medium\",\n            \"title\": \"Team Meeting\"\n        },\n        {\n            \"category\": \"personal\",\n            \"description\": \"Milk, Bread, Fruits\",\n            \"done\": false,\n            \"dueDate\": \"2026-03-03\",\n            \"id\": 3,\n            \"priority\": \"low\",\n            \"title\": \"Buy Groceries\"\n        },\n        {\n            \"category\": \"work\",\n            \"description\": \"Sprint demo slides\",\n            \"done\": false,\n            \"dueDate\": \"2026-03-01\",\n            \"id\": 4,\n            \"priority\": \"high\",\n            \"title\": \"Prepare Presentation\"\n        },\n        {\n            \"category\": \"study\",\n            \"description\": \"JWT and role-based access\",\n            \"done\": true,\n            \"dueDate\": \"2026-03-04\",\n            \"id\": 5,\n            \"priority\": \"medium\",\n            \"title\": \"Revise Spring Security\"\n        }\n    ],\n    \"empty\": false,\n    \"first\": true,\n    \"last\": true,\n    \"number\": 0,\n    \"numberOfElements\": 5,\n    \"pageable\": {\n        \"offset\": 0,\n        \"pageNumber\": 0,\n        \"pageSize\": 5,\n        \"paged\": true,\n        \"sort\": {\n            \"empty\": true,\n            \"sorted\": false,\n            \"unsorted\": true\n        },\n        \"unpaged\": false\n    },\n    \"size\": 5,\n    \"sort\": {\n        \"empty\": true,\n        \"sorted\": false,\n        \"unsorted\": true\n    },\n    \"totalElements\": 5,\n    \"totalPages\": 1\n}"
+        }
+      ]
     }
   ]
 }
