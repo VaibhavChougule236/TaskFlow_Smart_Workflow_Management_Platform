@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.taskflow.dto.TaskRequest;
@@ -111,6 +112,22 @@ public class TaskService {
 		return mapToTaskResponse(updatedTask);
 	}
 	
+	public Page<TaskResponse> getSortedTasks(int page, int size, String sortBy, String dir) {
+		
+		if(dir.equalsIgnoreCase("asc")) {
+			Pageable pageable = PageRequest.of(page, size, Sort.by(sortBy).ascending());
+			Page<Task> task = taskRepository.findAll(pageable);
+			return task.map(this::mapToTaskResponse);
+		} else if (dir.equalsIgnoreCase("desc")) {
+			Pageable pageable = PageRequest.of(page, size, Sort.by(sortBy).descending());
+			Page<Task> task = taskRepository.findAll(pageable);
+			return task.map(this::mapToTaskResponse);
+		} else {
+			throw new TaskException("Invalid sort direction");
+		}
+		
+	}
+	
 	private TaskResponse mapToTaskResponse(Task task) {
 	    return TaskResponse.builder()
 	            .id(task.getId())
@@ -122,4 +139,6 @@ public class TaskService {
 	            .isDone(task.isDone())
 	            .build();
 	}
+
+	
 }

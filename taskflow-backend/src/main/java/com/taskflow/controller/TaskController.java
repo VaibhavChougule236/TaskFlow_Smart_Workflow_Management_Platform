@@ -71,4 +71,14 @@ public class TaskController {
 
 		return ResponseEntity.ok(tasks);
 	}
+	
+	@GetMapping("/sorted")
+	public ResponseEntity<Page<TaskResponse>> getSortedTasks(@RequestParam(defaultValue= "0") int page,
+
+			@RequestParam(defaultValue= "10") int size, @RequestParam(defaultValue= "dueDate") String sortBy, @RequestParam(defaultValue= "asc") String Dir) {
+
+		Page<TaskResponse> tasks = taskService.getSortedTasks(page, size, sortBy, Dir);
+
+		return ResponseEntity.ok(tasks);
+	}
 }
