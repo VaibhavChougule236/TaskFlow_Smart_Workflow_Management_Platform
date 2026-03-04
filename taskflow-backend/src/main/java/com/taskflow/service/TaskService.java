@@ -1,6 +1,10 @@
 package com.taskflow.service;
 
 import lombok.RequiredArgsConstructor;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.taskflow.dto.TaskRequest;
@@ -21,6 +25,12 @@ public class TaskService {
 
 	public List<Task> getAllTasks() {
 		return taskRepository.findAll();
+	}
+	
+	public Page<TaskResponse> getTasks(int page, int size){
+		Pageable pageable = PageRequest.of(page, size);
+		Page<Task> task=taskRepository.findAll(pageable);
+		return task.map(this::mapToTaskResponse);
 	}
 
 	public Task createTask(TaskRequest request) {
@@ -98,10 +108,10 @@ public class TaskService {
 
 		Task updatedTask = taskRepository.save(task);
 
-		return mapToResponse(updatedTask);
+		return mapToTaskResponse(updatedTask);
 	}
 	
-	private TaskResponse mapToResponse(Task task) {
+	private TaskResponse mapToTaskResponse(Task task) {
 	    return TaskResponse.builder()
 	            .id(task.getId())
 	            .title(task.getTitle())

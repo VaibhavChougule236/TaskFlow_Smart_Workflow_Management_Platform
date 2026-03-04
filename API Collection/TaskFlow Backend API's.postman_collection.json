@@ -1,0 +1,19 @@
+{
+  "info": {
+    "_postman_id": "f0559ce8-37b0-4833-8a1e-fb942df53534",
+    "name": "TaskFlow Backend API's",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "38496410",
+    "_collection_link": "https://go.postman.co/collection/38496410-f0559ce8-37b0-4833-8a1e-fb942df53534?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "/getTasks",
+      "request": {
+        "method": "GET",
+        "header": []
+      },
+      "response": []
+    }
+  ]
+}

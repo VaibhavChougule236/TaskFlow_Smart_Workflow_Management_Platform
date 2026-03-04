@@ -2,11 +2,13 @@ package com.taskflow.controller;
 
 import lombok.RequiredArgsConstructor;
 
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import com.taskflow.dto.TaskRequest;
+import com.taskflow.dto.TaskResponse;
 import com.taskflow.entity.Task;
 import com.taskflow.service.TaskService;
 
@@ -20,45 +22,53 @@ import java.util.List;
 @CrossOrigin
 public class TaskController {
 
-    private final TaskService taskService;
+	private final TaskService taskService;
 
-    @GetMapping
-    public List<Task> getAllTasks() {
-        return taskService.getAllTasks();
-    }
-    
-    @PostMapping
-    public ResponseEntity<Task> createTask(@Valid @RequestBody TaskRequest request) {
+//	@GetMapping
+//	public List<Task> getAllTasks() {
+//		return taskService.getAllTasks();
+//	}
 
-        Task savedTask = taskService.createTask(request);
+	@PostMapping
+	public ResponseEntity<Task> createTask(@Valid @RequestBody TaskRequest request) {
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(savedTask);
-    }
-    
-    @PatchMapping("/{id}/done")
-    public ResponseEntity<Task> updateTaskStatus(@PathVariable Long id) {
+		Task savedTask = taskService.createTask(request);
 
-        Task updatedTask = taskService.updateTaskStatus(id);
+		return ResponseEntity.status(HttpStatus.CREATED).body(savedTask);
+	}
+	
+	@GetMapping
+	public ResponseEntity<Page<TaskResponse>> getPageableTasks(@RequestParam(defaultValue= "0") int page,
 
-        return ResponseEntity.ok(updatedTask);
-    }
-    
-    @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteTask(@PathVariable Long id) {
+	@RequestParam(defaultValue= "10") int size) {
+		
+		Page<TaskResponse> result=taskService.getTasks(page, size);
 
-        taskService.deleteTask(id);
+		return ResponseEntity.ok(result);
+	}
 
-        return ResponseEntity.ok("Task deleted successfully");
-    }
-    
-    @GetMapping("/filter")
-    public ResponseEntity<List<Task>> getTasks(
-            @RequestParam(required = false) String status,
-            @RequestParam(required = false) String category
-    ) {
+	@PatchMapping("/{id}/done")
+	public ResponseEntity<Task> updateTaskStatus(@PathVariable Long id) {
 
-        List<Task> tasks = taskService.getTasksByStatusAndCategory(status, category);
+		Task updatedTask = taskService.updateTaskStatus(id);
 
-        return ResponseEntity.ok(tasks);
-    }
+		return ResponseEntity.ok(updatedTask);
+	}
+
+	@DeleteMapping("/{id}")
+	public ResponseEntity<String> deleteTask(@PathVariable Long id) {
+
+		taskService.deleteTask(id);
+
+		return ResponseEntity.ok("Task deleted successfully");
+	}
+
+	@GetMapping("/filter")
+	public ResponseEntity<List<Task>> getTasks(@RequestParam(required = false) String status,
+			@RequestParam(required = false) String category) {
+
+		List<Task> tasks = taskService.getTasksByStatusAndCategory(status, category);
+
+		return ResponseEntity.ok(tasks);
+	}
 }
