@@ -24,7 +24,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class TaskService {
+public class AdminTaskService {
 
 	private final TaskRepository taskRepository;
 	private final UserRepository userRepository;
@@ -38,70 +38,6 @@ public class TaskService {
 //		Page<Task> task=taskRepository.findAll(pageable);
 //		return task.map(this::mapToTaskResponse);
 //	}
-
-	public Page<TaskResponse> getUserTasks(
-	        int page,
-	        int size,
-	        String status,
-	        String category,
-	        String keyword,
-	        String sortBy,
-	        String direction
-	) {
-
-	    Authentication authentication =
-	            SecurityContextHolder.getContext().getAuthentication();
-
-	    String email = authentication.getName();
-
-	    User user = userRepository.findByEmail(email)
-	            .orElseThrow();
-
-	    Sort sort = direction.equalsIgnoreCase("desc")
-	            ? Sort.by(sortBy).descending()
-	            : Sort.by(sortBy).ascending();
-
-	    Pageable pageable = PageRequest.of(page, size, sort);
-
-	    if (keyword != null && !keyword.trim().isEmpty()) {
-	        return taskRepository
-	                .findByUserIdAndTitleContainingIgnoreCase(user.getId(), keyword, pageable)
-	                .map(this::mapToTaskResponse);
-	    }
-
-	    if (status != null) {
-	        switch (status.toLowerCase()) {
-
-	            case "completed":
-	                return taskRepository
-	                        .findByUserIdAndIsDone(user.getId(), true, pageable)
-	                        .map(this::mapToTaskResponse);
-
-	            case "pending":
-	                return taskRepository
-	                        .findByUserIdAndIsDone(user.getId(), false, pageable)
-	                        .map(this::mapToTaskResponse);
-
-	            case "overdue":
-	                return taskRepository
-	                        .findByUserIdAndIsDoneFalseAndDueDateBefore(user.getId(), LocalDate.now(), pageable)
-	                        .map(this::mapToTaskResponse);
-
-	            default:
-	                throw new TaskException("Invalid status filter");
-	        }
-	    }
-
-	    if (category != null && !category.trim().isEmpty()) {
-	        return taskRepository
-	                .findByUserIdAndCategory(user.getId(), category.toLowerCase(), pageable)
-	                .map(this::mapToTaskResponse);
-	    }
-
-	    return taskRepository
-	            .findByUserId(user.getId(), pageable)
-	            .map(this::mapToTaskResponse);
-	}
 	
 	
 	public Page<TaskResponse> getTasks(int page, int size, String status, String category, String keyword,

@@ -31,5 +31,11 @@ public interface TaskRepository extends JpaRepository<Task, Long> {
 	Page<Task> findByUserIdAndIsDoneFalseAndDueDateBefore(Long id, LocalDate now, Pageable pageable);
 
 	Page<Task> findByUserIdAndCategory(Long id, String lowerCase, Pageable pageable);
+	
+	//Admin
+
+	long countByIsDone(boolean isDone);
+
+	long countByIsDoneFalseAndDueDateBefore(LocalDate now);
 
 }

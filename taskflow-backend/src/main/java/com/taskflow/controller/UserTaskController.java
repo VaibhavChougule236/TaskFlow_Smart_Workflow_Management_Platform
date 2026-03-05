@@ -11,23 +11,21 @@ import org.springframework.web.bind.annotation.*;
 import com.taskflow.dto.ApiResponse;
 import com.taskflow.dto.TaskRequest;
 import com.taskflow.dto.TaskResponse;
-import com.taskflow.entity.Task;
-import com.taskflow.service.TaskService;
+import com.taskflow.service.AdminTaskService;
+import com.taskflow.service.UserTaskService;
 
 import jakarta.validation.Valid;
 
-import java.util.List;
-
 @RestController
-@RequestMapping("/api/tasks")
+@RequestMapping("/api/my-tasks")
 @RequiredArgsConstructor
 @CrossOrigin
-@PreAuthorize("hasRole='USER'")
-public class TaskController {
+@PreAuthorize("hasRole('USER')")
+public class UserTaskController {
 
-	private final TaskService taskService;
+    private final UserTaskService taskService;
 
-	// Create Task
+    // Create task for logged-in user
     @PostMapping
     public ResponseEntity<ApiResponse<TaskResponse>> createTask(
             @Valid @RequestBody TaskRequest request) {
@@ -38,9 +36,9 @@ public class TaskController {
                 .body(new ApiResponse<>(true, "Task created successfully", task));
     }
 
-    //(Pagination + Filter + Search + Sort)
+    // Get only logged-in user's tasks
     @GetMapping
-    public ResponseEntity<ApiResponse<Page<TaskResponse>>> getTasks(
+    public ResponseEntity<ApiResponse<Page<TaskResponse>>> getMyTasks(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size,
             @RequestParam(required = false) String status,
@@ -50,16 +48,16 @@ public class TaskController {
             @RequestParam(defaultValue = "asc") String direction
     ) {
 
-        Page<TaskResponse> tasks = taskService.getTasks(
+        Page<TaskResponse> tasks = taskService.getMyTasks(
                 page, size, status, category, keyword, sortBy, direction
         );
 
         return ResponseEntity.ok(
-                new ApiResponse<>(true, "Tasks fetched successfully", tasks)
+                new ApiResponse<>(true, "User tasks fetched successfully", tasks)
         );
     }
 
-    // Update Task
+    // Update own task
     @PutMapping("/{id}")
     public ResponseEntity<ApiResponse<TaskResponse>> updateTask(
             @PathVariable Long id,
@@ -72,7 +70,7 @@ public class TaskController {
         );
     }
 
-    // Mark As Done/Undone
+    // Mark own task done/undone
     @PatchMapping("/{id}/done")
     public ResponseEntity<ApiResponse<TaskResponse>> updateTaskStatus(
             @PathVariable Long id) {
@@ -84,7 +82,7 @@ public class TaskController {
         );
     }
 
-    // Delete Task
+    // Delete own task
     @DeleteMapping("/{id}")
     public ResponseEntity<ApiResponse<Void>> deleteTask(
             @PathVariable Long id) {
@@ -96,28 +94,4 @@ public class TaskController {
         );
     }
 
-
-	
-	@GetMapping("/sorted")
-	public ResponseEntity<Page<TaskResponse>> getSortedTasks(@RequestParam(defaultValue= "0") int page,
-
-			@RequestParam(defaultValue= "10") int size, @RequestParam(defaultValue= "dueDate") String sortBy, @RequestParam(defaultValue= "asc") String Dir) {
-
-		Page<TaskResponse> tasks = taskService.getSortedTasks(page, size, sortBy, Dir);
-
-		return ResponseEntity.ok(tasks);
-	}
-	
-	@GetMapping("/search")
-	public ResponseEntity<Page<TaskResponse>> searchTasks(
-	        @RequestParam String keyword,
-	        @RequestParam(defaultValue = "0") int page,
-	        @RequestParam(defaultValue = "5") int size
-	) {
-
-	    Page<TaskResponse> tasks =
-	            taskService.searchTasks(keyword, page, size);
-
-	    return ResponseEntity.ok(tasks);
-	}
 }
