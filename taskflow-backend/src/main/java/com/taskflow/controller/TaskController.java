@@ -5,8 +5,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import com.taskflow.dto.ApiResponse;
 import com.taskflow.dto.TaskRequest;
 import com.taskflow.dto.TaskResponse;
 import com.taskflow.entity.Task;
@@ -20,57 +22,81 @@ import java.util.List;
 @RequestMapping("/api/tasks")
 @RequiredArgsConstructor
 @CrossOrigin
+@PreAuthorize("hasRole='USER'")
 public class TaskController {
 
 	private final TaskService taskService;
 
-//	@GetMapping
-//	public List<Task> getAllTasks() {
-//		return taskService.getAllTasks();
-//	}
+	// Create Task
+    @PostMapping
+    public ResponseEntity<ApiResponse<TaskResponse>> createTask(
+            @Valid @RequestBody TaskRequest request) {
 
-	@PostMapping
-	public ResponseEntity<Task> createTask(@Valid @RequestBody TaskRequest request) {
+        TaskResponse task = taskService.createTask(request);
 
-		Task savedTask = taskService.createTask(request);
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(new ApiResponse<>(true, "Task created successfully", task));
+    }
 
-		return ResponseEntity.status(HttpStatus.CREATED).body(savedTask);
-	}
-	
-	@GetMapping
-	public ResponseEntity<Page<TaskResponse>> getPageableTasks(@RequestParam(defaultValue= "0") int page,
+    //(Pagination + Filter + Search + Sort)
+    @GetMapping
+    public ResponseEntity<ApiResponse<Page<TaskResponse>>> getTasks(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(required = false) String status,
+            @RequestParam(required = false) String category,
+            @RequestParam(required = false) String keyword,
+            @RequestParam(defaultValue = "dueDate") String sortBy,
+            @RequestParam(defaultValue = "asc") String direction
+    ) {
 
-	@RequestParam(defaultValue= "10") int size) {
-		
-		Page<TaskResponse> result=taskService.getTasks(page, size);
+        Page<TaskResponse> tasks = taskService.getTasks(
+                page, size, status, category, keyword, sortBy, direction
+        );
 
-		return ResponseEntity.ok(result);
-	}
+        return ResponseEntity.ok(
+                new ApiResponse<>(true, "Tasks fetched successfully", tasks)
+        );
+    }
 
-	@PatchMapping("/{id}/done")
-	public ResponseEntity<Task> updateTaskStatus(@PathVariable Long id) {
+    // Update Task
+    @PutMapping("/{id}")
+    public ResponseEntity<ApiResponse<TaskResponse>> updateTask(
+            @PathVariable Long id,
+            @Valid @RequestBody TaskRequest request) {
 
-		Task updatedTask = taskService.updateTaskStatus(id);
+        TaskResponse task = taskService.updateTask(id, request);
 
-		return ResponseEntity.ok(updatedTask);
-	}
+        return ResponseEntity.ok(
+                new ApiResponse<>(true, "Task updated successfully", task)
+        );
+    }
 
-	@DeleteMapping("/{id}")
-	public ResponseEntity<String> deleteTask(@PathVariable Long id) {
+    // Mark As Done/Undone
+    @PatchMapping("/{id}/done")
+    public ResponseEntity<ApiResponse<TaskResponse>> updateTaskStatus(
+            @PathVariable Long id) {
 
-		taskService.deleteTask(id);
+        TaskResponse task = taskService.updateTaskStatus(id);
 
-		return ResponseEntity.ok("Task deleted successfully");
-	}
+        return ResponseEntity.ok(
+                new ApiResponse<>(true, "Task status updated", task)
+        );
+    }
 
-	@GetMapping("/filter")
-	public ResponseEntity<List<Task>> getTasks(@RequestParam(required = false) String status,
-			@RequestParam(required = false) String category) {
+    // Delete Task
+    @DeleteMapping("/{id}")
+    public ResponseEntity<ApiResponse<Void>> deleteTask(
+            @PathVariable Long id) {
 
-		List<Task> tasks = taskService.getTasksByStatusAndCategory(status, category);
+        taskService.deleteTask(id);
 
-		return ResponseEntity.ok(tasks);
-	}
+        return ResponseEntity.ok(
+                new ApiResponse<>(true, "Task deleted successfully", null)
+        );
+    }
+
+
 	
 	@GetMapping("/sorted")
 	public ResponseEntity<Page<TaskResponse>> getSortedTasks(@RequestParam(defaultValue= "0") int page,

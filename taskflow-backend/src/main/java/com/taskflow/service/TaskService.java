@@ -6,14 +6,18 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import com.taskflow.dto.TaskRequest;
 import com.taskflow.dto.TaskResponse;
 import com.taskflow.entity.Task;
+import com.taskflow.entity.User;
 import com.taskflow.exception.TaskException;
 import com.taskflow.exception.TaskNotFoundException;
 import com.taskflow.repository.TaskRepository;
+import com.taskflow.repository.UserRepository;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -23,38 +27,151 @@ import java.util.List;
 public class TaskService {
 
 	private final TaskRepository taskRepository;
+	private final UserRepository userRepository;
 
 	public List<Task> getAllTasks() {
 		return taskRepository.findAll();
 	}
+
+//	public Page<TaskResponse> getTasks(int page, int size){
+//		Pageable pageable = PageRequest.of(page, size);
+//		Page<Task> task=taskRepository.findAll(pageable);
+//		return task.map(this::mapToTaskResponse);
+//	}
+
+	public Page<TaskResponse> getUserTasks(
+	        int page,
+	        int size,
+	        String status,
+	        String category,
+	        String keyword,
+	        String sortBy,
+	        String direction
+	) {
+
+	    Authentication authentication =
+	            SecurityContextHolder.getContext().getAuthentication();
+
+	    String email = authentication.getName();
+
+	    User user = userRepository.findByEmail(email)
+	            .orElseThrow();
+
+	    Sort sort = direction.equalsIgnoreCase("desc")
+	            ? Sort.by(sortBy).descending()
+	            : Sort.by(sortBy).ascending();
+
+	    Pageable pageable = PageRequest.of(page, size, sort);
+
+	    if (keyword != null && !keyword.trim().isEmpty()) {
+	        return taskRepository
+	                .findByUserIdAndTitleContainingIgnoreCase(user.getId(), keyword, pageable)
+	                .map(this::mapToTaskResponse);
+	    }
+
+	    if (status != null) {
+	        switch (status.toLowerCase()) {
+
+	            case "completed":
+	                return taskRepository
+	                        .findByUserIdAndIsDone(user.getId(), true, pageable)
+	                        .map(this::mapToTaskResponse);
+
+	            case "pending":
+	                return taskRepository
+	                        .findByUserIdAndIsDone(user.getId(), false, pageable)
+	                        .map(this::mapToTaskResponse);
+
+	            case "overdue":
+	                return taskRepository
+	                        .findByUserIdAndIsDoneFalseAndDueDateBefore(user.getId(), LocalDate.now(), pageable)
+	                        .map(this::mapToTaskResponse);
+
+	            default:
+	                throw new TaskException("Invalid status filter");
+	        }
+	    }
+
+	    if (category != null && !category.trim().isEmpty()) {
+	        return taskRepository
+	                .findByUserIdAndCategory(user.getId(), category.toLowerCase(), pageable)
+	                .map(this::mapToTaskResponse);
+	    }
+
+	    return taskRepository
+	            .findByUserId(user.getId(), pageable)
+	            .map(this::mapToTaskResponse);
+	}
 	
-	public Page<TaskResponse> getTasks(int page, int size){
-		Pageable pageable = PageRequest.of(page, size);
-		Page<Task> task=taskRepository.findAll(pageable);
-		return task.map(this::mapToTaskResponse);
+	
+	public Page<TaskResponse> getTasks(int page, int size, String status, String category, String keyword,
+			String sortBy, String direction) {
+
+		Sort sort = direction.equalsIgnoreCase("desc") ? Sort.by(sortBy).descending() : Sort.by(sortBy).ascending();
+
+		Pageable pageable = PageRequest.of(page, size, sort);
+
+		if (keyword != null && !keyword.trim().isEmpty()) {
+			return taskRepository.findByTitleContainingIgnoreCase(keyword, pageable).map(this::mapToTaskResponse);
+		}
+
+		if (status != null) {
+			switch (status.toLowerCase()) {
+
+			case "completed":
+				return taskRepository.findByIsDone(true, pageable).map(this::mapToTaskResponse);
+
+			case "pending":
+				return taskRepository.findByIsDone(false, pageable).map(this::mapToTaskResponse);
+
+			case "overdue":
+				return taskRepository.findByIsDoneFalseAndDueDateBefore(LocalDate.now(), pageable)
+						.map(this::mapToTaskResponse);
+
+			default:
+				throw new TaskException("Invalid status filter");
+			}
+		}
+
+		if (category != null && !category.trim().isEmpty()) {
+			return taskRepository.findByCategory(category.toLowerCase(), pageable).map(this::mapToTaskResponse);
+		}
+
+		return taskRepository.findAll(pageable).map(this::mapToTaskResponse);
 	}
 
-	public Task createTask(TaskRequest request) {
+	public TaskResponse createTask(TaskRequest request) {
 
 		if (request.getTitle() == null || request.getTitle().trim().isEmpty()) {
 			throw new TaskException("Task title cannot be empty");
 		}
+		
+		Authentication authentication =
+		        SecurityContextHolder.getContext().getAuthentication();
+
+		String email = authentication.getName();
+
+		User user = userRepository.findByEmail(email).orElseThrow();
 
 		Task task = Task.builder().title(request.getTitle()).description(request.getDescription())
 				.category(request.getCategory().toLowerCase()).priority(request.getPriority().toLowerCase())
-				.dueDate(request.getDueDate()).isDone(false).build();
+				.dueDate(request.getDueDate()).isDone(false).user(user).build();
 
-		return taskRepository.save(task);
+		Task savedTask = taskRepository.save(task);
+
+		return mapToTaskResponse(savedTask);
 	}
 
-	public Task updateTaskStatus(Long id) {
+	public TaskResponse updateTaskStatus(Long id) {
 
 		Task task = taskRepository.findById(id)
 				.orElseThrow(() -> new TaskNotFoundException("Task not found with id: " + id));
 
 		task.setDone(!task.isDone());
 
-		return taskRepository.save(task);
+		Task updatedTask = taskRepository.save(task);
+
+		return mapToTaskResponse(updatedTask);
 	}
 
 	public void deleteTask(Long id) {
@@ -63,33 +180,6 @@ public class TaskService {
 				.orElseThrow(() -> new TaskNotFoundException("Task not found with id: " + id));
 
 		taskRepository.delete(task);
-	}
-
-	public List<Task> getTasksByStatusAndCategory(String status, String category) {
-
-		if (status != null) {
-
-			switch (status.toLowerCase()) {
-
-			case "completed":
-				return taskRepository.findByIsDone(true);
-
-			case "pending":
-				return taskRepository.findByIsDone(false);
-
-			case "overdue":
-				return taskRepository.findByIsDoneFalseAndDueDateBefore(LocalDate.now());
-
-			default:
-				throw new TaskException("Invalid status filter");
-			}
-		}
-
-		if (category != null) {
-			return taskRepository.findByCategory(category.toLowerCase());
-		}
-
-		return taskRepository.findAll();
 	}
 
 	public TaskResponse updateTask(Long id, TaskRequest request) {
@@ -111,10 +201,10 @@ public class TaskService {
 
 		return mapToTaskResponse(updatedTask);
 	}
-	
+
 	public Page<TaskResponse> getSortedTasks(int page, int size, String sortBy, String dir) {
-		
-		if(dir.equalsIgnoreCase("asc")) {
+
+		if (dir.equalsIgnoreCase("asc")) {
 			Pageable pageable = PageRequest.of(page, size, Sort.by(sortBy).ascending());
 			Page<Task> task = taskRepository.findAll(pageable);
 			return task.map(this::mapToTaskResponse);
@@ -125,30 +215,22 @@ public class TaskService {
 		} else {
 			throw new TaskException("Invalid sort direction");
 		}
-		
+
 	}
-	
+
 	public Page<TaskResponse> searchTasks(String keyword, int page, int size) {
 
-	    Pageable pageable = PageRequest.of(page, size);
+		Pageable pageable = PageRequest.of(page, size);
 
-	    Page<Task> taskPage =
-	            taskRepository.findByTitleContainingIgnoreCase(keyword, pageable);
+		Page<Task> taskPage = taskRepository.findByTitleContainingIgnoreCase(keyword, pageable);
 
-	    return taskPage.map(this::mapToTaskResponse);
+		return taskPage.map(this::mapToTaskResponse);
 	}
-	
+
 	private TaskResponse mapToTaskResponse(Task task) {
-	    return TaskResponse.builder()
-	            .id(task.getId())
-	            .title(task.getTitle())
-	            .description(task.getDescription())
-	            .category(task.getCategory())
-	            .priority(task.getPriority())
-	            .dueDate(task.getDueDate())
-	            .isDone(task.isDone())
-	            .build();
+		return TaskResponse.builder().id(task.getId()).title(task.getTitle()).description(task.getDescription())
+				.category(task.getCategory()).priority(task.getPriority()).dueDate(task.getDueDate())
+				.isDone(task.isDone()).build();
 	}
 
-	
 }

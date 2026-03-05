@@ -7,17 +7,29 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import com.taskflow.entity.Task;
 
 import java.time.LocalDate;
-import java.util.List;
 
 public interface TaskRepository extends JpaRepository<Task, Long> {
-	List<Task> findByUserId(Long userId);
 	
-	List<Task> findByIsDone(boolean isDone);
+	//for Admin
+	
+	Page<Task> findByIsDone(boolean isDone, Pageable pageable);
 
-	List<Task> findByCategory(String category);
+	Page<Task> findByCategory(String category, Pageable pageable);
 
-	List<Task> findByIsDoneFalseAndDueDateBefore(LocalDate date);
+	Page<Task> findByIsDoneFalseAndDueDateBefore(LocalDate date, Pageable pageable);
 	
 	Page<Task> findByTitleContainingIgnoreCase(String keyword, Pageable pageable);
+	
+	//for Logged in user
+	
+	Page<Task> findByUserId(Long userId, Pageable pageable);
+		
+	Page<Task> findByUserIdAndTitleContainingIgnoreCase(Long userId, String keyword, Pageable pageable);
+
+	Page<Task> findByUserIdAndIsDone(Long id, boolean isDone, Pageable pageable);
+
+	Page<Task> findByUserIdAndIsDoneFalseAndDueDateBefore(Long id, LocalDate now, Pageable pageable);
+
+	Page<Task> findByUserIdAndCategory(Long id, String lowerCase, Pageable pageable);
 
 }
