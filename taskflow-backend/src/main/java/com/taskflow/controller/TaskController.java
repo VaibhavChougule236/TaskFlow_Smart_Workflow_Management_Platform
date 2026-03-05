@@ -81,4 +81,17 @@ public class TaskController {
 
 		return ResponseEntity.ok(tasks);
 	}
+	
+	@GetMapping("/search")
+	public ResponseEntity<Page<TaskResponse>> searchTasks(
+	        @RequestParam String keyword,
+	        @RequestParam(defaultValue = "0") int page,
+	        @RequestParam(defaultValue = "5") int size
+	) {
+
+	    Page<TaskResponse> tasks =
+	            taskService.searchTasks(keyword, page, size);
+
+	    return ResponseEntity.ok(tasks);
+	}
 }

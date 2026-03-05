@@ -128,6 +128,16 @@ public class TaskService {
 		
 	}
 	
+	public Page<TaskResponse> searchTasks(String keyword, int page, int size) {
+
+	    Pageable pageable = PageRequest.of(page, size);
+
+	    Page<Task> taskPage =
+	            taskRepository.findByTitleContainingIgnoreCase(keyword, pageable);
+
+	    return taskPage.map(this::mapToTaskResponse);
+	}
+	
 	private TaskResponse mapToTaskResponse(Task task) {
 	    return TaskResponse.builder()
 	            .id(task.getId())
