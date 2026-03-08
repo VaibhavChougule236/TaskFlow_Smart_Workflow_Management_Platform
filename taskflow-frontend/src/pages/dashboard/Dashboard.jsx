@@ -1,66 +1,76 @@
 import { useEffect, useState } from "react";
-import TaskList from "../../components/tasks/TaskList";
-import { getTasks, updateTaskStatus, deleteTask } from "../../services/taskService";
-import AppLayout from "../../layout/AppLayout";
+import { getMyTasks } from "../../services/taskService";
+import api from "../../api/axios";
+import UserProfileCard from "../../components/dashboard/UserProfileCard";
+import TaskStats from "../../components/dashboard/TaskStats";
+import TaskProgress from "../../components/dashboard/TaskProgress";
+import RecentTasks from "../../components/dashboard/RecentTasks";
 
 function Dashboard() {
 
   const [tasks, setTasks] = useState([]);
-  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+
+    fetchTasks();
+
+  }, []);
 
   const fetchTasks = async () => {
 
-    setLoading(true);
+  try {
 
-    try {
+    const user = JSON.parse(localStorage.getItem("user"));
 
-      const res = await getTasks({
-        page: 0,
-        size: 10
+    let res;
+
+    if (user.role === "ADMIN") {
+      res = await api.get("/tasks", {
+        params: { page: 0, size: 10 }
       });
-
-      setTasks(res.data.content);
-
-    } catch (err) {
-
-      console.error(err);
-
+    } else {
+      res = await getMyTasks(0, 10);
     }
 
-    setLoading(false);
+    setTasks(res.data.data.content);
+
+  } catch (error) {
+    console.error(error);
+  }
+};
+  const stats = {
+    total: tasks.length,
+    completed: tasks.filter(t => t.done).length,
+    pending: tasks.filter(t => !t.done).length,
+    overdue: tasks.filter(t => !t.done && new Date(t.dueDate) < new Date()).length
   };
 
-  useEffect(() => {
-    fetchTasks();
-  }, []);
-
-  const handleToggle = async (id) => {
-    await updateTaskStatus(id);
-    fetchTasks();
-  };
-
-  const handleDelete = async (id) => {
-    await deleteTask(id);
-    fetchTasks();
-  };
+  const completionPercentage =
+    stats.total === 0
+      ? 0
+      : Math.round((stats.completed / stats.total) * 100);
 
   return (
 
-    <AppLayout>
+    <div>
 
-      <h1 className="text-2xl font-bold mb-6">
-        My Tasks
-      </h1>
+      <h2 className="text-2xl font-semibold mb-4">
+        Dashboard
+      </h2>
 
-      <TaskList
-        tasks={tasks}
-        loading={loading}
-        onToggle={handleToggle}
-        onDelete={handleDelete}
-      />
+      <div className="grid grid-cols-2 gap-6">
 
-    </AppLayout>
+        <UserProfileCard />
 
+        <TaskProgress percentage={completionPercentage} />
+
+      </div>
+
+      <TaskStats stats={stats} />
+
+      <RecentTasks tasks={tasks} />
+
+    </div>
   );
 }
 

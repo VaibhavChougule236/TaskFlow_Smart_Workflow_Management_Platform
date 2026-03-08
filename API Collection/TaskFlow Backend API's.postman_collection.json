@@ -8,7 +8,7 @@
   },
   "item": [
     {
-      "name": "/getTasks",
+      "name": "/getTasks/paginated",
       "request": {
         "method": "GET",
         "header": [],
@@ -127,6 +127,2158 @@
           ],
           "cookie": [],
           "body": "{\n    \"content\": [\n        {\n            \"category\": \"study\",\n            \"description\": \"DBMS assignment submission\",\n            \"done\": false,\n            \"dueDate\": \"2026-03-05\",\n            \"id\": 1,\n            \"priority\": \"high\",\n            \"title\": \"Submit Assignment\"\n        },\n        {\n            \"category\": \"work\",\n            \"description\": \"Weekly project sync meeting\",\n            \"done\": false,\n            \"dueDate\": \"2026-03-02\",\n            \"id\": 2,\n            \"priority\": \"medium\",\n            \"title\": \"Team Meeting\"\n        },\n        {\n            \"category\": \"personal\",\n            \"description\": \"Milk, Bread, Fruits\",\n            \"done\": false,\n            \"dueDate\": \"2026-03-03\",\n            \"id\": 3,\n            \"priority\": \"low\",\n            \"title\": \"Buy Groceries\"\n        },\n        {\n            \"category\": \"work\",\n            \"description\": \"Sprint demo slides\",\n            \"done\": false,\n            \"dueDate\": \"2026-03-01\",\n            \"id\": 4,\n            \"priority\": \"high\",\n            \"title\": \"Prepare Presentation\"\n        },\n        {\n            \"category\": \"study\",\n            \"description\": \"JWT and role-based access\",\n            \"done\": true,\n            \"dueDate\": \"2026-03-04\",\n            \"id\": 5,\n            \"priority\": \"medium\",\n            \"title\": \"Revise Spring Security\"\n        }\n    ],\n    \"empty\": false,\n    \"first\": true,\n    \"last\": true,\n    \"number\": 0,\n    \"numberOfElements\": 5,\n    \"pageable\": {\n        \"offset\": 0,\n        \"pageNumber\": 0,\n        \"pageSize\": 5,\n        \"paged\": true,\n        \"sort\": {\n            \"empty\": true,\n            \"sorted\": false,\n            \"unsorted\": true\n        },\n        \"unpaged\": false\n    },\n    \"size\": 5,\n    \"sort\": {\n        \"empty\": true,\n        \"sorted\": false,\n        \"unsorted\": true\n    },\n    \"totalElements\": 5,\n    \"totalPages\": 1\n}"
+        }
+      ]
+    },
+    {
+      "name": "getTasks/sorted",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8285/api/tasks/sorted?page=0&size=5&sortBy=priority&dir=asc",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8285",
+          "path": [
+            "api",
+            "tasks",
+            "sorted"
+          ],
+          "query": [
+            {
+              "key": "page",
+              "value": "0"
+            },
+            {
+              "key": "size",
+              "value": "5"
+            },
+            {
+              "key": "sortBy",
+              "value": "priority"
+            },
+            {
+              "key": "dir",
+              "value": "asc"
+            }
+          ]
+        }
+      },
+      "response": [
+        {
+          "name": "getTasks/sorted",
+          "originalRequest": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8285/api/tasks/sorted?page=0&size=5&sortBy=priority&dir=asc",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8285",
+              "path": [
+                "api",
+                "tasks",
+                "sorted"
+              ],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "0"
+                },
+                {
+                  "key": "size",
+                  "value": "5"
+                },
+                {
+                  "key": "sortBy",
+                  "value": "priority"
+                },
+                {
+                  "key": "dir",
+                  "value": "asc"
+                }
+              ]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": null,
+          "header": [
+            {
+              "key": "Vary",
+              "value": "Origin"
+            },
+            {
+              "key": "Vary",
+              "value": "Access-Control-Request-Method"
+            },
+            {
+              "key": "Vary",
+              "value": "Access-Control-Request-Headers"
+            },
+            {
+              "key": "X-Content-Type-Options",
+              "value": "nosniff"
+            },
+            {
+              "key": "X-XSS-Protection",
+              "value": "0"
+            },
+            {
+              "key": "Cache-Control",
+              "value": "no-cache, no-store, max-age=0, must-revalidate"
+            },
+            {
+              "key": "Pragma",
+              "value": "no-cache"
+            },
+            {
+              "key": "Expires",
+              "value": "0"
+            },
+            {
+              "key": "X-Frame-Options",
+              "value": "DENY"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Transfer-Encoding",
+              "value": "chunked"
+            },
+            {
+              "key": "Date",
+              "value": "Thu, 05 Mar 2026 03:26:30 GMT"
+            },
+            {
+              "key": "Keep-Alive",
+              "value": "timeout=60"
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive"
+            }
+          ],
+          "cookie": [],
+          "body": "{\n    \"content\": [\n        {\n            \"category\": \"study\",\n            \"description\": \"DBMS assignment submission\",\n            \"done\": false,\n            \"dueDate\": \"2026-03-05\",\n            \"id\": 1,\n            \"priority\": \"high\",\n            \"title\": \"Submit Assignment\"\n        },\n        {\n            \"category\": \"work\",\n            \"description\": \"Sprint demo slides\",\n            \"done\": false,\n            \"dueDate\": \"2026-03-01\",\n            \"id\": 4,\n            \"priority\": \"high\",\n            \"title\": \"Prepare Presentation\"\n        },\n        {\n            \"category\": \"personal\",\n            \"description\": \"Milk, Bread, Fruits\",\n            \"done\": false,\n            \"dueDate\": \"2026-03-03\",\n            \"id\": 3,\n            \"priority\": \"low\",\n            \"title\": \"Buy Groceries\"\n        },\n        {\n            \"category\": \"work\",\n            \"description\": \"Weekly project sync meeting\",\n            \"done\": false,\n            \"dueDate\": \"2026-03-02\",\n            \"id\": 2,\n            \"priority\": \"medium\",\n            \"title\": \"Team Meeting\"\n        },\n        {\n            \"category\": \"study\",\n            \"description\": \"JWT and role-based access\",\n            \"done\": true,\n            \"dueDate\": \"2026-03-04\",\n            \"id\": 5,\n            \"priority\": \"medium\",\n            \"title\": \"Revise Spring Security\"\n        }\n    ],\n    \"empty\": false,\n    \"first\": true,\n    \"last\": true,\n    \"number\": 0,\n    \"numberOfElements\": 5,\n    \"pageable\": {\n        \"offset\": 0,\n        \"pageNumber\": 0,\n        \"pageSize\": 5,\n        \"paged\": true,\n        \"sort\": {\n            \"empty\": false,\n            \"sorted\": true,\n            \"unsorted\": false\n        },\n        \"unpaged\": false\n    },\n    \"size\": 5,\n    \"sort\": {\n        \"empty\": false,\n        \"sorted\": true,\n        \"unsorted\": false\n    },\n    \"totalElements\": 5,\n    \"totalPages\": 1\n}"
+        }
+      ]
+    },
+    {
+      "name": "/search?keyword",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8285/api/tasks/search?keyword=assignment&page=0&size=3",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8285",
+          "path": [
+            "api",
+            "tasks",
+            "search"
+          ],
+          "query": [
+            {
+              "key": "keyword",
+              "value": "assignment"
+            },
+            {
+              "key": "page",
+              "value": "0"
+            },
+            {
+              "key": "size",
+              "value": "3"
+            }
+          ]
+        }
+      },
+      "response": [
+        {
+          "name": "/search?keyword",
+          "originalRequest": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8285/api/tasks/search?keyword=assignment&page=0&size=3",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8285",
+              "path": [
+                "api",
+                "tasks",
+                "search"
+              ],
+              "query": [
+                {
+                  "key": "keyword",
+                  "value": "assignment"
+                },
+                {
+                  "key": "page",
+                  "value": "0"
+                },
+                {
+                  "key": "size",
+                  "value": "3"
+                }
+              ]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": null,
+          "header": [
+            {
+              "key": "Vary",
+              "value": "Origin"
+            },
+            {
+              "key": "Vary",
+              "value": "Access-Control-Request-Method"
+            },
+            {
+              "key": "Vary",
+              "value": "Access-Control-Request-Headers"
+            },
+            {
+              "key": "X-Content-Type-Options",
+              "value": "nosniff"
+            },
+            {
+              "key": "X-XSS-Protection",
+              "value": "0"
+            },
+            {
+              "key": "Cache-Control",
+              "value": "no-cache, no-store, max-age=0, must-revalidate"
+            },
+            {
+              "key": "Pragma",
+              "value": "no-cache"
+            },
+            {
+              "key": "Expires",
+              "value": "0"
+            },
+            {
+              "key": "X-Frame-Options",
+              "value": "DENY"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Transfer-Encoding",
+              "value": "chunked"
+            },
+            {
+              "key": "Date",
+              "value": "Thu, 05 Mar 2026 03:27:43 GMT"
+            },
+            {
+              "key": "Keep-Alive",
+              "value": "timeout=60"
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive"
+            }
+          ],
+          "cookie": [],
+          "body": "{\n    \"content\": [\n        {\n            \"category\": \"study\",\n            \"description\": \"DBMS assignment submission\",\n            \"done\": false,\n            \"dueDate\": \"2026-03-05\",\n            \"id\": 1,\n            \"priority\": \"high\",\n            \"title\": \"Submit Assignment\"\n        }\n    ],\n    \"empty\": false,\n    \"first\": true,\n    \"last\": true,\n    \"number\": 0,\n    \"numberOfElements\": 1,\n    \"pageable\": {\n        \"offset\": 0,\n        \"pageNumber\": 0,\n        \"pageSize\": 3,\n        \"paged\": true,\n        \"sort\": {\n            \"empty\": true,\n            \"sorted\": false,\n            \"unsorted\": true\n        },\n        \"unpaged\": false\n    },\n    \"size\": 3,\n    \"sort\": {\n        \"empty\": true,\n        \"sorted\": false,\n        \"unsorted\": true\n    },\n    \"totalElements\": 1,\n    \"totalPages\": 1\n}"
+        }
+      ]
+    },
+    {
+      "name": "createtask",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ2YWliaGF2QGdtYWlsLmNvbSIsImlhdCI6MTc3MjczNzA0OSwiZXhwIjoxNzcyODIzNDQ5fQ.CJybUkEbUPw0K6JpIAjpIP15nftHJ5bj63rjoKJoDV4",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"title\": \"Submit Assignment\",\r\n  \"description\": \"DBMS assignment submission\",\r\n  \"category\": \"study\",\r\n  \"priority\": \"high\",\r\n  \"dueDate\": \"2026-03-10\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:8285/api/my-tasks",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8285",
+          "path": [
+            "api",
+            "my-tasks"
+          ]
+        }
+      },
+      "response": [
+        {
+          "name": "createtask",
+          "originalRequest": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ2YWliaGF2QGdtYWlsLmNvbSIsImlhdCI6MTc3MjczNzA0OSwiZXhwIjoxNzcyODIzNDQ5fQ.CJybUkEbUPw0K6JpIAjpIP15nftHJ5bj63rjoKJoDV4",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"title\": \"Submit Assignment\",\r\n  \"description\": \"DBMS assignment submission\",\r\n  \"category\": \"study\",\r\n  \"priority\": \"high\",\r\n  \"dueDate\": \"2026-03-10\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8285/api/my-tasks",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8285",
+              "path": [
+                "api",
+                "my-tasks"
+              ]
+            }
+          },
+          "status": "Created",
+          "code": 201,
+          "_postman_previewlanguage": null,
+          "header": [
+            {
+              "key": "Vary",
+              "value": "Origin"
+            },
+            {
+              "key": "Vary",
+              "value": "Access-Control-Request-Method"
+            },
+            {
+              "key": "Vary",
+              "value": "Access-Control-Request-Headers"
+            },
+            {
+              "key": "X-Content-Type-Options",
+              "value": "nosniff"
+            },
+            {
+              "key": "X-XSS-Protection",
+              "value": "0"
+            },
+            {
+              "key": "Cache-Control",
+              "value": "no-cache, no-store, max-age=0, must-revalidate"
+            },
+            {
+              "key": "Pragma",
+              "value": "no-cache"
+            },
+            {
+              "key": "Expires",
+              "value": "0"
+            },
+            {
+              "key": "X-Frame-Options",
+              "value": "DENY"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Transfer-Encoding",
+              "value": "chunked"
+            },
+            {
+              "key": "Date",
+              "value": "Thu, 05 Mar 2026 18:59:50 GMT"
+            },
+            {
+              "key": "Keep-Alive",
+              "value": "timeout=60"
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive"
+            }
+          ],
+          "cookie": [],
+          "body": "{\n    \"success\": true,\n    \"message\": \"Task created successfully\",\n    \"data\": {\n        \"category\": \"study\",\n        \"description\": \"DBMS assignment submission\",\n        \"done\": false,\n        \"dueDate\": \"2026-03-10\",\n        \"id\": 6,\n        \"priority\": \"high\",\n        \"title\": \"Submit Assignment\"\n    }\n}"
+        }
+      ]
+    },
+    {
+      "name": "auth/register",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"name\": \"Vaibhav\",\r\n  \"email\": \"vaibhav@gmail.com\",\r\n  \"password\": \"123456\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:8285/api/auth/register",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8285",
+          "path": [
+            "api",
+            "auth",
+            "register"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "auth/login",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"email\": \"vaibhav@gmail.com\",\r\n  \"password\": \"123456\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:8285/api/auth/login",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8285",
+          "path": [
+            "api",
+            "auth",
+            "login"
+          ]
+        }
+      },
+      "response": [
+        {
+          "name": "auth/login",
+          "originalRequest": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"email\": \"vaibhav@gmail.com\",\r\n  \"password\": \"123456\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8285/api/auth/login",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8285",
+              "path": [
+                "api",
+                "auth",
+                "login"
+              ]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": null,
+          "header": [
+            {
+              "key": "X-Content-Type-Options",
+              "value": "nosniff"
+            },
+            {
+              "key": "X-XSS-Protection",
+              "value": "0"
+            },
+            {
+              "key": "Cache-Control",
+              "value": "no-cache, no-store, max-age=0, must-revalidate"
+            },
+            {
+              "key": "Pragma",
+              "value": "no-cache"
+            },
+            {
+              "key": "Expires",
+              "value": "0"
+            },
+            {
+              "key": "X-Frame-Options",
+              "value": "DENY"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Transfer-Encoding",
+              "value": "chunked"
+            },
+            {
+              "key": "Date",
+              "value": "Thu, 05 Mar 2026 18:57:29 GMT"
+            },
+            {
+              "key": "Keep-Alive",
+              "value": "timeout=60"
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive"
+            }
+          ],
+          "cookie": [],
+          "body": "{\n    \"success\": true,\n    \"message\": \"Login successful\",\n    \"data\": {\n        \"token\": \"eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ2YWliaGF2QGdtYWlsLmNvbSIsImlhdCI6MTc3MjczNzA0OSwiZXhwIjoxNzcyODIzNDQ5fQ.CJybUkEbUPw0K6JpIAjpIP15nftHJ5bj63rjoKJoDV4\",\n        \"email\": \"vaibhav@gmail.com\",\n        \"id\": 2,\n        \"name\": \"Vaibhav\",\n        \"role\": \"USER\"\n    }\n}"
+        }
+      ]
+    },
+    {
+      "name": "New Request",
+      "request": {
+        "method": "GET",
+        "header": []
+      },
+      "response": []
+    },
+    {
+      "name": "get-my-tasks",
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ2YWliaGF2QGdtYWlsLmNvbSIsImlhdCI6MTc3MjczNzA0OSwiZXhwIjoxNzcyODIzNDQ5fQ.CJybUkEbUPw0K6JpIAjpIP15nftHJ5bj63rjoKJoDV4",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"title\": \"Submit Assignment\",\r\n  \"description\": \"DBMS assignment submission\",\r\n  \"category\": \"study\",\r\n  \"priority\": \"high\",\r\n  \"dueDate\": \"2026-03-10\"\r\n}"
+        },
+        "url": {
+          "raw": "http://localhost:8285/api/my-tasks?page=0&size=5",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8285",
+          "path": [
+            "api",
+            "my-tasks"
+          ],
+          "query": [
+            {
+              "key": "page",
+              "value": "0"
+            },
+            {
+              "key": "size",
+              "value": "5"
+            }
+          ]
+        }
+      },
+      "response": [
+        {
+          "name": "get-my-tasks",
+          "originalRequest": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ2YWliaGF2QGdtYWlsLmNvbSIsImlhdCI6MTc3MjczNzA0OSwiZXhwIjoxNzcyODIzNDQ5fQ.CJybUkEbUPw0K6JpIAjpIP15nftHJ5bj63rjoKJoDV4",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"title\": \"Submit Assignment\",\r\n  \"description\": \"DBMS assignment submission\",\r\n  \"category\": \"study\",\r\n  \"priority\": \"high\",\r\n  \"dueDate\": \"2026-03-10\"\r\n}"
+            },
+            "url": {
+              "raw": "http://localhost:8285/api/my-tasks?page=0&size=5",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8285",
+              "path": [
+                "api",
+                "my-tasks"
+              ],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "0"
+                },
+                {
+                  "key": "size",
+                  "value": "5"
+                }
+              ]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": null,
+          "header": [
+            {
+              "key": "Vary",
+              "value": "Origin"
+            },
+            {
+              "key": "Vary",
+              "value": "Access-Control-Request-Method"
+            },
+            {
+              "key": "Vary",
+              "value": "Access-Control-Request-Headers"
+            },
+            {
+              "key": "X-Content-Type-Options",
+              "value": "nosniff"
+            },
+            {
+              "key": "X-XSS-Protection",
+              "value": "0"
+            },
+            {
+              "key": "Cache-Control",
+              "value": "no-cache, no-store, max-age=0, must-revalidate"
+            },
+            {
+              "key": "Pragma",
+              "value": "no-cache"
+            },
+            {
+              "key": "Expires",
+              "value": "0"
+            },
+            {
+              "key": "X-Frame-Options",
+              "value": "DENY"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Transfer-Encoding",
+              "value": "chunked"
+            },
+            {
+              "key": "Date",
+              "value": "Thu, 05 Mar 2026 19:01:43 GMT"
+            },
+            {
+              "key": "Keep-Alive",
+              "value": "timeout=60"
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive"
+            }
+          ],
+          "cookie": [],
+          "body": "{\n    \"success\": true,\n    \"message\": \"User tasks fetched successfully\",\n    \"data\": {\n        \"content\": [\n            {\n                \"category\": \"study\",\n                \"description\": \"DBMS assignment submission\",\n                \"done\": false,\n                \"dueDate\": \"2026-03-10\",\n                \"id\": 6,\n                \"priority\": \"high\",\n                \"title\": \"Submit Assignment\"\n            }\n        ],\n        \"empty\": false,\n        \"first\": true,\n        \"last\": true,\n        \"number\": 0,\n        \"numberOfElements\": 1,\n        \"pageable\": {\n            \"offset\": 0,\n            \"pageNumber\": 0,\n            \"pageSize\": 5,\n            \"paged\": true,\n            \"sort\": {\n                \"empty\": false,\n                \"sorted\": true,\n                \"unsorted\": false\n            },\n            \"unpaged\": false\n        },\n        \"size\": 5,\n        \"sort\": {\n            \"empty\": false,\n            \"sorted\": true,\n            \"unsorted\": false\n        },\n        \"totalElements\": 1,\n        \"totalPages\": 1\n    }\n}"
+        }
+      ]
+    },
+    {
+      "name": "my-pendingtasks",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ2YWliaGF2QGdtYWlsLmNvbSIsImlhdCI6MTc3MjczNzA0OSwiZXhwIjoxNzcyODIzNDQ5fQ.CJybUkEbUPw0K6JpIAjpIP15nftHJ5bj63rjoKJoDV4",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:8285/api/my-tasks?status=pending",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8285",
+          "path": [
+            "api",
+            "my-tasks"
+          ],
+          "query": [
+            {
+              "key": "status",
+              "value": "pending"
+            }
+          ]
+        }
+      },
+      "response": [
+        {
+          "name": "my-pendingtasks",
+          "originalRequest": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ2YWliaGF2QGdtYWlsLmNvbSIsImlhdCI6MTc3MjczNzA0OSwiZXhwIjoxNzcyODIzNDQ5fQ.CJybUkEbUPw0K6JpIAjpIP15nftHJ5bj63rjoKJoDV4",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:8285/api/my-tasks?status=completed",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8285",
+              "path": [
+                "api",
+                "my-tasks"
+              ],
+              "query": [
+                {
+                  "key": "status",
+                  "value": "completed"
+                }
+              ]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": "",
+          "header": [
+            {
+              "key": "Vary",
+              "value": "Origin"
+            },
+            {
+              "key": "Vary",
+              "value": "Access-Control-Request-Method"
+            },
+            {
+              "key": "Vary",
+              "value": "Access-Control-Request-Headers"
+            },
+            {
+              "key": "X-Content-Type-Options",
+              "value": "nosniff"
+            },
+            {
+              "key": "X-XSS-Protection",
+              "value": "0"
+            },
+            {
+              "key": "Cache-Control",
+              "value": "no-cache, no-store, max-age=0, must-revalidate"
+            },
+            {
+              "key": "Pragma",
+              "value": "no-cache"
+            },
+            {
+              "key": "Expires",
+              "value": "0"
+            },
+            {
+              "key": "X-Frame-Options",
+              "value": "DENY"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Transfer-Encoding",
+              "value": "chunked"
+            },
+            {
+              "key": "Date",
+              "value": "Thu, 05 Mar 2026 19:04:11 GMT"
+            },
+            {
+              "key": "Keep-Alive",
+              "value": "timeout=60"
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive"
+            }
+          ],
+          "cookie": [
+            {
+              "expires": "Invalid Date",
+              "domain": "",
+              "path": ""
+            }
+          ],
+          "body": "{\n    \"success\": true,\n    \"message\": \"User tasks fetched successfully\",\n    \"data\": {\n        \"content\": [\n            {\n                \"category\": \"study\",\n                \"description\": \"DBMS assignment submission\",\n                \"done\": false,\n                \"dueDate\": \"2026-03-10\",\n                \"id\": 6,\n                \"priority\": \"high\",\n                \"title\": \"Submit Assignment\"\n            }\n        ],\n        \"empty\": false,\n        \"first\": true,\n        \"last\": true,\n        \"number\": 0,\n        \"numberOfElements\": 1,\n        \"pageable\": {\n            \"offset\": 0,\n            \"pageNumber\": 0,\n            \"pageSize\": 10,\n            \"paged\": true,\n            \"sort\": {\n                \"empty\": false,\n                \"sorted\": true,\n                \"unsorted\": false\n            },\n            \"unpaged\": false\n        },\n        \"size\": 10,\n        \"sort\": {\n            \"empty\": false,\n            \"sorted\": true,\n            \"unsorted\": false\n        },\n        \"totalElements\": 1,\n        \"totalPages\": 1\n    }\n}"
+        }
+      ]
+    },
+    {
+      "name": "my-pendingtasks",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ2YWliaGF2QGdtYWlsLmNvbSIsImlhdCI6MTc3MjczNzA0OSwiZXhwIjoxNzcyODIzNDQ5fQ.CJybUkEbUPw0K6JpIAjpIP15nftHJ5bj63rjoKJoDV4",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:8285/api/my-tasks?status=completed",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8285",
+          "path": [
+            "api",
+            "my-tasks"
+          ],
+          "query": [
+            {
+              "key": "status",
+              "value": "completed"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "my-tasks/filtered",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ2YWliaGF2QGdtYWlsLmNvbSIsImlhdCI6MTc3MjczNzA0OSwiZXhwIjoxNzcyODIzNDQ5fQ.CJybUkEbUPw0K6JpIAjpIP15nftHJ5bj63rjoKJoDV4",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:8285/api/my-tasks?category=Study",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8285",
+          "path": [
+            "api",
+            "my-tasks"
+          ],
+          "query": [
+            {
+              "key": "category",
+              "value": "Study"
+            }
+          ]
+        }
+      },
+      "response": [
+        {
+          "name": "my-tasks/filtered",
+          "originalRequest": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ2YWliaGF2QGdtYWlsLmNvbSIsImlhdCI6MTc3MjczNzA0OSwiZXhwIjoxNzcyODIzNDQ5fQ.CJybUkEbUPw0K6JpIAjpIP15nftHJ5bj63rjoKJoDV4",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:8285/api/my-tasks?category=Study",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8285",
+              "path": [
+                "api",
+                "my-tasks"
+              ],
+              "query": [
+                {
+                  "key": "category",
+                  "value": "Study"
+                }
+              ]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": null,
+          "header": [
+            {
+              "key": "Vary",
+              "value": "Origin"
+            },
+            {
+              "key": "Vary",
+              "value": "Access-Control-Request-Method"
+            },
+            {
+              "key": "Vary",
+              "value": "Access-Control-Request-Headers"
+            },
+            {
+              "key": "X-Content-Type-Options",
+              "value": "nosniff"
+            },
+            {
+              "key": "X-XSS-Protection",
+              "value": "0"
+            },
+            {
+              "key": "Cache-Control",
+              "value": "no-cache, no-store, max-age=0, must-revalidate"
+            },
+            {
+              "key": "Pragma",
+              "value": "no-cache"
+            },
+            {
+              "key": "Expires",
+              "value": "0"
+            },
+            {
+              "key": "X-Frame-Options",
+              "value": "DENY"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Transfer-Encoding",
+              "value": "chunked"
+            },
+            {
+              "key": "Date",
+              "value": "Thu, 05 Mar 2026 19:07:22 GMT"
+            },
+            {
+              "key": "Keep-Alive",
+              "value": "timeout=60"
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive"
+            }
+          ],
+          "cookie": [],
+          "body": "{\n    \"success\": true,\n    \"message\": \"User tasks fetched successfully\",\n    \"data\": {\n        \"content\": [\n            {\n                \"category\": \"study\",\n                \"description\": \"DBMS assignment submission\",\n                \"done\": false,\n                \"dueDate\": \"2026-03-10\",\n                \"id\": 6,\n                \"priority\": \"high\",\n                \"title\": \"Submit Assignment\"\n            }\n        ],\n        \"empty\": false,\n        \"first\": true,\n        \"last\": true,\n        \"number\": 0,\n        \"numberOfElements\": 1,\n        \"pageable\": {\n            \"offset\": 0,\n            \"pageNumber\": 0,\n            \"pageSize\": 10,\n            \"paged\": true,\n            \"sort\": {\n                \"empty\": false,\n                \"sorted\": true,\n                \"unsorted\": false\n            },\n            \"unpaged\": false\n        },\n        \"size\": 10,\n        \"sort\": {\n            \"empty\": false,\n            \"sorted\": true,\n            \"unsorted\": false\n        },\n        \"totalElements\": 1,\n        \"totalPages\": 1\n    }\n}"
+        }
+      ]
+    },
+    {
+      "name": "my-tasks/search",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ2YWliaGF2QGdtYWlsLmNvbSIsImlhdCI6MTc3MjczNzA0OSwiZXhwIjoxNzcyODIzNDQ5fQ.CJybUkEbUPw0K6JpIAjpIP15nftHJ5bj63rjoKJoDV4",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:8285/api/my-tasks?keyword=submit",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8285",
+          "path": [
+            "api",
+            "my-tasks"
+          ],
+          "query": [
+            {
+              "key": "keyword",
+              "value": "submit"
+            }
+          ]
+        }
+      },
+      "response": [
+        {
+          "name": "my-tasks/search",
+          "originalRequest": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ2YWliaGF2QGdtYWlsLmNvbSIsImlhdCI6MTc3MjczNzA0OSwiZXhwIjoxNzcyODIzNDQ5fQ.CJybUkEbUPw0K6JpIAjpIP15nftHJ5bj63rjoKJoDV4",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:8285/api/my-tasks?keyword=submit",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8285",
+              "path": [
+                "api",
+                "my-tasks"
+              ],
+              "query": [
+                {
+                  "key": "keyword",
+                  "value": "submit"
+                }
+              ]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": null,
+          "header": [
+            {
+              "key": "Vary",
+              "value": "Origin"
+            },
+            {
+              "key": "Vary",
+              "value": "Access-Control-Request-Method"
+            },
+            {
+              "key": "Vary",
+              "value": "Access-Control-Request-Headers"
+            },
+            {
+              "key": "X-Content-Type-Options",
+              "value": "nosniff"
+            },
+            {
+              "key": "X-XSS-Protection",
+              "value": "0"
+            },
+            {
+              "key": "Cache-Control",
+              "value": "no-cache, no-store, max-age=0, must-revalidate"
+            },
+            {
+              "key": "Pragma",
+              "value": "no-cache"
+            },
+            {
+              "key": "Expires",
+              "value": "0"
+            },
+            {
+              "key": "X-Frame-Options",
+              "value": "DENY"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Transfer-Encoding",
+              "value": "chunked"
+            },
+            {
+              "key": "Date",
+              "value": "Thu, 05 Mar 2026 19:08:37 GMT"
+            },
+            {
+              "key": "Keep-Alive",
+              "value": "timeout=60"
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive"
+            }
+          ],
+          "cookie": [],
+          "body": "{\n    \"success\": true,\n    \"message\": \"User tasks fetched successfully\",\n    \"data\": {\n        \"content\": [\n            {\n                \"category\": \"study\",\n                \"description\": \"DBMS assignment submission\",\n                \"done\": false,\n                \"dueDate\": \"2026-03-10\",\n                \"id\": 6,\n                \"priority\": \"high\",\n                \"title\": \"Submit Assignment\"\n            }\n        ],\n        \"empty\": false,\n        \"first\": true,\n        \"last\": true,\n        \"number\": 0,\n        \"numberOfElements\": 1,\n        \"pageable\": {\n            \"offset\": 0,\n            \"pageNumber\": 0,\n            \"pageSize\": 10,\n            \"paged\": true,\n            \"sort\": {\n                \"empty\": false,\n                \"sorted\": true,\n                \"unsorted\": false\n            },\n            \"unpaged\": false\n        },\n        \"size\": 10,\n        \"sort\": {\n            \"empty\": false,\n            \"sorted\": true,\n            \"unsorted\": false\n        },\n        \"totalElements\": 1,\n        \"totalPages\": 1\n    }\n}"
+        }
+      ]
+    },
+    {
+      "name": "my-tasks/update/id",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ2YWliaGF2QGdtYWlsLmNvbSIsImlhdCI6MTc3MjczNzA0OSwiZXhwIjoxNzcyODIzNDQ5fQ.CJybUkEbUPw0K6JpIAjpIP15nftHJ5bj63rjoKJoDV4",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"title\": \"Submit OS Assignment\",\r\n  \"description\": \"Final OS submission\",\r\n  \"category\": \"study\",\r\n  \"priority\": \"high\",\r\n  \"dueDate\": \"2026-03-11\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:8285/api/my-tasks/6",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8285",
+          "path": [
+            "api",
+            "my-tasks",
+            "6"
+          ]
+        }
+      },
+      "response": [
+        {
+          "name": "my-tasks/update/id",
+          "originalRequest": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ2YWliaGF2QGdtYWlsLmNvbSIsImlhdCI6MTc3MjczNzA0OSwiZXhwIjoxNzcyODIzNDQ5fQ.CJybUkEbUPw0K6JpIAjpIP15nftHJ5bj63rjoKJoDV4",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"title\": \"Submit OS Assignment\",\r\n  \"description\": \"Final OS submission\",\r\n  \"category\": \"study\",\r\n  \"priority\": \"high\",\r\n  \"dueDate\": \"2026-03-11\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8285/api/my-tasks/6",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8285",
+              "path": [
+                "api",
+                "my-tasks",
+                "6"
+              ]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": null,
+          "header": [
+            {
+              "key": "Vary",
+              "value": "Origin"
+            },
+            {
+              "key": "Vary",
+              "value": "Access-Control-Request-Method"
+            },
+            {
+              "key": "Vary",
+              "value": "Access-Control-Request-Headers"
+            },
+            {
+              "key": "X-Content-Type-Options",
+              "value": "nosniff"
+            },
+            {
+              "key": "X-XSS-Protection",
+              "value": "0"
+            },
+            {
+              "key": "Cache-Control",
+              "value": "no-cache, no-store, max-age=0, must-revalidate"
+            },
+            {
+              "key": "Pragma",
+              "value": "no-cache"
+            },
+            {
+              "key": "Expires",
+              "value": "0"
+            },
+            {
+              "key": "X-Frame-Options",
+              "value": "DENY"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Transfer-Encoding",
+              "value": "chunked"
+            },
+            {
+              "key": "Date",
+              "value": "Thu, 05 Mar 2026 19:11:28 GMT"
+            },
+            {
+              "key": "Keep-Alive",
+              "value": "timeout=60"
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive"
+            }
+          ],
+          "cookie": [],
+          "body": "{\n    \"success\": true,\n    \"message\": \"Task updated successfully\",\n    \"data\": {\n        \"category\": \"study\",\n        \"description\": \"Final OS submission\",\n        \"done\": false,\n        \"dueDate\": \"2026-03-11\",\n        \"id\": 6,\n        \"priority\": \"high\",\n        \"title\": \"Submit OS Assignment\"\n    }\n}"
+        }
+      ]
+    },
+    {
+      "name": "my-tasks/done/id",
+      "request": {
+        "method": "PATCH",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ2YWliaGF2QGdtYWlsLmNvbSIsImlhdCI6MTc3MjczNzA0OSwiZXhwIjoxNzcyODIzNDQ5fQ.CJybUkEbUPw0K6JpIAjpIP15nftHJ5bj63rjoKJoDV4",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"title\": \"Submit OS Assignment\",\r\n  \"description\": \"Final OS submission\",\r\n  \"category\": \"study\",\r\n  \"priority\": \"high\",\r\n  \"dueDate\": \"2026-03-11\"\r\n}"
+        },
+        "url": {
+          "raw": "http://localhost:8285/api/my-tasks/6/done",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8285",
+          "path": [
+            "api",
+            "my-tasks",
+            "6",
+            "done"
+          ]
+        }
+      },
+      "response": [
+        {
+          "name": "my-tasks/done",
+          "originalRequest": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ2YWliaGF2QGdtYWlsLmNvbSIsImlhdCI6MTc3MjczNzA0OSwiZXhwIjoxNzcyODIzNDQ5fQ.CJybUkEbUPw0K6JpIAjpIP15nftHJ5bj63rjoKJoDV4",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"title\": \"Submit OS Assignment\",\r\n  \"description\": \"Final OS submission\",\r\n  \"category\": \"study\",\r\n  \"priority\": \"high\",\r\n  \"dueDate\": \"2026-03-11\"\r\n}"
+            },
+            "url": {
+              "raw": "http://localhost:8285/api/my-tasks/6/done",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8285",
+              "path": [
+                "api",
+                "my-tasks",
+                "6",
+                "done"
+              ]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": null,
+          "header": [
+            {
+              "key": "Vary",
+              "value": "Origin"
+            },
+            {
+              "key": "Vary",
+              "value": "Access-Control-Request-Method"
+            },
+            {
+              "key": "Vary",
+              "value": "Access-Control-Request-Headers"
+            },
+            {
+              "key": "X-Content-Type-Options",
+              "value": "nosniff"
+            },
+            {
+              "key": "X-XSS-Protection",
+              "value": "0"
+            },
+            {
+              "key": "Cache-Control",
+              "value": "no-cache, no-store, max-age=0, must-revalidate"
+            },
+            {
+              "key": "Pragma",
+              "value": "no-cache"
+            },
+            {
+              "key": "Expires",
+              "value": "0"
+            },
+            {
+              "key": "X-Frame-Options",
+              "value": "DENY"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Transfer-Encoding",
+              "value": "chunked"
+            },
+            {
+              "key": "Date",
+              "value": "Thu, 05 Mar 2026 19:12:50 GMT"
+            },
+            {
+              "key": "Keep-Alive",
+              "value": "timeout=60"
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive"
+            }
+          ],
+          "cookie": [],
+          "body": "{\n    \"success\": true,\n    \"message\": \"Task status updated\",\n    \"data\": {\n        \"category\": \"study\",\n        \"description\": \"Final OS submission\",\n        \"done\": true,\n        \"dueDate\": \"2026-03-11\",\n        \"id\": 6,\n        \"priority\": \"high\",\n        \"title\": \"Submit OS Assignment\"\n    }\n}"
+        }
+      ]
+    },
+    {
+      "name": "my-tasks/delete/id",
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ2YWliaGF2QGdtYWlsLmNvbSIsImlhdCI6MTc3MjczNzA0OSwiZXhwIjoxNzcyODIzNDQ5fQ.CJybUkEbUPw0K6JpIAjpIP15nftHJ5bj63rjoKJoDV4",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"title\": \"Submit OS Assignment\",\r\n  \"description\": \"Final OS submission\",\r\n  \"category\": \"study\",\r\n  \"priority\": \"high\",\r\n  \"dueDate\": \"2026-03-11\"\r\n}"
+        },
+        "url": {
+          "raw": "http://localhost:8285/api/my-tasks/6",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8285",
+          "path": [
+            "api",
+            "my-tasks",
+            "6"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "auth/login/admin",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ2YWliaGF2QGdtYWlsLmNvbSIsImlhdCI6MTc3MjczNzA0OSwiZXhwIjoxNzcyODIzNDQ5fQ.CJybUkEbUPw0K6JpIAjpIP15nftHJ5bj63rjoKJoDV4",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"email\": \"vaibhav.admin@taskflow.com\",\r\n  \"password\": \"Vaibhav@123\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:8285/api/auth/login",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8285",
+          "path": [
+            "api",
+            "auth",
+            "login"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "/admin/dashboard",
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ2YWliaGF2LmFkbWluQHRhc2tmbG93LmNvbSIsImlhdCI6MTc3Mjc0MDEzMSwiZXhwIjoxNzcyODI2NTMxfQ.KzHVig2JGlfAwTN6YGwpQlGeBKs5RnBdwKlkQyC1-qY",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"email\": \"vaibhav.admin@taskflow.com\",\r\n  \"password\": \"Vaibhav@123\"\r\n}"
+        },
+        "url": {
+          "raw": "http://localhost:8285/api/admin/dashboard",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8285",
+          "path": [
+            "api",
+            "admin",
+            "dashboard"
+          ]
+        }
+      },
+      "response": [
+        {
+          "name": "/admin/dashboard",
+          "originalRequest": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ2YWliaGF2LmFkbWluQHRhc2tmbG93LmNvbSIsImlhdCI6MTc3Mjc0MDEzMSwiZXhwIjoxNzcyODI2NTMxfQ.KzHVig2JGlfAwTN6YGwpQlGeBKs5RnBdwKlkQyC1-qY",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"email\": \"vaibhav.admin@taskflow.com\",\r\n  \"password\": \"Vaibhav@123\"\r\n}"
+            },
+            "url": {
+              "raw": "http://localhost:8285/api/admin/dashboard",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8285",
+              "path": [
+                "api",
+                "admin",
+                "dashboard"
+              ]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": null,
+          "header": [
+            {
+              "key": "Vary",
+              "value": "Origin"
+            },
+            {
+              "key": "Vary",
+              "value": "Access-Control-Request-Method"
+            },
+            {
+              "key": "Vary",
+              "value": "Access-Control-Request-Headers"
+            },
+            {
+              "key": "X-Content-Type-Options",
+              "value": "nosniff"
+            },
+            {
+              "key": "X-XSS-Protection",
+              "value": "0"
+            },
+            {
+              "key": "Cache-Control",
+              "value": "no-cache, no-store, max-age=0, must-revalidate"
+            },
+            {
+              "key": "Pragma",
+              "value": "no-cache"
+            },
+            {
+              "key": "Expires",
+              "value": "0"
+            },
+            {
+              "key": "X-Frame-Options",
+              "value": "DENY"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Transfer-Encoding",
+              "value": "chunked"
+            },
+            {
+              "key": "Date",
+              "value": "Thu, 05 Mar 2026 19:50:58 GMT"
+            },
+            {
+              "key": "Keep-Alive",
+              "value": "timeout=60"
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive"
+            }
+          ],
+          "cookie": [],
+          "body": "{\n    \"success\": true,\n    \"message\": \"Dashboard data fetched successfully\",\n    \"data\": {\n        \"completedTasks\": 2,\n        \"overdueTasks\": 4,\n        \"pendingTasks\": 4,\n        \"totalTasks\": 6,\n        \"totalUsers\": 3\n    }\n}"
+        }
+      ]
+    },
+    {
+      "name": "/admin/get-all-users",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ2YWliaGF2LmFkbWluQHRhc2tmbG93LmNvbSIsImlhdCI6MTc3Mjc0MDEzMSwiZXhwIjoxNzcyODI2NTMxfQ.KzHVig2JGlfAwTN6YGwpQlGeBKs5RnBdwKlkQyC1-qY",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:8285/api/admin/users?page=0&size=10&sortBy=name&direction=asc",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8285",
+          "path": [
+            "api",
+            "admin",
+            "users"
+          ],
+          "query": [
+            {
+              "key": "page",
+              "value": "0"
+            },
+            {
+              "key": "size",
+              "value": "10"
+            },
+            {
+              "key": "sortBy",
+              "value": "name"
+            },
+            {
+              "key": "direction",
+              "value": "asc"
+            }
+          ]
+        }
+      },
+      "response": [
+        {
+          "name": "/admin/get-all-users",
+          "originalRequest": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ2YWliaGF2LmFkbWluQHRhc2tmbG93LmNvbSIsImlhdCI6MTc3Mjc0MDEzMSwiZXhwIjoxNzcyODI2NTMxfQ.KzHVig2JGlfAwTN6YGwpQlGeBKs5RnBdwKlkQyC1-qY",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:8285/api/admin/users?page=0&size=10&sortBy=name&direction=asc",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8285",
+              "path": [
+                "api",
+                "admin",
+                "users"
+              ],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "0"
+                },
+                {
+                  "key": "size",
+                  "value": "10"
+                },
+                {
+                  "key": "sortBy",
+                  "value": "name"
+                },
+                {
+                  "key": "direction",
+                  "value": "asc"
+                }
+              ]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": null,
+          "header": [
+            {
+              "key": "Vary",
+              "value": "Origin"
+            },
+            {
+              "key": "Vary",
+              "value": "Access-Control-Request-Method"
+            },
+            {
+              "key": "Vary",
+              "value": "Access-Control-Request-Headers"
+            },
+            {
+              "key": "X-Content-Type-Options",
+              "value": "nosniff"
+            },
+            {
+              "key": "X-XSS-Protection",
+              "value": "0"
+            },
+            {
+              "key": "Cache-Control",
+              "value": "no-cache, no-store, max-age=0, must-revalidate"
+            },
+            {
+              "key": "Pragma",
+              "value": "no-cache"
+            },
+            {
+              "key": "Expires",
+              "value": "0"
+            },
+            {
+              "key": "X-Frame-Options",
+              "value": "DENY"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Transfer-Encoding",
+              "value": "chunked"
+            },
+            {
+              "key": "Date",
+              "value": "Thu, 05 Mar 2026 19:52:56 GMT"
+            },
+            {
+              "key": "Keep-Alive",
+              "value": "timeout=60"
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive"
+            }
+          ],
+          "cookie": [],
+          "body": "{\n    \"success\": true,\n    \"message\": \"Users fetched successfully\",\n    \"data\": {\n        \"content\": [\n            {\n                \"email\": \"vaibhav@example.com\",\n                \"id\": 1,\n                \"name\": \"Vaibhav\",\n                \"role\": \"USER\"\n            },\n            {\n                \"email\": \"vaibhav@gmail.com\",\n                \"id\": 2,\n                \"name\": \"Vaibhav\",\n                \"role\": \"USER\"\n            },\n            {\n                \"email\": \"vaibhav.admin@taskflow.com\",\n                \"id\": 6,\n                \"name\": \"Vaibhav\",\n                \"role\": \"ADMIN\"\n            }\n        ],\n        \"empty\": false,\n        \"first\": true,\n        \"last\": true,\n        \"number\": 0,\n        \"numberOfElements\": 3,\n        \"pageable\": {\n            \"offset\": 0,\n            \"pageNumber\": 0,\n            \"pageSize\": 10,\n            \"paged\": true,\n            \"sort\": {\n                \"empty\": false,\n                \"sorted\": true,\n                \"unsorted\": false\n            },\n            \"unpaged\": false\n        },\n        \"size\": 10,\n        \"sort\": {\n            \"empty\": false,\n            \"sorted\": true,\n            \"unsorted\": false\n        },\n        \"totalElements\": 3,\n        \"totalPages\": 1\n    }\n}"
+        }
+      ]
+    },
+    {
+      "name": "/admin/create-tasks",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ2YWliaGF2LmFkbWluQHRhc2tmbG93LmNvbSIsImlhdCI6MTc3Mjc0MDEzMSwiZXhwIjoxNzcyODI2NTMxfQ.KzHVig2JGlfAwTN6YGwpQlGeBKs5RnBdwKlkQyC1-qY",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"title\": \"System Monitoring\",\r\n  \"description\": \"Check server health\",\r\n  \"category\": \"work\",\r\n  \"priority\": \"high\",\r\n  \"dueDate\": \"2026-03-10\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:8285/api/tasks",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8285",
+          "path": [
+            "api",
+            "tasks"
+          ]
+        }
+      },
+      "response": [
+        {
+          "name": "/admin/create-tasks",
+          "originalRequest": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ2YWliaGF2LmFkbWluQHRhc2tmbG93LmNvbSIsImlhdCI6MTc3Mjc0MDEzMSwiZXhwIjoxNzcyODI2NTMxfQ.KzHVig2JGlfAwTN6YGwpQlGeBKs5RnBdwKlkQyC1-qY",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"title\": \"System Monitoring\",\r\n  \"description\": \"Check server health\",\r\n  \"category\": \"work\",\r\n  \"priority\": \"high\",\r\n  \"dueDate\": \"2026-03-10\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8285/api/tasks",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8285",
+              "path": [
+                "api",
+                "tasks"
+              ]
+            }
+          },
+          "status": "Created",
+          "code": 201,
+          "_postman_previewlanguage": null,
+          "header": [
+            {
+              "key": "Vary",
+              "value": "Origin"
+            },
+            {
+              "key": "Vary",
+              "value": "Access-Control-Request-Method"
+            },
+            {
+              "key": "Vary",
+              "value": "Access-Control-Request-Headers"
+            },
+            {
+              "key": "X-Content-Type-Options",
+              "value": "nosniff"
+            },
+            {
+              "key": "X-XSS-Protection",
+              "value": "0"
+            },
+            {
+              "key": "Cache-Control",
+              "value": "no-cache, no-store, max-age=0, must-revalidate"
+            },
+            {
+              "key": "Pragma",
+              "value": "no-cache"
+            },
+            {
+              "key": "Expires",
+              "value": "0"
+            },
+            {
+              "key": "X-Frame-Options",
+              "value": "DENY"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Transfer-Encoding",
+              "value": "chunked"
+            },
+            {
+              "key": "Date",
+              "value": "Thu, 05 Mar 2026 19:57:49 GMT"
+            },
+            {
+              "key": "Keep-Alive",
+              "value": "timeout=60"
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive"
+            }
+          ],
+          "cookie": [],
+          "body": "{\n    \"success\": true,\n    \"message\": \"Task created successfully\",\n    \"data\": {\n        \"category\": \"work\",\n        \"description\": \"Check server health\",\n        \"done\": false,\n        \"dueDate\": \"2026-03-10\",\n        \"id\": 7,\n        \"priority\": \"high\",\n        \"title\": \"System Monitoring\"\n    }\n}"
+        }
+      ]
+    },
+    {
+      "name": "admin/get-all-tasks",
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ2YWliaGF2LmFkbWluQHRhc2tmbG93LmNvbSIsImlhdCI6MTc3Mjc0MDEzMSwiZXhwIjoxNzcyODI2NTMxfQ.KzHVig2JGlfAwTN6YGwpQlGeBKs5RnBdwKlkQyC1-qY",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"title\": \"System Monitoring\",\r\n  \"description\": \"Check server health\",\r\n  \"category\": \"work\",\r\n  \"priority\": \"high\",\r\n  \"dueDate\": \"2026-03-10\"\r\n}"
+        },
+        "url": {
+          "raw": "http://localhost:8285/api/tasks?page=0&size=10&sortBy=id&direction=asc",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8285",
+          "path": [
+            "api",
+            "tasks"
+          ],
+          "query": [
+            {
+              "key": "page",
+              "value": "0"
+            },
+            {
+              "key": "size",
+              "value": "10"
+            },
+            {
+              "key": "sortBy",
+              "value": "id"
+            },
+            {
+              "key": "direction",
+              "value": "asc"
+            }
+          ]
+        }
+      },
+      "response": [
+        {
+          "name": "admin/get-all-tasks",
+          "originalRequest": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ2YWliaGF2LmFkbWluQHRhc2tmbG93LmNvbSIsImlhdCI6MTc3Mjc0MDEzMSwiZXhwIjoxNzcyODI2NTMxfQ.KzHVig2JGlfAwTN6YGwpQlGeBKs5RnBdwKlkQyC1-qY",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"title\": \"System Monitoring\",\r\n  \"description\": \"Check server health\",\r\n  \"category\": \"work\",\r\n  \"priority\": \"high\",\r\n  \"dueDate\": \"2026-03-10\"\r\n}"
+            },
+            "url": {
+              "raw": "http://localhost:8285/api/tasks?page=0&size=10&sortBy=id&direction=asc",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8285",
+              "path": [
+                "api",
+                "tasks"
+              ],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "0"
+                },
+                {
+                  "key": "size",
+                  "value": "10"
+                },
+                {
+                  "key": "sortBy",
+                  "value": "id"
+                },
+                {
+                  "key": "direction",
+                  "value": "asc"
+                }
+              ]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": null,
+          "header": [
+            {
+              "key": "Vary",
+              "value": "Origin"
+            },
+            {
+              "key": "Vary",
+              "value": "Access-Control-Request-Method"
+            },
+            {
+              "key": "Vary",
+              "value": "Access-Control-Request-Headers"
+            },
+            {
+              "key": "X-Content-Type-Options",
+              "value": "nosniff"
+            },
+            {
+              "key": "X-XSS-Protection",
+              "value": "0"
+            },
+            {
+              "key": "Cache-Control",
+              "value": "no-cache, no-store, max-age=0, must-revalidate"
+            },
+            {
+              "key": "Pragma",
+              "value": "no-cache"
+            },
+            {
+              "key": "Expires",
+              "value": "0"
+            },
+            {
+              "key": "X-Frame-Options",
+              "value": "DENY"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Transfer-Encoding",
+              "value": "chunked"
+            },
+            {
+              "key": "Date",
+              "value": "Thu, 05 Mar 2026 20:00:58 GMT"
+            },
+            {
+              "key": "Keep-Alive",
+              "value": "timeout=60"
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive"
+            }
+          ],
+          "cookie": [],
+          "body": "{\n    \"success\": true,\n    \"message\": \"Tasks fetched successfully\",\n    \"data\": {\n        \"content\": [\n            {\n                \"category\": \"study\",\n                \"description\": \"DBMS assignment submission\",\n                \"done\": false,\n                \"dueDate\": \"2026-03-05\",\n                \"id\": 1,\n                \"priority\": \"high\",\n                \"title\": \"Submit Assignment\"\n            },\n            {\n                \"category\": \"work\",\n                \"description\": \"Weekly project sync meeting\",\n                \"done\": false,\n                \"dueDate\": \"2026-03-02\",\n                \"id\": 2,\n                \"priority\": \"medium\",\n                \"title\": \"Team Meeting\"\n            },\n            {\n                \"category\": \"personal\",\n                \"description\": \"Milk, Bread, Fruits\",\n                \"done\": false,\n                \"dueDate\": \"2026-03-03\",\n                \"id\": 3,\n                \"priority\": \"low\",\n                \"title\": \"Buy Groceries\"\n            },\n            {\n                \"category\": \"work\",\n                \"description\": \"Sprint demo slides\",\n                \"done\": false,\n                \"dueDate\": \"2026-03-01\",\n                \"id\": 4,\n                \"priority\": \"high\",\n                \"title\": \"Prepare Presentation\"\n            },\n            {\n                \"category\": \"study\",\n                \"description\": \"JWT and role-based access\",\n                \"done\": true,\n                \"dueDate\": \"2026-03-04\",\n                \"id\": 5,\n                \"priority\": \"medium\",\n                \"title\": \"Revise Spring Security\"\n            },\n            {\n                \"category\": \"study\",\n                \"description\": \"Final OS submission\",\n                \"done\": true,\n                \"dueDate\": \"2026-03-11\",\n                \"id\": 6,\n                \"priority\": \"high\",\n                \"title\": \"Submit OS Assignment\"\n            },\n            {\n                \"category\": \"work\",\n                \"description\": \"Check server health\",\n                \"done\": false,\n                \"dueDate\": \"2026-03-10\",\n                \"id\": 7,\n                \"priority\": \"high\",\n                \"title\": \"System Monitoring\"\n            }\n        ],\n        \"empty\": false,\n        \"first\": true,\n        \"last\": true,\n        \"number\": 0,\n        \"numberOfElements\": 7,\n        \"pageable\": {\n            \"offset\": 0,\n            \"pageNumber\": 0,\n            \"pageSize\": 10,\n            \"paged\": true,\n            \"sort\": {\n                \"empty\": false,\n                \"sorted\": true,\n                \"unsorted\": false\n            },\n            \"unpaged\": false\n        },\n        \"size\": 10,\n        \"sort\": {\n            \"empty\": false,\n            \"sorted\": true,\n            \"unsorted\": false\n        },\n        \"totalElements\": 7,\n        \"totalPages\": 1\n    }\n}"
+        }
+      ]
+    },
+    {
+      "name": "admin/delete-task",
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ2YWliaGF2LmFkbWluQHRhc2tmbG93LmNvbSIsImlhdCI6MTc3Mjc0MDEzMSwiZXhwIjoxNzcyODI2NTMxfQ.KzHVig2JGlfAwTN6YGwpQlGeBKs5RnBdwKlkQyC1-qY",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"title\": \"System Monitoring\",\r\n  \"description\": \"Check server health\",\r\n  \"category\": \"work\",\r\n  \"priority\": \"high\",\r\n  \"dueDate\": \"2026-03-10\"\r\n}"
+        },
+        "url": {
+          "raw": "http://localhost:8285/api/tasks/1",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8285",
+          "path": [
+            "api",
+            "tasks",
+            "1"
+          ]
+        }
+      },
+      "response": [
+        {
+          "name": "admin/delete-task",
+          "originalRequest": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ2YWliaGF2LmFkbWluQHRhc2tmbG93LmNvbSIsImlhdCI6MTc3Mjc0MDEzMSwiZXhwIjoxNzcyODI2NTMxfQ.KzHVig2JGlfAwTN6YGwpQlGeBKs5RnBdwKlkQyC1-qY",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"title\": \"System Monitoring\",\r\n  \"description\": \"Check server health\",\r\n  \"category\": \"work\",\r\n  \"priority\": \"high\",\r\n  \"dueDate\": \"2026-03-10\"\r\n}"
+            },
+            "url": {
+              "raw": "http://localhost:8285/api/tasks/1",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8285",
+              "path": [
+                "api",
+                "tasks",
+                "1"
+              ]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": null,
+          "header": [
+            {
+              "key": "Vary",
+              "value": "Origin"
+            },
+            {
+              "key": "Vary",
+              "value": "Access-Control-Request-Method"
+            },
+            {
+              "key": "Vary",
+              "value": "Access-Control-Request-Headers"
+            },
+            {
+              "key": "X-Content-Type-Options",
+              "value": "nosniff"
+            },
+            {
+              "key": "X-XSS-Protection",
+              "value": "0"
+            },
+            {
+              "key": "Cache-Control",
+              "value": "no-cache, no-store, max-age=0, must-revalidate"
+            },
+            {
+              "key": "Pragma",
+              "value": "no-cache"
+            },
+            {
+              "key": "Expires",
+              "value": "0"
+            },
+            {
+              "key": "X-Frame-Options",
+              "value": "DENY"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Transfer-Encoding",
+              "value": "chunked"
+            },
+            {
+              "key": "Date",
+              "value": "Thu, 05 Mar 2026 20:02:57 GMT"
+            },
+            {
+              "key": "Keep-Alive",
+              "value": "timeout=60"
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive"
+            }
+          ],
+          "cookie": [],
+          "body": "{\n    \"success\": true,\n    \"message\": \"Task deleted successfully\",\n    \"data\": null\n}"
         }
       ]
     }

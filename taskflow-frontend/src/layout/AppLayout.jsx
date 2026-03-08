@@ -1,20 +1,24 @@
 import Sidebar from "./Sidebar";
 import Topbar from "./Topbar";
+import Footer from "./Footer";
 
 function AppLayout({ children }) {
-
   return (
-    <div className="flex h-screen bg-gray-100">
+    <div className="flex min-h-screen bg-gray-50">
 
+      {/* Sidebar */}
       <Sidebar />
 
-      <div className="flex-1 flex flex-col">
+      {/* Right Content */}
+      <div className="flex flex-col flex-1">
 
         <Topbar />
 
-        <main className="flex-1 p-6 overflow-auto">
+        <main className="flex-1 p-6 overflow-y-auto">
           {children}
         </main>
+
+        <Footer />
 
       </div>
 

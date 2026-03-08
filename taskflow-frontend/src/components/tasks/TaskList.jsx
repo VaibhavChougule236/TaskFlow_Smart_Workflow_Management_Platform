@@ -1,28 +1,20 @@
-import TaskCard from "./TaskCard";
+import TaskRow from "./TaskRow";
 
-function TaskList({ tasks, loading, onToggle, onDelete }) {
+function TaskList({ tasks, onToggle, onDelete }) {
 
-  if (loading) {
+  if (!tasks.length) {
     return (
-      <div className="text-center py-10 text-gray-500">
-        Loading tasks...
-      </div>
-    );
-  }
-
-  if (!tasks || tasks.length === 0) {
-    return (
-      <div className="text-center py-10 text-gray-500">
+      <div className="text-center text-gray-500 py-10">
         No tasks found
       </div>
     );
   }
 
   return (
-    <div className="grid gap-4">
+    <div className="space-y-3">
 
-      {tasks.map((task) => (
-        <TaskCard
+      {tasks.map(task => (
+        <TaskRow
           key={task.id}
           task={task}
           onToggle={onToggle}

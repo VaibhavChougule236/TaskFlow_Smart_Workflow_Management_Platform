@@ -1,40 +1,55 @@
-import { NavLink } from "react-router-dom";
+import { Link } from "react-router-dom";
+import { useContext } from "react";
+import { AuthContext } from "../context/AuthContext";
 
 function Sidebar() {
 
+  const { user } = useContext(AuthContext);   // ✅ inside component
+
   return (
-    <aside className="w-64 bg-[#1E1E1E] text-white p-6">
+    <div className="w-60 bg-gray-900 text-white min-h-screen p-5">
 
-      <h1 className="text-xl font-bold mb-8">
-        TaskFlow
-      </h1>
+      <h1 className="text-xl font-bold mb-8">TaskFlow</h1>
 
-      <nav className="space-y-3">
+      <nav className="space-y-4">
 
-        <NavLink
-          to="/dashboard"
-          className="block hover:text-blue-400"
-        >
-          All Tasks
-        </NavLink>
+        {/* USER MENU */}
+        {user?.role === "USER" && (
+          <>
+            <Link to="/dashboard" className="block hover:text-blue-400">
+              Dashboard
+            </Link>
 
-        <NavLink
-          to="/dashboard?filter=today"
-          className="block hover:text-blue-400"
-        >
-          Today
-        </NavLink>
+            <Link to="/my-tasks" className="block hover:text-blue-400">
+              My Tasks
+            </Link>
+          </>
+        )}
 
-        <NavLink
-          to="/dashboard?filter=completed"
-          className="block hover:text-blue-400"
-        >
-          Completed
-        </NavLink>
+        {/* ADMIN MENU */}
+        {user?.role === "ADMIN" && (
+          <>
+            <Link to="/admin/dashboard" className="block hover:text-blue-400">
+              Admin Dashboard
+            </Link>
+
+            <Link to="/admin/tasks" className="block hover:text-blue-400">
+              All Tasks
+            </Link>
+
+            <Link to="/admin/users" className="block hover:text-blue-400">
+              Users
+            </Link>
+          </>
+        )}
 
       </nav>
 
-    </aside>
+      <div className="absolute bottom-5 text-sm">
+        Logged in as <b>{user?.name}</b>
+      </div>
+
+    </div>
   );
 }
 

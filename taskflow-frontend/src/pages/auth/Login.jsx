@@ -1,7 +1,7 @@
 import { useState, useContext, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { loginUser } from "../../services/authService";
-import { AuthContext } from "../../context/y";
+import { AuthContext } from "../../context/AuthContext";
 
 import AuthLayout from "../../components/auth/AuthLayout";
 import AuthInput from "../../components/auth/AuthInput";
@@ -47,9 +47,14 @@ function Login() {
 
             if (res.success) {
 
-                login(res.data);
+                const userData = res.data;
+                login(userData);
 
-                navigate("/dashboard");
+                if (userData.role === "ADMIN") {
+                    navigate("/admin/dashboard");
+                } else {
+                    navigate("/dashboard");
+                }
 
             } else {
 

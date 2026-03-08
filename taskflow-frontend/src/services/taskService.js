@@ -1,26 +1,25 @@
 import api from "../api/axios";
 
-// GET tasks with pagination / filter
-export const getTasks = (params) => {
-  return api.get("/tasks", { params });
+export const getMyTasks = (page = 0, size = 10) => {
+  return api.get("/my-tasks", {
+    params: { page, size }
+  });
 };
 
-// CREATE new task
-export const createTask = (data) => {
-  return api.post("/tasks", data);
+export const getAllTasks = (page = 0, size = 10) => {
+  return api.get("/tasks", {
+    params: { page, size }
+  });
 };
 
-// TOGGLE task done / pending
-export const updateTaskStatus = (id) => {
-  return api.patch(`/tasks/${id}/done`);
+export const createTask = (task) => {
+  return api.post("/my-tasks", task);
 };
 
-// DELETE task
+export const toggleTaskDone = (id) => {
+  return api.patch(`/my-tasks/${id}/done`);
+};
+
 export const deleteTask = (id) => {
-  return api.delete(`/tasks/${id}`);
-};
-
-// UPDATE task
-export const updateTask = (id, data) => {
-  return api.put(`/tasks/${id}`, data);
+  return api.delete(`/my-tasks/${id}`);
 };
