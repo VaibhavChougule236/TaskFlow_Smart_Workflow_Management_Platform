@@ -10,7 +10,7 @@ import Dashboard from "./pages/dashboard/Dashboard";
 import MyTasks from "./pages/tasks/MyTasks";
 
 import AdminDashboard from "./pages/admin/AdminDashboard";
-import AdminTasks from "./pages/admin/AdminTasks";
+import AdminTasks from "./pages/admin/AllTasks";
 import Users from "./pages/admin/Users";
 
 import AppLayout from "./layout/AppLayout";

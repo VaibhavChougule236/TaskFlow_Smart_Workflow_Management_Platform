@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-
-import { getMyTasks, deleteTask, toggleTaskDone } from "../../services/taskService";
+import api from "../../api/axios";
+import {deleteTask, toggleTaskDone } from "../../services/taskService";
 
 import TaskList from "../../components/tasks/TaskList";
 import AddTaskModal from "../../components/tasks/AddTaskModal";
@@ -17,9 +17,8 @@ function MyTasks() {
 
   const fetchTasks = async () => {
     try {
-      const res = await getMyTasks({
-        page: 0,
-        size: 10
+      const res = await api.get("/tasks", {
+        params: { page: 0, size: 10 }
       });
 
       setTasks(res.data.data.content);
