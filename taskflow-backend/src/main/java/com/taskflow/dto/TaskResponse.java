@@ -16,4 +16,6 @@ public class TaskResponse {
     private String priority;
     private LocalDate dueDate;
     private boolean isDone;
+    private String createdByName;
+    private String createdByEmail;
 }

@@ -38,8 +38,7 @@ public class AdminTaskService {
 //		Page<Task> task=taskRepository.findAll(pageable);
 //		return task.map(this::mapToTaskResponse);
 //	}
-	
-	
+
 	public Page<TaskResponse> getTasks(int page, int size, String status, String category, String keyword,
 			String sortBy, String direction) {
 
@@ -81,9 +80,8 @@ public class AdminTaskService {
 		if (request.getTitle() == null || request.getTitle().trim().isEmpty()) {
 			throw new TaskException("Task title cannot be empty");
 		}
-		
-		Authentication authentication =
-		        SecurityContextHolder.getContext().getAuthentication();
+
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
 		String email = authentication.getName();
 
@@ -166,7 +164,8 @@ public class AdminTaskService {
 	private TaskResponse mapToTaskResponse(Task task) {
 		return TaskResponse.builder().id(task.getId()).title(task.getTitle()).description(task.getDescription())
 				.category(task.getCategory()).priority(task.getPriority()).dueDate(task.getDueDate())
-				.isDone(task.isDone()).build();
+				.isDone(task.isDone()).createdByName(task.getUser() != null ? task.getUser().getName() : null)
+				.createdByEmail(task.getUser() != null ? task.getUser().getEmail() : null).build();
 	}
 
 }

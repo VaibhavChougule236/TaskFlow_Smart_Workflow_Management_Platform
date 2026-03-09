@@ -9,14 +9,18 @@ import Register from "./pages/auth/Register";
 import Dashboard from "./pages/dashboard/Dashboard";
 import MyTasks from "./pages/tasks/MyTasks";
 
-import AdminDashboard from "./pages/admin/AdminDashboard";
-import AdminTasks from "./pages/admin/AllTasks";
-import Users from "./pages/admin/Users";
+//import AdminDashboard from "./pages/admin/AdminDashboard";
+// import AdminTasks from "./pages/admin/AllTasks";
+
 
 import AppLayout from "./layout/AppLayout";
 import PrivateRoute from "./components/common/PrivateRoute";
 
 import AdminRoute from "./components/common/AdminRoute";
+
+import AdminDashboard from "./pages/admin/AdminDashboard";
+import AdminTasks from "./pages/admin/AdminTasks";
+import AdminUsers from "./pages/admin/Users";
 
 function App() {
 
@@ -31,9 +35,11 @@ function App() {
         <Route
           path="/"
           element={
-            user
-              ? <Navigate to="/dashboard" />
-              : <Navigate to="/login" />
+            !user
+              ? <Navigate to="/login" />
+              : user.role === "ADMIN"
+                ? <Navigate to="/admin/dashboard" />
+                : <Navigate to="/dashboard" />
           }
         />
 
@@ -70,33 +76,33 @@ function App() {
         <Route
           path="/admin/dashboard"
           element={
-            <AdminRoute>
+            <PrivateRoute role="ADMIN">
               <AppLayout>
                 <AdminDashboard />
               </AppLayout>
-            </AdminRoute>
+            </PrivateRoute>
           }
         />
 
         <Route
           path="/admin/tasks"
           element={
-            <AdminRoute>
+            <PrivateRoute role="ADMIN">
               <AppLayout>
                 <AdminTasks />
               </AppLayout>
-            </AdminRoute>
+            </PrivateRoute>
           }
         />
 
         <Route
           path="/admin/users"
           element={
-            <AdminRoute>
+            <PrivateRoute role="ADMIN">
               <AppLayout>
-                <Users />
+                <AdminUsers />
               </AppLayout>
-            </AdminRoute>
+            </PrivateRoute>
           }
         />
 

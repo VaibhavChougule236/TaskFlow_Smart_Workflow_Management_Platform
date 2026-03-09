@@ -29,7 +29,7 @@ function Sidebar() {
         {/* ADMIN MENU */}
         {user?.role === "ADMIN" && (
           <>
-            <Link to="/dashboard" className="block hover:text-blue-400">
+            <Link to="/admin/dashboard" className="block hover:text-blue-400">
               Admin Dashboard
             </Link>
 

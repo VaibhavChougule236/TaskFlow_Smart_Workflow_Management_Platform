@@ -21,9 +21,17 @@ function Login() {
     });
 
     useEffect(() => {
+
         if (user) {
-            navigate("/dashboard");
+
+            if (user.role === "ADMIN") {
+                navigate("/admin/dashboard");
+            } else {
+                navigate("/dashboard");
+            }
+
         }
+
     }, [user]);
 
     const handleChange = (e) => {

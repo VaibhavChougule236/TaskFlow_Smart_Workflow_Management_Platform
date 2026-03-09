@@ -185,6 +185,9 @@ public class UserTaskService {
                 .priority(task.getPriority())
                 .dueDate(task.getDueDate())
                 .isDone(task.isDone())
+                .createdByName(task.getUser() != null ? task.getUser().getName() : null)
+                .createdByEmail(task.getUser() != null ? task.getUser().getEmail() : null)
                 .build();
     }
+
 }

@@ -21,12 +21,12 @@ import jakarta.validation.Valid;
 @PreAuthorize("hasRole('ADMIN')")
 public class AdminController {
 
-    private final AdminService adminTaskService;
+    private final AdminService adminService;
 
     @GetMapping("/dashboard")
     public ResponseEntity<ApiResponse<DashboardResponse>> getDashboardStats() {
 
-        DashboardResponse stats = adminTaskService.getDashboardStats();
+        DashboardResponse stats = adminService.getDashboardStats();
 
         return ResponseEntity.ok(
                 new ApiResponse<>(true, "Dashboard data fetched successfully", stats)
@@ -42,13 +42,22 @@ public class AdminController {
     ) {
 
         Page<UserResponse> users =
-                adminTaskService.getAllUsers(page, size, sortBy, direction);
+        		adminService.getAllUsers(page, size, sortBy, direction);
 
         return ResponseEntity.ok(
                 new ApiResponse<>(true, "Users fetched successfully", users)
         );
     }
     
+    @DeleteMapping("/users/{id}")
+    public ResponseEntity<ApiResponse<Void>> deleteUser(@PathVariable Long id) {
+
+        adminService.deleteUser(id);
+
+        return ResponseEntity.ok(
+                new ApiResponse<>(true, "User deleted successfully", null)
+        );
+    }
 }
 
 

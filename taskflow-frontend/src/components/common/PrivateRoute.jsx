@@ -2,7 +2,7 @@ import { useContext } from "react";
 import { Navigate } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
 
-function PrivateRoute({ children }) {
+function PrivateRoute({ children, role }) {
 
   const { user } = useContext(AuthContext);
 
@@ -11,7 +11,11 @@ function PrivateRoute({ children }) {
     return <Navigate to="/login" replace />;
   }
 
-  // logged in
+  // role check
+  if (role && user?.role !== role) {
+    return <Navigate to="/dashboard" replace />;
+  }
+
   return children;
 }
 

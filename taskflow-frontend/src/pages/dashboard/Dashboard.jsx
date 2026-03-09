@@ -17,27 +17,14 @@ function Dashboard() {
   }, []);
 
   const fetchTasks = async () => {
-
-  try {
-
-    const user = JSON.parse(localStorage.getItem("user"));
-
-    let res;
-
-    if (user.role === "ADMIN") {
-      res = await api.get("/tasks", {
-        params: { page: 0, size: 10 }
-      });
-    } else {
-      res = await getMyTasks(0, 10);
+    try {
+      const res = await getMyTasks(0, 10);
+      setTasks(res.data.data.content);
+    } catch (error) {
+      console.error(error);
     }
-
-    setTasks(res.data.data.content);
-
-  } catch (error) {
-    console.error(error);
-  }
-};
+  };
+  
   const stats = {
     total: tasks.length,
     completed: tasks.filter(t => t.done).length,

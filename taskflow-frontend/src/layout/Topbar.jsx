@@ -1,9 +1,11 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { AuthContext } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
+import AddTaskModal from "../components/tasks/AddTaskModal";
 
 function Topbar() {
 
+  const [openModal, setOpenModal] = useState(false);
   const { user, logout } = useContext(AuthContext);
   const navigate = useNavigate();
 
@@ -22,19 +24,15 @@ function Topbar() {
 
       <div className="flex items-center gap-4">
 
-        {/* search */}
-        <input
-          type="text"
-          placeholder="Search tasks..."
-          className="border px-3 py-1 rounded"
-        />
+       
 
-        {/* add task */}
-        <button className="bg-blue-500 text-white px-4 py-2 rounded">
+        <button
+          onClick={() => setOpenModal(true)}
+          className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+        >
           + Add Task
         </button>
 
-        {/* user */}
         <div className="flex items-center gap-3">
 
           <div className="w-8 h-8 rounded-full bg-blue-500 text-white flex items-center justify-center">
@@ -51,6 +49,11 @@ function Topbar() {
         </div>
 
       </div>
+
+      <AddTaskModal
+        isOpen={openModal}
+        onClose={() => setOpenModal(false)}
+      />
 
     </div>
   );

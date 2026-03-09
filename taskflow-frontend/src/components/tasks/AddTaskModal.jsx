@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { createTask } from "../../services/taskService";
+import { success, error } from "../../utils/toast";
 
 function AddTaskModal({ isOpen, onClose, onTaskCreated }) {
 
@@ -25,6 +26,8 @@ function AddTaskModal({ isOpen, onClose, onTaskCreated }) {
 
       await createTask(form);
 
+      success("Task created successfully");
+
       onTaskCreated();
       onClose();
 
@@ -36,8 +39,11 @@ function AddTaskModal({ isOpen, onClose, onTaskCreated }) {
         dueDate: ""
       });
 
-    } catch (error) {
-      console.error("Task creation failed", error);
+    } catch (err) {
+
+      console.error(err);
+      error("Task creation failed");
+
     }
   };
 
@@ -45,81 +51,147 @@ function AddTaskModal({ isOpen, onClose, onTaskCreated }) {
 
   return (
 
-    <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
+    <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50 p-4">
 
-      <div className="bg-white rounded-lg p-6 w-[420px] shadow-lg">
+      <div className="bg-white rounded-xl shadow-xl w-full max-w-md">
 
-        <h2 className="text-lg font-semibold mb-4">
-          Add New Task
-        </h2>
+        {/* Header */}
 
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <div className="flex justify-between items-center border-b px-6 py-4">
 
-          <input
-            type="text"
-            name="title"
-            placeholder="Task title"
-            value={form.title}
-            onChange={handleChange}
-            required
-            className="w-full border p-2 rounded"
-          />
+          <h2 className="text-lg font-semibold">
+            Add New Task
+          </h2>
 
-          <textarea
-            name="description"
-            placeholder="Description"
-            value={form.description}
-            onChange={handleChange}
-            className="w-full border p-2 rounded"
-          />
+          <button
+            onClick={onClose}
+            className="text-gray-500 hover:text-gray-700"
+          >
+            ✕
+          </button>
 
-          <div className="grid grid-cols-2 gap-3">
+        </div>
 
-            <select
-              name="category"
-              value={form.category}
+        {/* Form */}
+
+        <form onSubmit={handleSubmit} className="p-6 space-y-4">
+
+          {/* Title */}
+
+          <div>
+
+            <label className="text-sm text-gray-600 mb-1 block">
+              Task Title
+            </label>
+
+            <input
+              type="text"
+              name="title"
+              placeholder="Enter task title"
+              value={form.title}
               onChange={handleChange}
-              className="border p-2 rounded"
-            >
-              <option value="work">Work</option>
-              <option value="personal">Personal</option>
-              <option value="study">Study</option>
-            </select>
-
-            <select
-              name="priority"
-              value={form.priority}
-              onChange={handleChange}
-              className="border p-2 rounded"
-            >
-              <option value="low">Low</option>
-              <option value="medium">Medium</option>
-              <option value="high">High</option>
-            </select>
+              required
+              className="w-full border border-gray-300 bg-gray-50 px-3 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
 
           </div>
 
-          <input
-            type="date"
-            name="dueDate"
-            value={form.dueDate}
-            onChange={handleChange}
-            className="w-full border p-2 rounded"
-          />
+          {/* Description */}
 
-          <div className="flex justify-end gap-3 pt-3">
+          <div>
+
+            <label className="text-sm text-gray-600 mb-1 block">
+              Description
+            </label>
+
+            <textarea
+              name="description"
+              placeholder="Optional description"
+              value={form.description}
+              onChange={handleChange}
+              rows="3"
+              className="w-full border border-gray-300 bg-gray-50 px-3 py-2 rounded-md focus:ring-2 focus:ring-blue-500"
+            />
+
+          </div>
+
+          {/* Category + Priority */}
+
+          <div className="grid grid-cols-2 gap-4">
+
+            <div>
+
+              <label className="text-sm text-gray-600 mb-1 block">
+                Category
+              </label>
+
+              <select
+                name="category"
+                value={form.category}
+                onChange={handleChange}
+                className="w-full border border-gray-300 bg-gray-50 px-3 py-2 rounded-md focus:ring-2 focus:ring-blue-500"
+              >
+                <option value="work">Work</option>
+                <option value="personal">Personal</option>
+                <option value="study">Study</option>
+              </select>
+
+            </div>
+
+            <div>
+
+              <label className="text-sm text-gray-600 mb-1 block">
+                Priority
+              </label>
+
+              <select
+                name="priority"
+                value={form.priority}
+                onChange={handleChange}
+                className="w-full border border-gray-300 bg-gray-50 px-3 py-2 rounded-md focus:ring-2 focus:ring-blue-500"
+              >
+                <option value="low">Low</option>
+                <option value="medium">Medium</option>
+                <option value="high">High</option>
+              </select>
+
+            </div>
+
+          </div>
+
+          {/* Due Date */}
+
+          <div>
+
+            <label className="text-sm text-gray-600 mb-1 block">
+              Due Date
+            </label>
+
+            <input
+              type="date"
+              name="dueDate"
+              value={form.dueDate}
+              onChange={handleChange}
+              className="w-full border border-gray-300 bg-gray-50 px-3 py-2 rounded-md focus:ring-2 focus:ring-blue-500"
+            />
+
+          </div>
+
+          {/* Buttons */}
+
+          <div className="flex justify-end gap-3 pt-4">
 
             <button
               type="button"
               onClick={onClose}
-              className="px-4 py-2 border rounded"
+              className="px-4 py-2 border border-gray-300 rounded-md hover:bg-gray-100"
             >
               Cancel
             </button>
 
             <button
               type="submit"
-              className="px-4 py-2 bg-blue-500 text-white rounded"
+              className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600"
             >
               Add Task
             </button>
@@ -131,6 +203,7 @@ function AddTaskModal({ isOpen, onClose, onTaskCreated }) {
       </div>
 
     </div>
+
   );
 }
 

@@ -11,18 +11,22 @@ function TaskList({ tasks, onToggle, onDelete }) {
   }
 
   return (
+
     <div className="space-y-3">
 
       {tasks.map(task => (
+
         <TaskRow
           key={task.id}
           task={task}
           onToggle={onToggle}
           onDelete={onDelete}
         />
+
       ))}
 
     </div>
+
   );
 }
 

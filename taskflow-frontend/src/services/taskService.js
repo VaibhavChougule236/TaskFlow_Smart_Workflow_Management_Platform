@@ -23,3 +23,7 @@ export const toggleTaskDone = (id) => {
 export const deleteTask = (id) => {
   return api.delete(`/my-tasks/${id}`);
 };
+
+export const createAdminTask = (task) => {
+  return api.post("/tasks", task);
+};
