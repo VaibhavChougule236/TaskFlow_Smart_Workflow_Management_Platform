@@ -27,3 +27,7 @@ export const deleteTask = (id) => {
 export const createAdminTask = (task) => {
   return api.post("/tasks", task);
 };
+
+export const updateTask = (id, task) => {
+  return api.put(`/my-tasks/${id}`, task);
+};

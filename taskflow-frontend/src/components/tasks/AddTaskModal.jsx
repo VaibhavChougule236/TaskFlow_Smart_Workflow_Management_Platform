@@ -1,50 +1,86 @@
-import { useState } from "react";
-import { createTask } from "../../services/taskService";
+import { useState, useEffect } from "react";
+import { createTask, updateTask } from "../../services/taskService";
 import { success, error } from "../../utils/toast";
 
-function AddTaskModal({ isOpen, onClose, onTaskCreated }) {
+function AddTaskModal({ isOpen, onClose, onTaskCreated, editTask }) {
 
-  const [form, setForm] = useState({
+  const initialForm = {
     title: "",
     description: "",
     category: "work",
     priority: "medium",
     dueDate: ""
-  });
+  };
+
+  const [form, setForm] = useState(initialForm);
+
+  /* Prefill when editing */
+
+  useEffect(() => {
+
+    if (editTask) {
+
+      setForm({
+        title: editTask.title || "",
+        description: editTask.description || "",
+        category: editTask.category || "work",
+        priority: editTask.priority || "medium",
+        dueDate: editTask.dueDate || ""
+      });
+
+    } else {
+
+      setForm(initialForm);
+
+    }
+
+  }, [editTask, isOpen]);
 
   const handleChange = (e) => {
-    setForm({
-      ...form,
-      [e.target.name]: e.target.value
-    });
+
+    const { name, value } = e.target;
+
+    setForm(prev => ({
+      ...prev,
+      [name]: value
+    }));
+
   };
 
   const handleSubmit = async (e) => {
+
     e.preventDefault();
 
     try {
 
-      await createTask(form);
+      if (editTask) {
 
-      success("Task created successfully");
+        await updateTask(editTask.id, form);
+        success("Task updated successfully");
 
-      onTaskCreated();
-      onClose();
+      } else {
 
-      setForm({
-        title: "",
-        description: "",
-        category: "work",
-        priority: "medium",
-        dueDate: ""
-      });
+        await createTask(form);
+        success("Task created successfully");
+
+      }
+
+      // refresh tasks if parent provided callback
+      onTaskCreated?.();
+
+      // close modal
+      onClose?.();
+
+      // reset form
+      setForm(initialForm);
 
     } catch (err) {
 
       console.error(err);
-      error("Task creation failed");
+      error("Task operation failed");
 
     }
+
   };
 
   if (!isOpen) return null;
@@ -60,12 +96,12 @@ function AddTaskModal({ isOpen, onClose, onTaskCreated }) {
         <div className="flex justify-between items-center border-b px-6 py-4">
 
           <h2 className="text-lg font-semibold">
-            Add New Task
+            {editTask ? "Edit Task" : "Add New Task"}
           </h2>
 
           <button
             onClick={onClose}
-            className="text-gray-500 hover:text-gray-700"
+            className="text-gray-500 hover:text-gray-700 text-lg"
           >
             ✕
           </button>
@@ -87,10 +123,10 @@ function AddTaskModal({ isOpen, onClose, onTaskCreated }) {
             <input
               type="text"
               name="title"
-              placeholder="Enter task title"
               value={form.title}
               onChange={handleChange}
               required
+              placeholder="Enter task title"
               className="w-full border border-gray-300 bg-gray-50 px-3 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
 
@@ -106,10 +142,10 @@ function AddTaskModal({ isOpen, onClose, onTaskCreated }) {
 
             <textarea
               name="description"
-              placeholder="Optional description"
               value={form.description}
               onChange={handleChange}
               rows="3"
+              placeholder="Optional description"
               className="w-full border border-gray-300 bg-gray-50 px-3 py-2 rounded-md focus:ring-2 focus:ring-blue-500"
             />
 
@@ -193,7 +229,7 @@ function AddTaskModal({ isOpen, onClose, onTaskCreated }) {
               type="submit"
               className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600"
             >
-              Add Task
+              {editTask ? "Update Task" : "Add Task"}
             </button>
 
           </div>
@@ -205,6 +241,7 @@ function AddTaskModal({ isOpen, onClose, onTaskCreated }) {
     </div>
 
   );
+
 }
 
 export default AddTaskModal;

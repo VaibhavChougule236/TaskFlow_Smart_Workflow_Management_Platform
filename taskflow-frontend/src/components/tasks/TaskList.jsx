@@ -1,6 +1,6 @@
 import TaskRow from "./TaskRow";
 
-function TaskList({ tasks, onToggle, onDelete }) {
+function TaskList({ tasks, onToggle, onDelete, onEdit  }) {
 
   if (!tasks.length) {
     return (
@@ -21,6 +21,7 @@ function TaskList({ tasks, onToggle, onDelete }) {
           task={task}
           onToggle={onToggle}
           onDelete={onDelete}
+          onEdit={onEdit}
         />
 
       ))}

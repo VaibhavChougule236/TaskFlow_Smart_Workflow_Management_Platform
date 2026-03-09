@@ -1,6 +1,6 @@
 import { FaCheck } from "react-icons/fa";
 
-function TaskRow({ task, onToggle, onDelete }) {
+function TaskRow({ task, onToggle, onDelete, onEdit }) {
 
   return (
 
@@ -15,11 +15,10 @@ function TaskRow({ task, onToggle, onDelete }) {
         <button
           onClick={() => onToggle(task.id)}
           className={`w-6 h-6 flex items-center justify-center rounded-full border-2 transition
-          ${
-            task.done
+          ${task.done
               ? "bg-green-500 border-green-500 text-white"
               : "border-gray-400 hover:border-green-400"
-          }`}
+            }`}
         >
 
           {task.done && <FaCheck size={12} />}
@@ -53,16 +52,17 @@ function TaskRow({ task, onToggle, onDelete }) {
       <div className="flex gap-3">
 
         <button
-          className="text-blue-500 hover:text-blue-700 text-sm"
+          onClick={() => onEdit(task)}
+          className="text-blue-500 hover:text-blue-700"
         >
-          Edit
+          ✏️ Edit
         </button>
 
         <button
           onClick={() => onDelete(task.id)}
-          className="text-red-500 hover:text-red-700 text-sm"
+          className="text-red-500 hover:text-red-700"
         >
-          Delete
+          🗑 Delete
         </button>
 
       </div>

@@ -13,26 +13,24 @@ import { success, error } from "../../utils/toast";
 function MyTasks() {
 
   const [openModal, setOpenModal] = useState(false);
-
   const [tasks, setTasks] = useState([]);
-
   const [loading, setLoading] = useState(true);
 
   const [page, setPage] = useState(0);
-
   const [totalPages, setTotalPages] = useState(0);
 
   const [keyword, setKeyword] = useState("");
 
   const [sortBy, setSortBy] = useState("dueDate");
-
   const [direction, setDirection] = useState("asc");
 
-  useEffect(() => {
-    fetchTasks();
-  }, [page, keyword, sortBy, direction]);
+  const [editingTask, setEditingTask] = useState(null);
+
+  /* Fetch Tasks */
 
   const fetchTasks = async () => {
+
+    setLoading(true);
 
     try {
 
@@ -44,14 +42,14 @@ function MyTasks() {
         direction
       });
 
-      setTasks(res.data.data.content);
+      const data = res.data.data;
 
-      setTotalPages(res.data.data.totalPages);
+      setTasks(data.content);
+      setTotalPages(data.totalPages);
 
     } catch (err) {
 
       console.error(err);
-
       error("Failed to load tasks");
 
     } finally {
@@ -61,6 +59,12 @@ function MyTasks() {
     }
 
   };
+
+  useEffect(() => {
+    fetchTasks();
+  }, [page, keyword, sortBy, direction]);
+
+  /* Delete */
 
   const handleDelete = async (id) => {
 
@@ -79,12 +83,13 @@ function MyTasks() {
     } catch (err) {
 
       console.error(err);
-
       error("Delete failed");
 
     }
 
   };
+
+  /* Toggle Done */
 
   const handleToggle = async (id) => {
 
@@ -94,13 +99,24 @@ function MyTasks() {
 
       fetchTasks();
 
-    } catch (err) {
+    } catch {
 
       error("Failed to update task");
 
     }
 
   };
+
+  /* Edit */
+
+  const handleEdit = (task) => {
+
+    setEditingTask(task);
+    setOpenModal(true);
+
+  };
+
+  /* Sorting */
 
   const handleSort = (field) => {
 
@@ -111,7 +127,6 @@ function MyTasks() {
     } else {
 
       setSortBy(field);
-
       setDirection("asc");
 
     }
@@ -140,12 +155,12 @@ function MyTasks() {
               setKeyword(e.target.value);
               setPage(0);
             }}
-            className="border px-4 py-2 rounded bg-gray-50"
+            className="border border-gray-300 px-4 py-2 rounded-md bg-gray-100 focus:ring-2 focus:ring-blue-500"
           />
 
           <button
             onClick={() => setOpenModal(true)}
-            className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+            className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 transition"
           >
             + Add Task
           </button>
@@ -158,7 +173,9 @@ function MyTasks() {
 
       {loading ? (
 
-        <p>Loading tasks...</p>
+        <div className="text-center py-10 text-gray-500">
+          Loading tasks...
+        </div>
 
       ) : (
 
@@ -166,58 +183,67 @@ function MyTasks() {
           tasks={tasks}
           onToggle={handleToggle}
           onDelete={handleDelete}
-          onSort={handleSort}
+          onEdit={handleEdit}
         />
 
       )}
 
       {/* Pagination */}
 
-      <div className="flex justify-center items-center gap-2 mt-6">
+      {totalPages > 1 && (
 
-        <button
-          onClick={() => setPage(page - 1)}
-          disabled={page === 0}
-          className="px-3 py-1 border rounded disabled:opacity-40"
-        >
-          Prev
-        </button>
-
-        {[...Array(totalPages)].map((_, i) => (
+        <div className="flex justify-center items-center gap-2 mt-8">
 
           <button
-            key={i}
-            onClick={() => setPage(i)}
-            className={`px-3 py-1 border rounded ${
-              page === i ? "bg-blue-500 text-white" : ""
-            }`}
+            onClick={() => setPage(page - 1)}
+            disabled={page === 0}
+            className="px-3 py-1 border rounded disabled:opacity-40"
           >
-            {i + 1}
+            Prev
           </button>
 
-        ))}
+          {[...Array(totalPages)].map((_, i) => (
 
-        <button
-          onClick={() => setPage(page + 1)}
-          disabled={page === totalPages - 1}
-          className="px-3 py-1 border rounded disabled:opacity-40"
-        >
-          Next
-        </button>
+            <button
+              key={i}
+              onClick={() => setPage(i)}
+              className={`px-3 py-1 border rounded ${
+                page === i ? "bg-blue-500 text-white" : "bg-white"
+              }`}
+            >
+              {i + 1}
+            </button>
 
-      </div>
+          ))}
+
+          <button
+            onClick={() => setPage(page + 1)}
+            disabled={page === totalPages - 1}
+            className="px-3 py-1 border rounded disabled:opacity-40"
+          >
+            Next
+          </button>
+
+        </div>
+
+      )}
 
       {/* Modal */}
 
       <AddTaskModal
         isOpen={openModal}
-        onClose={() => setOpenModal(false)}
+        onClose={() => {
+          setOpenModal(false);
+          setEditingTask(null);
+        }}
         onTaskCreated={fetchTasks}
+        editTask={editingTask}
       />
 
     </div>
 
   );
+
 }
 
 export default MyTasks;
