@@ -1,13 +1,14 @@
 import { useEffect, useState } from "react";
 import { getAdminStats } from "../../services/adminService";
 
+import StatsCards from "../../components/dashboard/StatsCards";
+import TaskStatusChart from "../../components/dashboard/TaskStatusChart";
+import PriorityChart from "../../components/dashboard/PriorityChart";
+import CategoryChart from "../../components/dashboard/CategoryChart";
+
 function AdminDashboard() {
 
-  const [stats, setStats] = useState({
-    users: 0,
-    tasks: 0,
-    completed: 0
-  });
+  const [stats, setStats] = useState(null);
 
   useEffect(() => {
     fetchStats();
@@ -15,56 +16,58 @@ function AdminDashboard() {
 
   const fetchStats = async () => {
 
-    try {
+    const res = await getAdminStats();
 
-      const res = await getAdminStats();
+    const data = res.data.data;
 
-      const data = res.data.data;
-
-      setStats({
-        users: data.totalUsers,
-        tasks: data.totalTasks,
-        completed: data.completedTasks
-      });
-
-    } catch (err) {
-
-      console.error(err);
-
-    }
+    setStats({
+      users: data.totalUsers,
+      tasks: data.totalTasks,
+      completed: data.completedTasks,
+      pending: data.pendingTasks,
+      priority: [
+        { name: "Low", value: data.priorityStats.low },
+        { name: "Medium", value: data.priorityStats.medium },
+        { name: "High", value: data.priorityStats.high }
+      ],
+      category: [
+        { name: "Work", value: data.categoryStats.work },
+        { name: "Personal", value: data.categoryStats.personal },
+        { name: "Study", value: data.categoryStats.study }
+      ]
+    });
 
   };
 
+  if (!stats) return <p>Loading dashboard...</p>;
+
   return (
 
-    <div>
+    <div className="space-y-8">
 
-      <h2 className="text-2xl font-semibold mb-6">
+      <h2 className="text-2xl font-semibold">
         Admin Dashboard
       </h2>
 
-      <div className="grid grid-cols-3 gap-6">
+      <StatsCards stats={stats} />
 
-        <div className="bg-white p-4 shadow rounded">
-          <h3 className="text-gray-500 text-sm">Total Users</h3>
-          <p className="text-2xl font-bold">{stats.users}</p>
-        </div>
+      <div className="grid md:grid-cols-2 gap-6">
 
-        <div className="bg-white p-4 shadow rounded">
-          <h3 className="text-gray-500 text-sm">Total Tasks</h3>
-          <p className="text-2xl font-bold">{stats.tasks}</p>
-        </div>
+        <TaskStatusChart
+          completed={stats.completed}
+          pending={stats.pending}
+        />
 
-        <div className="bg-white p-4 shadow rounded">
-          <h3 className="text-gray-500 text-sm">Completed Tasks</h3>
-          <p className="text-2xl font-bold">{stats.completed}</p>
-        </div>
+        <PriorityChart data={stats.priority} />
 
       </div>
+
+      <CategoryChart data={stats.category} />
 
     </div>
 
   );
+
 }
 
 export default AdminDashboard;

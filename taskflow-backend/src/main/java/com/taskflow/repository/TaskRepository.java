@@ -37,5 +37,10 @@ public interface TaskRepository extends JpaRepository<Task, Long> {
 	long countByIsDone(boolean isDone);
 
 	long countByIsDoneFalseAndDueDateBefore(LocalDate now);
+	
+	long countByPriority(String priority);
+
+	long countByCategory(String category);
+
 
 }

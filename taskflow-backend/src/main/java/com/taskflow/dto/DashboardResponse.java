@@ -1,5 +1,7 @@
 package com.taskflow.dto;
 
+import java.util.Map;
+
 import lombok.Builder;
 import lombok.Data;
 
@@ -12,4 +14,7 @@ public class DashboardResponse {
     private long completedTasks;
     private long pendingTasks;
     private long overdueTasks;
+    
+    private Map<String, Long> priorityStats;
+    private Map<String, Long> categoryStats;
 }

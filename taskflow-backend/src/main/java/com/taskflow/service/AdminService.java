@@ -2,6 +2,9 @@ package com.taskflow.service;
 
 import lombok.RequiredArgsConstructor;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -50,19 +53,26 @@ public class AdminService {
 
         long totalUsers = userRepository.count();
         long totalTasks = taskRepository.count();
-
         long completedTasks = taskRepository.countByIsDone(true);
         long pendingTasks = taskRepository.countByIsDone(false);
 
-        long overdueTasks =
-                taskRepository.countByIsDoneFalseAndDueDateBefore(java.time.LocalDate.now());
+        Map<String, Long> priorityStats = new HashMap<>();
+        priorityStats.put("low", taskRepository.countByPriority("low"));
+        priorityStats.put("medium", taskRepository.countByPriority("medium"));
+        priorityStats.put("high", taskRepository.countByPriority("high"));
+
+        Map<String, Long> categoryStats = new HashMap<>();
+        categoryStats.put("work", taskRepository.countByCategory("work"));
+        categoryStats.put("personal", taskRepository.countByCategory("personal"));
+        categoryStats.put("study", taskRepository.countByCategory("study"));
 
         return DashboardResponse.builder()
                 .totalUsers(totalUsers)
                 .totalTasks(totalTasks)
                 .completedTasks(completedTasks)
                 .pendingTasks(pendingTasks)
-                .overdueTasks(overdueTasks)
+                .priorityStats(priorityStats)
+                .categoryStats(categoryStats)
                 .build();
     }
 
