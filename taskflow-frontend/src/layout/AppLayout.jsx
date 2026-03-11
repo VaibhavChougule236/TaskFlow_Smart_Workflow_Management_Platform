@@ -3,14 +3,16 @@ import Topbar from "./Topbar";
 import Footer from "./Footer";
 
 function AppLayout({ children }) {
+
   return (
-    <div className="flex min-h-screen bg-gray-50">
+
+    <div className="bg-gray-50">
 
       {/* Sidebar */}
       <Sidebar />
 
       {/* Right Content */}
-      <div className="flex flex-col flex-1">
+      <div className="ml-64 flex flex-col min-h-screen">
 
         <Topbar />
 
@@ -23,7 +25,9 @@ function AppLayout({ children }) {
       </div>
 
     </div>
+
   );
+
 }
 
 export default AppLayout;

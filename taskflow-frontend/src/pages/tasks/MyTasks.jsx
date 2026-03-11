@@ -1,4 +1,6 @@
 import { useEffect, useState } from "react";
+import { useSearchParams } from "react-router-dom";
+
 import {
   getMyTasks,
   deleteTask,
@@ -26,6 +28,13 @@ function MyTasks() {
 
   const [editingTask, setEditingTask] = useState(null);
 
+  const [filter, setFilter] = useState("all");
+
+  const [searchParams] = useSearchParams();
+
+  const sidebarFilter = searchParams.get("filter");
+  const sidebarCategory = searchParams.get("category");
+
   /* Fetch Tasks */
 
   const fetchTasks = async () => {
@@ -38,6 +47,8 @@ function MyTasks() {
         page,
         size: 10,
         keyword,
+        status: sidebarFilter || (filter === "all" ? null : filter),
+        category: sidebarCategory || null,
         sortBy,
         direction
       });
@@ -60,9 +71,11 @@ function MyTasks() {
 
   };
 
+  /* Fetch when state changes */
+
   useEffect(() => {
     fetchTasks();
-  }, [page, keyword, sortBy, direction]);
+  }, [page, keyword, sortBy, direction, filter, sidebarFilter, sidebarCategory]);
 
   /* Delete */
 
@@ -115,23 +128,7 @@ function MyTasks() {
     setOpenModal(true);
 
   };
-
-  /* Sorting */
-
-  const handleSort = (field) => {
-
-    if (sortBy === field) {
-
-      setDirection(direction === "asc" ? "desc" : "asc");
-
-    } else {
-
-      setSortBy(field);
-      setDirection("asc");
-
-    }
-
-  };
+  
 
   return (
 
@@ -139,33 +136,132 @@ function MyTasks() {
 
       {/* Header */}
 
-      <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-3 mb-6">
+      <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-4 mb-6">
 
-        <h2 className="text-xl font-semibold">
+        <h2 className="text-2xl font-semibold">
           My Tasks
         </h2>
 
-        <div className="flex gap-3">
+        <div className="flex gap-3 items-center">
 
-          <input
-            type="text"
-            placeholder="Search tasks..."
-            value={keyword}
+          {/* Search */}
+
+          <div className="relative">
+
+            <input
+              type="text"
+              placeholder="Search tasks..."
+              value={keyword}
+              onChange={(e) => {
+                setKeyword(e.target.value);
+                setPage(0);
+              }}
+              className="border pl-10 pr-4 py-2 rounded bg-gray-50"
+            />
+
+            <span className="absolute left-3 top-2 text-gray-400">
+              🔍
+            </span>
+
+          </div>
+
+
+          {/* Sort */}
+
+          <select
+            value={sortBy}
             onChange={(e) => {
-              setKeyword(e.target.value);
+              setSortBy(e.target.value);
               setPage(0);
             }}
-            className="border border-gray-300 px-4 py-2 rounded-md bg-gray-100 focus:ring-2 focus:ring-blue-500"
-          />
+            className="border px-3 py-2 rounded bg-white"
+          >
+            <option value="dueDate">Sort by Due Date</option>
+            <option value="priority">Sort by Priority</option>
+            <option value="title">Sort by Title</option>
+          </select>
+
+
+          {/* Direction */}
+
+          <button
+            onClick={() => {
+              setDirection(direction === "asc" ? "desc" : "asc");
+            }}
+            className="px-3 py-2 border rounded bg-gray-100"
+          >
+            {direction === "asc" ? "↑ Asc" : "↓ Desc"}
+          </button>
+
+
+          {/* Add Task */}
 
           <button
             onClick={() => setOpenModal(true)}
-            className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 transition"
+            className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
           >
             + Add Task
           </button>
 
         </div>
+
+      </div>
+
+      {/* Filters */}
+
+      <div className="flex gap-3 mb-4 flex-wrap">
+
+        <button
+          onClick={() => {
+            setFilter("all");
+            setPage(0);
+          }}
+          className={`px-3 py-1 rounded ${filter === "all"
+            ? "bg-gray-800 text-white"
+            : "bg-gray-200"
+            }`}
+        >
+          All
+        </button>
+
+        <button
+          onClick={() => {
+            setFilter("pending");
+            setPage(0);
+          }}
+          className={`px-3 py-1 rounded ${filter === "pending"
+            ? "bg-yellow-500 text-white"
+            : "bg-yellow-100"
+            }`}
+        >
+          Pending
+        </button>
+
+        <button
+          onClick={() => {
+            setFilter("completed");
+            setPage(0);
+          }}
+          className={`px-3 py-1 rounded ${filter === "completed"
+            ? "bg-green-600 text-white"
+            : "bg-green-100"
+            }`}
+        >
+          Completed
+        </button>
+
+        <button
+          onClick={() => {
+            setFilter("overdue");
+            setPage(0);
+          }}
+          className={`px-3 py-1 rounded ${filter === "overdue"
+            ? "bg-red-600 text-white"
+            : "bg-red-100"
+            }`}
+        >
+          Overdue
+        </button>
 
       </div>
 
@@ -202,14 +298,15 @@ function MyTasks() {
             Prev
           </button>
 
-          {[...Array(totalPages)].map((_, i) => (
+          {Array.from({ length: totalPages }).map((_, i) => (
 
             <button
               key={i}
               onClick={() => setPage(i)}
-              className={`px-3 py-1 border rounded ${
-                page === i ? "bg-blue-500 text-white" : "bg-white"
-              }`}
+              className={`px-3 py-1 border rounded ${page === i
+                ? "bg-blue-500 text-white"
+                : "bg-white"
+                }`}
             >
               {i + 1}
             </button>

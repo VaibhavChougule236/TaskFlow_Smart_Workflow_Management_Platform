@@ -1,9 +1,19 @@
 import api from "../api/axios";
 
-export const getMyTasks = (page = 0, size = 10) => {
+export const getMyTasks = (params) => {
+
   return api.get("/my-tasks", {
-    params: { page, size }
+    params: {
+      page: params.page,
+      size: params.size,
+      keyword: params.keyword,
+      status: params.status,
+      category: params.category,   
+      sortBy: params.sortBy,
+      direction: params.direction
+    }
   });
+
 };
 
 export const getAllTasks = (page = 0, size = 10) => {
@@ -13,6 +23,13 @@ export const getAllTasks = (page = 0, size = 10) => {
 };
 
 export const createTask = (task) => {
+
+  const user = JSON.parse(localStorage.getItem("user"));
+
+  if (user.role === "ADMIN") {
+    return api.post("/tasks", task);
+  }
+
   return api.post("/my-tasks", task);
 };
 

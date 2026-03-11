@@ -18,7 +18,7 @@ spring:
     database-platform: org.hibernate.dialect.MySQLDialect
 
 jwt:
-  secret: 9d8f7a6b5c4e3d2f1a9b8c7d6e5f4a3b
+  secret: 9d8f7a6b5c4e3d2f1a9b8c7d6e5f4a3b-VaibhavChougule
   expiration: 86400000
 
 logging:
