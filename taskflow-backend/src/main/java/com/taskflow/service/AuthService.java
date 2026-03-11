@@ -1,6 +1,7 @@
 package com.taskflow.service;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -49,4 +50,31 @@ public class AuthService {
 
         return new AuthResponse(token, user);
     }
+    
+    public String generateResetToken(String email) {
+
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        String token = UUID.randomUUID().toString();
+
+        user.setResetToken(token);
+
+        userRepository.save(user);
+
+        return "http://localhost:5173/reset-password/" + token;
+    }
+
+    public void resetPassword(String token, String password) {
+
+        User user = userRepository.findByResetToken(token)
+                .orElseThrow(() -> new RuntimeException("Invalid token"));
+
+        user.setPassword(passwordEncoder.encode(password));
+
+        user.setResetToken(null);
+
+        userRepository.save(user);
+    }
+    
 }

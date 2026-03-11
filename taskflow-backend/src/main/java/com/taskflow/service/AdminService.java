@@ -25,6 +25,18 @@ public class AdminService {
 
     private final UserRepository userRepository;
     private final TaskRepository taskRepository;
+    
+    
+	public UserResponse getMyProfile() {
+
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		String email = auth.getName();
+
+		User user = userRepository.findByEmail(email).orElseThrow(() -> new RuntimeException("User not found"));
+
+		return UserResponse.builder().id(user.getId()).name(user.getName()).email(user.getEmail())
+				.role(user.getRole().name()).build();
+	}
 
     public Page<UserResponse> getAllUsers(
             int page,

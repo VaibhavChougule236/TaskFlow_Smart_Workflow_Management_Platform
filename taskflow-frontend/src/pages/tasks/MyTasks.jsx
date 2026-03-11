@@ -47,7 +47,11 @@ function MyTasks() {
         page,
         size: 10,
         keyword,
-        status: sidebarFilter || (filter === "all" ? null : filter),
+        status: sidebarFilter
+          ? sidebarFilter
+          : filter === "all"
+            ? undefined
+            : filter,
         category: sidebarCategory || null,
         sortBy,
         direction
@@ -128,7 +132,7 @@ function MyTasks() {
     setOpenModal(true);
 
   };
-  
+
 
   return (
 

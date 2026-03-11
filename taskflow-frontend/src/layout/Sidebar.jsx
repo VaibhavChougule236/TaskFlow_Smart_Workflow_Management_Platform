@@ -10,10 +10,9 @@ function Sidebar() {
   const isActive = (path) => location.pathname === path;
 
   const linkClass = (path) =>
-    `block px-4 py-2 rounded transition ${
-      isActive(path)
-        ? "bg-blue-600 text-white"
-        : "text-gray-300 hover:bg-gray-700"
+    `block px-4 py-2 rounded transition ${isActive(path)
+      ? "bg-blue-600 text-white"
+      : "text-gray-300 hover:bg-gray-700"
     }`;
 
   return (
@@ -135,6 +134,9 @@ function Sidebar() {
             </p>
 
           </div>
+          <Link to="/profile">
+            ⚙ Profile & Settings
+          </Link>
 
         </div>
 

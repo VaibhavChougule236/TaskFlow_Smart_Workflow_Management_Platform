@@ -31,6 +31,8 @@ public class User {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private Role role;
+    
+    private String resetToken;
 
     @Column(name = "created_at")
     private LocalDateTime createdAt;

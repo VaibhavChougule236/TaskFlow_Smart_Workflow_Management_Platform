@@ -5,22 +5,22 @@ import { AuthContext } from "./context/AuthContext";
 
 import Login from "./pages/auth/Login";
 import Register from "./pages/auth/Register";
+import ForgotPassword from "./pages/auth/ForgotPassword";
+import ResetPassword from "./pages/auth/ResetPassword";
 
 import Dashboard from "./pages/dashboard/Dashboard";
 import MyTasks from "./pages/tasks/MyTasks";
 
-//import AdminDashboard from "./pages/admin/AdminDashboard";
-// import AdminTasks from "./pages/admin/AllTasks";
-
-
-import AppLayout from "./layout/AppLayout";
-import PrivateRoute from "./components/common/PrivateRoute";
-
-import AdminRoute from "./components/common/AdminRoute";
+import Profile from "./pages/user/Profile";
+import Settings from "./pages/user/Settings";
+import ChangePassword from "./pages/user/ChangePassword";
 
 import AdminDashboard from "./pages/admin/AdminDashboard";
 import AdminTasks from "./pages/admin/AdminTasks";
 import AdminUsers from "./pages/admin/Users";
+
+import AppLayout from "./layout/AppLayout";
+import PrivateRoute from "./components/common/PrivateRoute";
 
 function App() {
 
@@ -31,7 +31,8 @@ function App() {
 
       <Routes>
 
-        {/* Root redirect */}
+        {/* ROOT REDIRECT */}
+
         <Route
           path="/"
           element={
@@ -43,9 +44,12 @@ function App() {
           }
         />
 
-        {/* Auth */}
+        {/* AUTH ROUTES */}
+
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/forgot-password" element={<ForgotPassword />} />
+        <Route path="/reset-password/:token" element={<ResetPassword />} />
 
         {/* USER ROUTES */}
 
@@ -66,6 +70,39 @@ function App() {
             <PrivateRoute>
               <AppLayout>
                 <MyTasks />
+              </AppLayout>
+            </PrivateRoute>
+          }
+        />
+
+        <Route
+          path="/profile"
+          element={
+            <PrivateRoute>
+              <AppLayout>
+                <Profile />
+              </AppLayout>
+            </PrivateRoute>
+          }
+        />
+
+        <Route
+          path="/settings"
+          element={
+            <PrivateRoute>
+              <AppLayout>
+                <Settings />
+              </AppLayout>
+            </PrivateRoute>
+          }
+        />
+
+        <Route
+          path="/change-password"
+          element={
+            <PrivateRoute>
+              <AppLayout>
+                <ChangePassword />
               </AppLayout>
             </PrivateRoute>
           }
