@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
+import { Search, ArrowUpDown, Plus, SlidersHorizontal } from "lucide-react";
 
 import {
   getMyTasks,
@@ -11,6 +12,7 @@ import TaskList from "../../components/tasks/TaskList";
 import AddTaskModal from "../../components/tasks/AddTaskModal";
 
 import { success, error } from "../../utils/toast";
+
 
 function MyTasks() {
 
@@ -140,18 +142,21 @@ function MyTasks() {
 
       {/* Header */}
 
-      <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-4 mb-6">
+      <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-4 mb-8">
+        <div>
+          <h2 className="text-2xl font-bold text-gray-800 tracking-tight">
+            My Tasks
+          </h2>
+          <p className="text-sm text-gray-500">Manage and track your daily productivity</p>
+        </div>
 
-        <h2 className="text-2xl font-semibold">
-          My Tasks
-        </h2>
-
-        <div className="flex gap-3 items-center">
-
+        <div className="flex flex-wrap gap-3 items-center">
           {/* Search */}
-
-          <div className="relative">
-
+          <div className="relative group">
+            <Search
+              size={18}
+              className="absolute left-3 top-2.5 text-gray-400 group-focus-within:text-blue-500 transition-colors"
+            />
             <input
               type="text"
               placeholder="Search tasks..."
@@ -160,55 +165,45 @@ function MyTasks() {
                 setKeyword(e.target.value);
                 setPage(0);
               }}
-              className="border pl-10 pr-4 py-2 rounded bg-gray-50"
+              className="pl-10 pr-4 py-2 rounded-xl border border-gray-200 bg-white focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition-all w-full md:w-64"
             />
-
-            <span className="absolute left-3 top-2 text-gray-400">
-              🔍
-            </span>
-
           </div>
 
+          {/* Sort Dropdown */}
+          <div className="flex items-center bg-white border border-gray-200 rounded-xl px-2 focus-within:ring-2 focus-within:ring-blue-500/20 transition-all">
+            <SlidersHorizontal size={16} className="ml-2 text-gray-400" />
+            <select
+              value={sortBy}
+              onChange={(e) => {
+                setSortBy(e.target.value);
+                setPage(0);
+              }}
+              className="bg-transparent px-2 py-2 text-sm text-gray-600 outline-none cursor-pointer font-medium"
+            >
+              <option value="dueDate">Due Date</option>
+              <option value="priority">Priority</option>
+              <option value="title">Title</option>
+            </select>
+          </div>
 
-          {/* Sort */}
-
-          <select
-            value={sortBy}
-            onChange={(e) => {
-              setSortBy(e.target.value);
-              setPage(0);
-            }}
-            className="border px-3 py-2 rounded bg-white"
-          >
-            <option value="dueDate">Sort by Due Date</option>
-            <option value="priority">Sort by Priority</option>
-            <option value="title">Sort by Title</option>
-          </select>
-
-
-          {/* Direction */}
-
+          {/* Direction Toggle */}
           <button
-            onClick={() => {
-              setDirection(direction === "asc" ? "desc" : "asc");
-            }}
-            className="px-3 py-2 border rounded bg-gray-100"
+            onClick={() => setDirection(direction === "asc" ? "desc" : "asc")}
+            className="flex items-center gap-2 px-4 py-2 border border-gray-200 rounded-xl bg-white hover:bg-gray-50 text-gray-600 font-medium transition-all text-sm active:scale-95"
           >
-            {direction === "asc" ? "↑ Asc" : "↓ Desc"}
+            <ArrowUpDown size={16} className={direction === "desc" ? "rotate-180 transition-transform" : "transition-transform"} />
+            {direction === "asc" ? "Asc" : "Desc"}
           </button>
 
-
-          {/* Add Task */}
-
+          {/* Add Task Button */}
           <button
             onClick={() => setOpenModal(true)}
-            className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+            className="flex items-center gap-2 bg-blue-600 text-white px-5 py-2 rounded-xl hover:bg-blue-700 transition-all shadow-lg shadow-blue-100 font-bold text-sm active:scale-95"
           >
-            + Add Task
+            <Plus size={18} />
+            Add Task
           </button>
-
         </div>
-
       </div>
 
       {/* Filters */}

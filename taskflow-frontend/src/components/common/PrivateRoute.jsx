@@ -6,12 +6,10 @@ function PrivateRoute({ children, role }) {
 
   const { user } = useContext(AuthContext);
 
-  // not logged in
   if (!user) {
     return <Navigate to="/login" replace />;
   }
 
-  // role check
   if (role && user?.role !== role) {
     return <Navigate to="/dashboard" replace />;
   }

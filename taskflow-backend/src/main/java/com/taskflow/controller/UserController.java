@@ -44,22 +44,30 @@ public class UserController {
     }
 
     @PutMapping("/update-profile")
-    public ResponseEntity<ApiResponse<User>> updateProfile(
+    public ResponseEntity<ApiResponse<UserProfileDto>> updateProfile(
             Authentication authentication,
             @RequestBody Map<String, String> body
     ) {
-
         String email = authentication.getName();
-
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
-        user.setName(body.get("name"));
-
+        if (body.containsKey("name")) {
+            user.setName(body.get("name"));
+        }
+        
         userRepository.save(user);
 
+        UserProfileDto userDto = new UserProfileDto(
+                user.getId(),
+                user.getName(),
+                user.getEmail(),
+                user.getRole(),
+                user.getCreatedAt()
+        );
+
         return ResponseEntity.ok(
-                new ApiResponse<>(true, "Profile updated", user)
+                new ApiResponse<>(true, "Profile updated successfully", userDto)
         );
     }
 
@@ -68,22 +76,28 @@ public class UserController {
             Authentication authentication,
             @RequestBody Map<String, String> body
     ) {
-
         String email = authentication.getName();
-
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
-        if (!passwordEncoder.matches(body.get("oldPassword"), user.getPassword())) {
-            throw new RuntimeException("Old password incorrect");
+        String oldPassword = body.get("oldPassword");
+        String newPassword = body.get("newPassword");
+
+        if (oldPassword == null || newPassword == null) {
+            throw new RuntimeException("Both old and new passwords are required");
         }
 
-        user.setPassword(passwordEncoder.encode(body.get("newPassword")));
+        if (!passwordEncoder.matches(oldPassword, user.getPassword())) {
+            return ResponseEntity.badRequest().body(
+                    new ApiResponse<>(false, "Old password incorrect", null)
+            );
+        }
 
+        user.setPassword(passwordEncoder.encode(newPassword));
         userRepository.save(user);
 
         return ResponseEntity.ok(
-                new ApiResponse<>(true, "Password changed successfully", null)
+                new ApiResponse<>(true, "Password changed successfully", "Success")
         );
     }
 }
