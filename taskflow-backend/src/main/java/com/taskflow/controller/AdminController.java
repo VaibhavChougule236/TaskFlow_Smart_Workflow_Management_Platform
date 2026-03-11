@@ -23,14 +23,6 @@ public class AdminController {
 
     private final AdminService adminService;
     
-    @GetMapping("/my-profile")
-	public ResponseEntity<ApiResponse<UserResponse>> getMyProfile() {
-
-		UserResponse profile = adminService.getMyProfile();
-
-		return ResponseEntity.ok(new ApiResponse<>(true, "Profile data fetched successfully", profile));
-	}
-
     @GetMapping("/dashboard")
     public ResponseEntity<ApiResponse<DashboardResponse>> getDashboardStats() {
 
