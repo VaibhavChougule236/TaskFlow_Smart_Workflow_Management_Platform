@@ -1,23 +1,21 @@
 function StatCard({ title, count, color }) {
-
   return (
-    <div className={`p-4 rounded-lg shadow bg-white border-l-4 ${color}`}>
-
-      <p className="text-sm text-gray-500">{title}</p>
-
-      <p className="text-2xl font-bold">
+    <div className={`p-4 rounded-lg shadow bg-white border-l-4 ${color} transition-transform hover:scale-[1.02]`}>
+      <p className="text-xs md:text-sm text-gray-500 font-medium truncate">{title}</p>
+      <p className="text-xl md:text-2xl font-bold text-gray-800 mt-1">
         {count}
       </p>
-
     </div>
   );
 }
 
 function TaskStats({ stats }) {
-
   return (
-    <div className="grid grid-cols-4 gap-4 mt-6">
-
+    /* grid-cols-1: Mobile 
+       sm:grid-cols-2: Tablet
+       lg:grid-cols-4: Desktop 
+    */
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-6">
       <StatCard
         title="Total Tasks"
         count={stats.total}
@@ -41,7 +39,6 @@ function TaskStats({ stats }) {
         count={stats.overdue}
         color="border-red-500"
       />
-
     </div>
   );
 }

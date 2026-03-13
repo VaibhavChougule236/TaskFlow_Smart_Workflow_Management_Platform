@@ -21,10 +21,8 @@ function Login() {
   });
 
   useEffect(() => {
-    // Show success message if redirected from Register
     if (location.state?.message) {
       toast.success(location.state.message);
-      // Clean up the state so message doesn't persist on refresh
       window.history.replaceState({}, document.title);
     }
 
@@ -57,44 +55,46 @@ function Login() {
   };
 
   return (
-    <AuthLayout title="Welcome Back">
-      <div className="mb-8 text-center">
-        <p className="text-slate-500 font-medium">Please enter your details to sign in</p>
-      </div>
-
-      <form onSubmit={handleSubmit} className="space-y-5">
-        <AuthInput
-          type="email"
-          name="email"
-          placeholder="Email Address"
-          value={formData.email}
-          onChange={handleChange}
-          required
-        />
-
-        <AuthInput
-          type="password"
-          name="password"
-          placeholder="Password"
-          value={formData.password}
-          onChange={handleChange}
-          required
-        />
-
-        <div className="pt-2">
-          <AuthButton text="Sign In" loading={loading} icon={<LogIn size={18} />} />
+    <div className="px-4 py-8 min-h-screen flex items-center justify-center bg-slate-50">
+      <AuthLayout title="Welcome Back">
+        <div className="mb-8 text-center">
+          <p className="text-slate-500 font-medium">Please enter your details to sign in</p>
         </div>
-      </form>
 
-      <div className="mt-8 pt-6 border-t border-slate-100 text-center">
-        <p className="text-slate-500 text-sm font-medium">
-          Don't have an account?
-          <Link to="/register" className="text-blue-600 hover:text-blue-700 ml-1.5 font-bold transition-colors">
-            Create Account
-          </Link>
-        </p>
-      </div>
-    </AuthLayout>
+        <form onSubmit={handleSubmit} className="space-y-5">
+          <AuthInput
+            type="email"
+            name="email"
+            placeholder="Email Address"
+            value={formData.email}
+            onChange={handleChange}
+            required
+          />
+
+          <AuthInput
+            type="password"
+            name="password"
+            placeholder="Password"
+            value={formData.password}
+            onChange={handleChange}
+            required
+          />
+
+          <div className="pt-2">
+            <AuthButton text="Sign In" loading={loading} icon={<LogIn size={18} />} />
+          </div>
+        </form>
+
+        <div className="mt-8 pt-6 border-t border-slate-100 text-center">
+          <p className="text-slate-500 text-sm font-medium">
+            Don't have an account?
+            <Link to="/register" className="text-blue-600 hover:text-blue-700 ml-1.5 font-bold transition-colors">
+              Create Account
+            </Link>
+          </p>
+        </div>
+      </AuthLayout>
+    </div>
   );
 }
 

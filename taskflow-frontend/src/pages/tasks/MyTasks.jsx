@@ -4,7 +4,7 @@ import { Search, ArrowUpDown, Plus, SlidersHorizontal } from "lucide-react";
 import { getMyTasks, deleteTask, toggleTaskDone } from "../../services/taskService";
 import TaskList from "../../components/tasks/TaskList";
 import AddTaskModal from "../../components/tasks/AddTaskModal";
-import TaskDetailModal from "../../components/tasks/TaskDetailModal"; // Added
+import TaskDetailModal from "../../components/tasks/TaskDetailModal";
 import { success, error } from "../../utils/toast";
 
 function MyTasks() {
@@ -18,7 +18,7 @@ function MyTasks() {
   const [direction, setDirection] = useState("asc");
   const [editingTask, setEditingTask] = useState(null);
   const [filter, setFilter] = useState("all");
-  const [selectedTask, setSelectedTask] = useState(null); // Added for Detail Popup
+  const [selectedTask, setSelectedTask] = useState(null);
   const [searchParams] = useSearchParams();
 
   const sidebarFilter = searchParams.get("filter");
@@ -27,12 +27,19 @@ function MyTasks() {
   const fetchTasks = async () => {
     setLoading(true);
     try {
+      const activeStatus = sidebarFilter || filter;
+      const statusParam = (activeStatus === "all") ? null : activeStatus;
+
       const res = await getMyTasks({
-        page, size: 10, keyword,
-        status: sidebarFilter ? sidebarFilter : filter === "all" ? undefined : filter,
+        page,
+        size: 10,
+        keyword,
+        status: statusParam, // Cleaned parameter
         category: sidebarCategory || null,
-        sortBy, direction
+        sortBy,
+        direction
       });
+
       const data = res.data.data;
       setTasks(data.content);
       setTotalPages(data.totalPages);
@@ -61,7 +68,7 @@ function MyTasks() {
   const handleToggle = async (id) => {
     try {
       await toggleTaskDone(id);
-      success("Status updated"); // Optional toast
+      success("Status updated");
       fetchTasks();
     } catch {
       error("Failed to update task");
@@ -74,68 +81,116 @@ function MyTasks() {
   };
 
   return (
-    <div>
-      {/* Header code same as before */}
-      <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-4 mb-8">
+    <div className="space-y-6">
+      {/* Header - Stack on mobile, row on desktop */}
+      <div className="flex flex-col lg:flex-row lg:justify-between lg:items-center gap-4 mb-4">
         <div>
           <h2 className="text-2xl font-bold text-gray-800 tracking-tight">My Tasks</h2>
           <p className="text-sm text-gray-500">Manage and track your daily productivity</p>
         </div>
-        <div className="flex flex-wrap gap-3 items-center">
-          <div className="relative group">
+
+        <div className="flex flex-wrap gap-2 md:gap-3 items-center">
+          {/* Search - Full width on mobile */}
+          <div className="relative group w-full md:w-64">
             <Search size={18} className="absolute left-3 top-2.5 text-gray-400 group-focus-within:text-blue-500 transition-colors" />
             <input
               type="text" placeholder="Search tasks..." value={keyword}
               onChange={(e) => { setKeyword(e.target.value); setPage(0); }}
-              className="pl-10 pr-4 py-2 rounded-xl border border-gray-200 bg-white focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition-all w-full md:w-64"
+              className="w-full pl-10 pr-4 py-2 rounded-xl border border-gray-200 bg-white focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition-all"
             />
           </div>
-          <div className="flex items-center bg-white border border-gray-200 rounded-xl px-2 focus-within:ring-2 focus-within:ring-blue-500/20 transition-all">
+
+          <div className="flex items-center flex-1 md:flex-none bg-white border border-gray-200 rounded-xl px-2 focus-within:ring-2 focus-within:ring-blue-500/20 transition-all">
             <SlidersHorizontal size={16} className="ml-2 text-gray-400" />
-            <select value={sortBy} onChange={(e) => { setSortBy(e.target.value); setPage(0); }} className="bg-transparent px-2 py-2 text-sm text-gray-600 outline-none cursor-pointer font-medium">
+            <select value={sortBy} onChange={(e) => { setSortBy(e.target.value); setPage(0); }} className="bg-transparent px-2 py-2 text-sm text-gray-600 outline-none cursor-pointer font-medium w-full">
               <option value="dueDate">Due Date</option>
               <option value="priority">Priority</option>
               <option value="title">Title</option>
             </select>
           </div>
-          <button onClick={() => setDirection(direction === "asc" ? "desc" : "asc")} className="flex items-center gap-2 px-4 py-2 border border-gray-200 rounded-xl bg-white hover:bg-gray-50 text-gray-600 font-medium transition-all text-sm active:scale-95">
+
+          <button onClick={() => setDirection(direction === "asc" ? "desc" : "asc")} className="flex items-center justify-center gap-2 p-2.5 md:px-4 md:py-2 border border-gray-200 rounded-xl bg-white hover:bg-gray-50 text-gray-600 font-medium transition-all text-sm">
             <ArrowUpDown size={16} className={direction === "desc" ? "rotate-180 transition-transform" : "transition-transform"} />
-            {direction === "asc" ? "Asc" : "Desc"}
+            <span className="hidden md:inline">{direction === "asc" ? "Asc" : "Desc"}</span>
           </button>
-          <button onClick={() => setOpenModal(true)} className="flex items-center gap-2 bg-blue-600 text-white px-5 py-2 rounded-xl hover:bg-blue-700 transition-all shadow-lg shadow-blue-100 font-bold text-sm active:scale-95">
-            <Plus size={18} /> Add Task
+
+          <button onClick={() => setOpenModal(true)} className="flex items-center justify-center gap-2 bg-blue-600 text-white px-5 py-2.5 rounded-xl hover:bg-blue-700 transition-all shadow-lg shadow-blue-100 font-bold text-sm flex-1 md:flex-none">
+            <Plus size={18} /> <span className="whitespace-nowrap">Add Task</span>
           </button>
         </div>
       </div>
 
-      {/* Filter buttons code same as before */}
-      <div className="flex gap-3 mb-4 flex-wrap">
-        <button onClick={() => { setFilter("all"); setPage(0); }} className={`px-3 py-1 rounded ${filter === "all" ? "bg-gray-800 text-white" : "bg-gray-200"}`}>All</button>
-        <button onClick={() => { setFilter("pending"); setPage(0); }} className={`px-3 py-1 rounded ${filter === "pending" ? "bg-yellow-500 text-white" : "bg-yellow-100"}`}>Pending</button>
-        <button onClick={() => { setFilter("completed"); setPage(0); }} className={`px-3 py-1 rounded ${filter === "completed" ? "bg-green-600 text-white" : "bg-green-100"}`}>Completed</button>
-        <button onClick={() => { setFilter("overdue"); setPage(0); }} className={`px-3 py-1 rounded ${filter === "overdue" ? "bg-red-600 text-white" : "bg-red-100"}`}>Overdue</button>
+      {/* Filter buttons - Scrollable on very small screens */}
+      <div className="flex gap-2 overflow-x-auto pb-2 no-scrollbar">
+        {[
+          { id: "all", label: "All", color: "bg-gray-800", light: "bg-gray-100" },
+          { id: "pending", label: "Pending", color: "bg-yellow-500", light: "bg-yellow-100" },
+          { id: "completed", label: "Completed", color: "bg-green-600", light: "bg-green-100" },
+          { id: "overdue", label: "Overdue", color: "bg-red-600", light: "bg-red-100" }
+        ].map((btn) => (
+          <button
+            key={btn.id}
+            onClick={() => { setFilter(btn.id); setPage(0); }}
+            className={`px-4 py-1.5 rounded-lg text-sm font-medium transition-colors whitespace-nowrap ${filter === btn.id ? `${btn.color} text-white` : `${btn.light} text-gray-600 hover:bg-opacity-70`
+              }`}
+          >
+            {btn.label}
+          </button>
+        ))}
       </div>
 
       {loading ? (
-        <div className="text-center py-10 text-gray-500">Loading tasks...</div>
+        <div className="flex flex-col items-center justify-center py-20 text-gray-500 space-y-4">
+          <div className="w-10 h-10 border-4 border-blue-600 border-t-transparent rounded-full animate-spin"></div>
+          <p className="font-medium">Loading your tasks...</p>
+        </div>
       ) : (
-        <TaskList
-          tasks={tasks}
-          onToggle={handleToggle}
-          onDelete={handleDelete}
-          onEdit={handleEdit}
-          onView={setSelectedTask} // Passed down to TaskRow
-        />
+        <div className="min-h-[400px]">
+          <TaskList
+            tasks={tasks}
+            onToggle={handleToggle}
+            onDelete={handleDelete}
+            onEdit={handleEdit}
+            onView={setSelectedTask}
+          />
+        </div>
       )}
 
-      {/* Pagination code same as before */}
+      {/* Pagination - Simplified for mobile */}
       {totalPages > 1 && (
-        <div className="flex justify-center items-center gap-2 mt-8">
-          <button onClick={() => setPage(page - 1)} disabled={page === 0} className="px-3 py-1 border rounded disabled:opacity-40">Prev</button>
-          {Array.from({ length: totalPages }).map((_, i) => (
-            <button key={i} onClick={() => setPage(i)} className={`px-3 py-1 border rounded ${page === i ? "bg-blue-500 text-white" : "bg-white"}`}>{i + 1}</button>
-          ))}
-          <button onClick={() => setPage(page + 1)} disabled={page === totalPages - 1} className="px-3 py-1 border rounded disabled:opacity-40">Next</button>
+        <div className="flex justify-center items-center gap-1 md:gap-2 mt-8 pb-10">
+          <button
+            onClick={() => setPage(page - 1)}
+            disabled={page === 0}
+            className="px-3 py-1.5 border border-gray-200 rounded-lg bg-white disabled:opacity-40 text-sm font-medium hover:bg-gray-50 transition-colors"
+          >
+            Prev
+          </button>
+
+          <div className="flex items-center gap-1">
+            {Array.from({ length: totalPages }).map((_, i) => {
+              // Only show 3 pages on mobile to prevent overflow
+              if (totalPages > 5 && Math.abs(page - i) > 1 && i !== 0 && i !== totalPages - 1) return null;
+              return (
+                <button
+                  key={i}
+                  onClick={() => setPage(i)}
+                  className={`min-w-[32px] h-8 border rounded-lg text-sm font-bold transition-all ${page === i ? "bg-blue-600 border-blue-600 text-white shadow-md shadow-blue-200" : "bg-white border-gray-200 text-gray-600 hover:bg-gray-50"
+                    }`}
+                >
+                  {i + 1}
+                </button>
+              );
+            })}
+          </div>
+
+          <button
+            onClick={() => setPage(page + 1)}
+            disabled={page === totalPages - 1}
+            className="px-3 py-1.5 border border-gray-200 rounded-lg bg-white disabled:opacity-40 text-sm font-medium hover:bg-gray-50 transition-colors"
+          >
+            Next
+          </button>
         </div>
       )}
 
@@ -143,13 +198,13 @@ function MyTasks() {
       <AddTaskModal
         isOpen={openModal}
         onClose={() => { setOpenModal(false); setEditingTask(null); }}
-        onTaskCreated={() => { fetchTasks(); success(editingTask ? "Task updated" : "Task created"); }} 
+        onTaskCreated={() => { fetchTasks(); success(editingTask ? "Task updated" : "Task created"); }}
         editTask={editingTask}
       />
 
-      <TaskDetailModal 
-        task={selectedTask} 
-        onClose={() => setSelectedTask(null)} 
+      <TaskDetailModal
+        task={selectedTask}
+        onClose={() => setSelectedTask(null)}
       />
     </div>
   );

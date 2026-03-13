@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import api from "../../api/axios";
 import { success, error } from "../../utils/toast";
-import TaskDetailModal from "../../components/tasks/TaskDetailModal"; // Added
+import TaskDetailModal from "../../components/tasks/TaskDetailModal";
+import { Search, Trash2, Eye } from "lucide-react";
 
 function AdminTasks() {
   const [tasks, setTasks] = useState([]);
@@ -11,7 +12,7 @@ function AdminTasks() {
   const [keyword, setKeyword] = useState("");
   const [sortBy, setSortBy] = useState("dueDate");
   const [direction, setDirection] = useState("asc");
-  const [selectedTask, setSelectedTask] = useState(null); // Added
+  const [selectedTask, setSelectedTask] = useState(null);
 
   useEffect(() => {
     fetchTasks();
@@ -50,72 +51,91 @@ function AdminTasks() {
   };
 
   return (
-    <div>
-      <div className="flex justify-between items-center mb-6">
+    <div className="p-4 md:p-0">
+      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-6">
         <h2 className="text-2xl font-semibold">All Tasks</h2>
-        <div className="relative w-72">
-          <span className="absolute inset-y-0 left-3 flex items-center text-gray-500">🔍</span>
+        <div className="relative w-full md:w-72">
+          <Search size={18} className="absolute left-3 top-2.5 text-gray-400" />
           <input
             type="text" placeholder="Search tasks..." value={keyword}
             onChange={(e) => { setKeyword(e.target.value); setPage(0); }}
-            className="w-full border border-gray-300 bg-gray-50 text-gray-800 pl-10 pr-4 py-2 rounded-md outline-none focus:ring-2 focus:ring-blue-500 transition"
+            className="w-full border border-gray-300 bg-white pl-10 pr-4 py-2 rounded-xl outline-none focus:ring-2 focus:ring-blue-500 transition"
           />
         </div>
       </div>
 
-      <div className="bg-white shadow rounded-lg overflow-hidden">
-        <table className="min-w-full text-sm text-left">
-          <thead className="bg-gray-100 text-gray-700">
-            <tr>
-              <th onClick={() => handleSort("title")} className="px-4 py-3 cursor-pointer">Title</th>
-              <th onClick={() => handleSort("category")} className="px-4 py-3 cursor-pointer">Category</th>
-              <th onClick={() => handleSort("priority")} className="px-4 py-3 cursor-pointer">Priority</th>
-              <th className="px-4 py-3">Status</th>
-              <th onClick={() => handleSort("dueDate")} className="px-4 py-3 cursor-pointer">Due Date</th>
-              <th className="px-4 py-3">Added By</th>
-              <th className="px-4 py-3 text-center">Action</th>
-            </tr>
-          </thead>
-          <tbody>
-            {tasks.length === 0 ? (
-              <tr><td colSpan="7" className="text-center py-6 text-gray-500">No tasks found</td></tr>
-            ) : (
-              tasks.map(task => (
-                <tr key={task.id} className="border-t hover:bg-gray-50">
-                  <td onClick={() => setSelectedTask(task)} className="px-4 py-3 font-medium cursor-pointer text-blue-600 hover:underline">
+      <div className="bg-white shadow rounded-xl overflow-hidden border border-gray-100">
+        {/* Desktop View: Table */}
+        <div className="hidden md:block overflow-x-auto">
+          <table className="min-w-full text-sm text-left">
+            <thead className="bg-gray-50 text-gray-700">
+              <tr>
+                <th onClick={() => handleSort("title")} className="px-4 py-4 cursor-pointer">Title</th>
+                <th onClick={() => handleSort("category")} className="px-4 py-4 cursor-pointer">Category</th>
+                <th onClick={() => handleSort("priority")} className="px-4 py-4 cursor-pointer">Priority</th>
+                <th className="px-4 py-4">Status</th>
+                <th onClick={() => handleSort("dueDate")} className="px-4 py-4 cursor-pointer">Due Date</th>
+                {/* Added By Column Restored */}
+                <th className="px-4 py-4">Added By</th> 
+                <th className="px-4 py-4 text-center">Action</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-gray-100">
+              {tasks.map(task => (
+                <tr key={task.id} className="hover:bg-gray-50 transition-colors">
+                  <td onClick={() => setSelectedTask(task)} className="px-4 py-4 font-medium cursor-pointer text-blue-600 hover:underline">
                     {task.title}
                   </td>
-                  <td className="px-4 py-3 capitalize">{task.category}</td>
-                  <td className="px-4 py-3 capitalize">{task.priority}</td>
-                  <td className="px-4 py-3">
-                    {task.done ? <span className="text-green-600 font-medium">Completed</span> : <span className="text-yellow-600 font-medium">Pending</span>}
+                  <td className="px-4 py-4 capitalize">{task.category}</td>
+                  <td className="px-4 py-4 capitalize">{task.priority}</td>
+                  <td className="px-4 py-4">
+                    {task.done ? <span className="text-green-600 font-bold">Completed</span> : <span className="text-yellow-600 font-bold">Pending</span>}
                   </td>
-                  <td className="px-4 py-3">{task.dueDate}</td>
-                  <td className="px-4 py-3 text-gray-600">{task.createdByEmail || "System"}</td>
-                  <td className="px-4 py-3 text-center flex items-center justify-center gap-2">
-                    <button onClick={() => setSelectedTask(task)} className="text-blue-500 hover:underline mr-2">View</button>
-                    <button onClick={() => handleDelete(task.id)} className="text-red-500 hover:text-red-700">🗑 Delete</button>
+                  <td className="px-4 py-4">{task.dueDate}</td>
+                  {/* Restored Data Cell */}
+                  <td className="px-4 py-4 text-gray-500 truncate max-w-[150px]">
+                    {task.createdByEmail}
+                  </td>
+                  <td className="px-4 py-4 flex items-center justify-center gap-3">
+                    <button onClick={() => setSelectedTask(task)} className="text-blue-500 hover:bg-blue-50 p-2 rounded-lg"><Eye size={18}/></button>
+                    <button onClick={() => handleDelete(task.id)} className="text-red-500 hover:bg-red-50 p-2 rounded-lg"><Trash2 size={18}/></button>
                   </td>
                 </tr>
-              ))
-            )}
-          </tbody>
-        </table>
+              ))}
+            </tbody>
+          </table>
+        </div>
+
+        {/* Mobile View: Cards */}
+        <div className="md:hidden divide-y divide-gray-100">
+          {tasks.length === 0 ? (
+            <div className="p-6 text-center text-gray-500">No tasks found</div>
+          ) : (
+            tasks.map(task => (
+              <div key={task.id} className="p-4 space-y-3">
+                <div className="flex justify-between items-start">
+                  <h4 onClick={() => setSelectedTask(task)} className="font-bold text-blue-600 text-lg leading-tight">{task.title}</h4>
+                  <button onClick={() => handleDelete(task.id)} className="text-red-500 p-1"><Trash2 size={20}/></button>
+                </div>
+                <div className="grid grid-cols-2 gap-y-2 text-sm">
+                  <div className="text-gray-500">Priority: <span className="text-gray-900 font-medium capitalize">{task.priority}</span></div>
+                  <div className="text-gray-500 text-right">Status: <span className={task.done ? "text-green-600 font-bold" : "text-yellow-600 font-bold"}>{task.done ? "Done" : "Pending"}</span></div>
+                  <div className="text-gray-500 italic text-xs truncate col-span-2">By: {task.createdByEmail}</div>
+                  <div className="text-gray-900 font-semibold text-xs col-span-2">Due: {task.dueDate}</div>
+                </div>
+              </div>
+            ))
+          )}
+        </div>
       </div>
 
-      <div className="flex justify-center items-center gap-2 mt-6">
-        <button onClick={() => setPage(page - 1)} disabled={page === 0} className="px-3 py-1 border rounded disabled:opacity-40">Prev</button>
-        {[...Array(totalPages)].map((_, i) => (
-          <button key={i} onClick={() => setPage(i)} className={`px-3 py-1 border rounded ${page === i ? "bg-blue-500 text-white" : ""}`}>{i + 1}</button>
-        ))}
-        <button onClick={() => setPage(page + 1)} disabled={page === totalPages - 1} className="px-3 py-1 border rounded disabled:opacity-40">Next</button>
+      {/* Pagination */}
+      <div className="flex flex-wrap justify-center items-center gap-2 mt-8 pb-10">
+        <button onClick={() => setPage(page - 1)} disabled={page === 0} className="px-3 py-1.5 border rounded-lg bg-white disabled:opacity-40 text-sm font-medium">Prev</button>
+        <button onClick={() => setPage(page + 1)} disabled={page === totalPages - 1} className="px-3 py-1.5 border rounded-lg bg-white disabled:opacity-40 text-sm font-medium">Next</button>
       </div>
 
-      {/* Popup Modal */}
-      <TaskDetailModal 
-        task={selectedTask} 
-        onClose={() => setSelectedTask(null)} 
-      />
+      <TaskDetailModal task={selectedTask} onClose={() => setSelectedTask(null)} />
     </div>
   );
 }

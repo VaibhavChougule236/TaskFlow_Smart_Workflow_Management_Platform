@@ -15,10 +15,11 @@ import {
   Home,
   GraduationCap,
   ChevronRight,
-  Filter
+  Filter,
+  X // Added for mobile close
 } from "lucide-react";
 
-function Sidebar() {
+function Sidebar({ isOpen, setIsOpen }) {
   const location = useLocation();
   const { user } = useContext(AuthContext);
 
@@ -32,64 +33,69 @@ function Sidebar() {
     }`;
 
   return (
-    <div className="fixed left-0 top-0 w-64 h-screen bg-gray-900 text-white flex flex-col justify-between p-4 border-r border-gray-800 overflow-y-auto custom-scrollbar">
+    <div className={`
+      fixed left-0 top-0 w-64 h-screen bg-gray-900 text-white flex flex-col justify-between p-4 border-r border-gray-800 overflow-y-auto custom-scrollbar z-50 transition-transform duration-300
+      ${isOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"}
+    `}>
       
       <div>
-        <div className="flex items-center gap-3 px-4 mb-8">
-          <Link to="/" className="flex items-center gap-3 hover:opacity-80 transition-opacity">
-          <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center font-bold text-xl text-white">
-            T
-          </div>
-          <h1 className="text-xl font-bold tracking-tight">TaskFlow</h1>
-        </Link>
+        <div className="flex items-center justify-between gap-3 px-4 mb-8">
+          <Link to="/" className="flex items-center gap-3 hover:opacity-80 transition-opacity" onClick={() => setIsOpen(false)}>
+            <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center font-bold text-xl text-white">
+              T
+            </div>
+            <h1 className="text-xl font-bold tracking-tight">TaskFlow</h1>
+          </Link>
+          
+          {/* Close button for mobile */}
+          <button className="lg:hidden text-gray-400 p-1" onClick={() => setIsOpen(false)}>
+            <X size={20} />
+          </button>
         </div>
 
         {/* USER MENU */}
         {user?.role === "USER" && (
           <div className="space-y-6">
-            {/* MAIN SECTION */}
             <div>
               <p className="px-4 text-[10px] font-bold text-gray-500 uppercase tracking-widest mb-2">Main</p>
               <nav className="space-y-1">
-                <Link to="/dashboard" className={linkClass("/dashboard")}>
+                <Link to="/dashboard" onClick={() => setIsOpen(false)} className={linkClass("/dashboard")}>
                   <LayoutDashboard size={16} /> Dashboard
                 </Link>
-                <Link to="/my-tasks" className={linkClass("/my-tasks")}>
+                <Link to="/my-tasks" onClick={() => setIsOpen(false)} className={linkClass("/my-tasks")}>
                   <ClipboardList size={16} /> My Tasks
                 </Link>
               </nav>
             </div>
 
-            {/* TASK FILTERS SECTION */}
             <div>
               <p className="px-4 text-[10px] font-bold text-gray-500 uppercase tracking-widest mb-2">Task Filters</p>
               <nav className="space-y-1">
-                <Link to="/my-tasks?filter=all" className={linkClass("/my-tasks?filter=all")}>
+                <Link to="/my-tasks?filter=all" onClick={() => setIsOpen(false)} className={linkClass("/my-tasks?filter=all")}>
                   <Filter size={16} /> All Tasks
                 </Link>
-                <Link to="/my-tasks?filter=pending" className={linkClass("/my-tasks?filter=pending")}>
+                <Link to="/my-tasks?filter=pending" onClick={() => setIsOpen(false)} className={linkClass("/my-tasks?filter=pending")}>
                   <Clock size={16} /> Pending
                 </Link>
-                <Link to="/my-tasks?filter=completed" className={linkClass("/my-tasks?filter=completed")}>
+                <Link to="/my-tasks?filter=completed" onClick={() => setIsOpen(false)} className={linkClass("/my-tasks?filter=completed")}>
                   <CheckCircle2 size={16} /> Completed
                 </Link>
-                <Link to="/my-tasks?filter=overdue" className={linkClass("/my-tasks?filter=overdue")}>
+                <Link to="/my-tasks?filter=overdue" onClick={() => setIsOpen(false)} className={linkClass("/my-tasks?filter=overdue")}>
                   <AlertCircle size={16} /> Overdue
                 </Link>
               </nav>
             </div>
 
-            {/* CATEGORIES SECTION */}
             <div>
               <p className="px-4 text-[10px] font-bold text-gray-500 uppercase tracking-widest mb-2">Categories</p>
               <nav className="space-y-1">
-                <Link to="/my-tasks?category=work" className={linkClass("/my-tasks?category=work")}>
+                <Link to="/my-tasks?category=work" onClick={() => setIsOpen(false)} className={linkClass("/my-tasks?category=work")}>
                   <Briefcase size={16} /> Work
                 </Link>
-                <Link to="/my-tasks?category=personal" className={linkClass("/my-tasks?category=personal")}>
+                <Link to="/my-tasks?category=personal" onClick={() => setIsOpen(false)} className={linkClass("/my-tasks?category=personal")}>
                   <Home size={16} /> Personal
                 </Link>
-                <Link to="/my-tasks?category=study" className={linkClass("/my-tasks?category=study")}>
+                <Link to="/my-tasks?category=study" onClick={() => setIsOpen(false)} className={linkClass("/my-tasks?category=study")}>
                   <GraduationCap size={16} /> Study
                 </Link>
               </nav>
@@ -103,13 +109,13 @@ function Sidebar() {
             <div>
               <p className="px-4 text-[10px] font-bold text-gray-500 uppercase tracking-widest mb-2">Admin Panel</p>
               <nav className="space-y-1">
-                <Link to="/admin/dashboard" className={linkClass("/admin/dashboard")}>
+                <Link to="/admin/dashboard" onClick={() => setIsOpen(false)} className={linkClass("/admin/dashboard")}>
                   <ShieldCheck size={16} /> Admin Dashboard
                 </Link>
-                <Link to="/admin/tasks" className={linkClass("/admin/tasks")}>
+                <Link to="/admin/tasks" onClick={() => setIsOpen(false)} className={linkClass("/admin/tasks")}>
                   <ClipboardList size={16} /> All Tasks
                 </Link>
-                <Link to="/admin/users" className={linkClass("/admin/users")}>
+                <Link to="/admin/users" onClick={() => setIsOpen(false)} className={linkClass("/admin/users")}>
                   <Users size={16} /> Users
                 </Link>
               </nav>
@@ -118,22 +124,22 @@ function Sidebar() {
         )}
       </div>
 
-      {/* USER PROFILE CARD */}
       <div className="border-t border-gray-800 pt-4 mt-4">
         <div className="px-2 mb-2">
-           <Link to="/settings" className={linkClass("/settings")}>
+           <Link to="/settings" onClick={() => setIsOpen(false)} className={linkClass("/settings")}>
               <Settings size={16} /> Settings
            </Link>
         </div>
         
         <Link 
           to="/profile" 
+          onClick={() => setIsOpen(false)}
           className={`flex items-center justify-between p-2 rounded-xl transition-colors ${
             location.pathname === "/profile" ? "bg-gray-800" : "hover:bg-gray-800/50"
           }`}
         >
-          <div className="flex items-center gap-3">
-            <div className="w-9 h-9 bg-blue-600 rounded-full flex items-center justify-center font-bold text-sm border border-blue-500 shadow-inner text-white">
+          <div className="flex items-center gap-3 overflow-hidden">
+            <div className="w-9 h-9 bg-blue-600 rounded-full flex items-center justify-center font-bold text-sm border border-blue-500 shadow-inner text-white shrink-0">
               {user?.name?.charAt(0)?.toUpperCase()}
             </div>
             <div className="overflow-hidden">
@@ -145,7 +151,7 @@ function Sidebar() {
               </p>
             </div>
           </div>
-          <ChevronRight size={14} className="text-gray-600" />
+          <ChevronRight size={14} className="text-gray-600 shrink-0" />
         </Link>
       </div>
     </div>
