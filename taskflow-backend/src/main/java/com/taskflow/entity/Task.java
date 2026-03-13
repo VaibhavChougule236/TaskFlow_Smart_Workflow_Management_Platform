@@ -1,6 +1,7 @@
 package com.taskflow.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Size;
 import lombok.*;
 
 import java.time.LocalDate;
@@ -22,6 +23,8 @@ public class Task {
     @Column(nullable = false)
     private String title;
 
+    @Column(length = 500)
+    @Size(max = 500, message = "Description must be under 500 characters")
     private String description;
 
     @Column(nullable = false)
