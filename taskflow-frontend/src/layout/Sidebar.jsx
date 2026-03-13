@@ -36,8 +36,12 @@ function Sidebar() {
       
       <div>
         <div className="flex items-center gap-3 px-4 mb-8">
-          <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center font-bold text-xl">T</div>
+          <Link to="/" className="flex items-center gap-3 hover:opacity-80 transition-opacity">
+          <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center font-bold text-xl text-white">
+            T
+          </div>
           <h1 className="text-xl font-bold tracking-tight">TaskFlow</h1>
+        </Link>
         </div>
 
         {/* USER MENU */}

@@ -7,20 +7,17 @@ function Footer() {
     <footer className="bg-white/80 backdrop-blur-md border-t border-gray-100 py-4 px-8 mt-auto">
       <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
         
-        {/* Left Side: Brand & Copyright */}
         <div className="flex items-center gap-2 text-gray-500 font-medium text-sm">
           <span className="text-blue-600 font-bold tracking-tight">TaskFlow</span>
           <span className="text-gray-300">|</span>
           <span>© {currentYear}</span>
         </div>
 
-        {/* Center: Author Credit */}
         <div className="flex items-center gap-1.5 text-gray-500 text-sm font-medium">
           Built with <Heart size={14} className="text-red-500 fill-red-500 animate-pulse" /> by 
           <span className="text-gray-900 font-bold ml-1">Vaibhav Chougule</span>
         </div>
 
-        {/* Right Side: Social Links */}
         <div className="flex items-center gap-5">
           <a 
             href="https://github.com/vaibhavchougule236" 
