@@ -1,14 +1,16 @@
-import { useState } from "react";
+import { useState, useContext, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { registerUser } from "../../services/authService";
+import { AuthContext } from "../../context/AuthContext";
+import { UserPlus, User, Mail, Lock, AlertCircle } from "lucide-react";
 
 import AuthLayout from "../../components/auth/AuthLayout";
 import AuthInput from "../../components/auth/AuthInput";
 import AuthButton from "../../components/auth/AuthButton";
 
 function Register() {
-
   const navigate = useNavigate();
+  const { user } = useContext(AuthContext);
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -16,97 +18,99 @@ function Register() {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
-    password: ""
+    password: "",
   });
 
+  // Redirect if already logged in
+  useEffect(() => {
+    if (user) {
+      navigate(user.role === "ADMIN" ? "/admin/dashboard" : "/dashboard");
+    }
+  }, [user, navigate]);
+
   const handleChange = (e) => {
-
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value
-    });
-
+    setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
   const handleSubmit = async (e) => {
-
     e.preventDefault();
+    if (formData.password.length < 6) {
+      return setError("Password must be at least 6 characters");
+    }
+
     setLoading(true);
     setError("");
 
     try {
-
-      await registerUser(formData);
-
-      navigate("/");
-
+      const res = await registerUser(formData);
+      if (res.success) {
+        // Industry practice: Redirect to login with a success state
+        navigate("/login", { state: { message: "Account created! Please login." } });
+      } else {
+        setError(res.message || "Registration failed");
+      }
     } catch (err) {
-
-      setError("Registration failed");
-
+      setError("Registration failed. Email might already exist.");
     } finally {
-
       setLoading(false);
-
     }
-
   };
 
   return (
-
     <AuthLayout title="Create Account">
+      <div className="mb-8 text-center">
+        <p className="text-slate-500 font-medium">Join TaskFlow to start managing work</p>
+      </div>
 
       {error && (
-        <p className="text-red-500 mb-3 text-center">
+        <div className="mb-6 flex items-center gap-2 bg-red-50 border border-red-100 text-red-600 px-4 py-3 rounded-xl text-sm font-medium animate-shake">
+          <AlertCircle size={18} />
           {error}
-        </p>
+        </div>
       )}
 
-      <form onSubmit={handleSubmit}>
-
+      <form onSubmit={handleSubmit} className="space-y-5">
         <AuthInput
           type="text"
           name="name"
           placeholder="Full Name"
           value={formData.name}
           onChange={handleChange}
+          required
         />
 
         <AuthInput
           type="email"
           name="email"
-          placeholder="Email"
+          placeholder="Email Address"
           value={formData.email}
           onChange={handleChange}
+          required
         />
 
         <AuthInput
           type="password"
           name="password"
-          placeholder="Password"
+          placeholder="Create Password"
           value={formData.password}
           onChange={handleChange}
+          required
         />
 
-        <AuthButton text="Register" loading={loading} />
-
+        <div className="pt-2">
+          <AuthButton text="Create Account" loading={loading} icon={<UserPlus size={18} />} />
+        </div>
       </form>
 
-      <p className="text-sm text-center mt-4">
-
-        Already have an account?
-
-        <Link
-          to="/"
-          className="text-blue-500 ml-1"
-        >
-          Login
-        </Link>
-
-      </p>
-
+      <div className="mt-8 pt-6 border-t border-slate-100 text-center">
+        <p className="text-slate-500 text-sm font-medium">
+          Already have an account?
+          <Link to="/login" className="text-blue-600 hover:text-blue-700 ml-1.5 font-bold transition-colors">
+            Login here
+          </Link>
+        </p>
+      </div>
     </AuthLayout>
-
   );
 }
 
