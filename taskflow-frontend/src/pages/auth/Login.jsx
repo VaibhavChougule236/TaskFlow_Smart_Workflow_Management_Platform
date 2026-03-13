@@ -1,8 +1,9 @@
 import { useState, useContext, useEffect } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate, Link, useLocation } from "react-router-dom";
 import { loginUser } from "../../services/authService";
 import { AuthContext } from "../../context/AuthContext";
-import { LogIn, Mail, Lock, AlertCircle } from "lucide-react";
+import { LogIn } from "lucide-react";
+import toast from "react-hot-toast";
 
 import AuthLayout from "../../components/auth/AuthLayout";
 import AuthInput from "../../components/auth/AuthInput";
@@ -10,22 +11,27 @@ import AuthButton from "../../components/auth/AuthButton";
 
 function Login() {
   const navigate = useNavigate();
+  const location = useLocation();
   const { login, user } = useContext(AuthContext);
 
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
-
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
 
-  // Redirect if already logged in
   useEffect(() => {
+    // Show success message if redirected from Register
+    if (location.state?.message) {
+      toast.success(location.state.message);
+      // Clean up the state so message doesn't persist on refresh
+      window.history.replaceState({}, document.title);
+    }
+
     if (user) {
       navigate(user.role === "ADMIN" ? "/admin/dashboard" : "/dashboard");
     }
-  }, [user, navigate]);
+  }, [user, navigate, location]);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -34,18 +40,17 @@ function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    setError("");
 
     try {
       const res = await loginUser(formData);
       if (res.success) {
+        toast.success(`Welcome, ${res.data.name}!`);
         login(res.data);
-        // Navigation is handled by the useEffect above once 'user' state updates
       } else {
-        setError(res.message || "Invalid email or password");
+        toast.error(res.message || "Invalid email or password");
       }
     } catch (err) {
-      setError("Connection error. Please check your backend.");
+      toast.error("Failed to connect to the server.");
     } finally {
       setLoading(false);
     }
@@ -57,35 +62,24 @@ function Login() {
         <p className="text-slate-500 font-medium">Please enter your details to sign in</p>
       </div>
 
-      {error && (
-        <div className="mb-6 flex items-center gap-2 bg-red-50 border border-red-100 text-red-600 px-4 py-3 rounded-xl text-sm font-medium animate-shake">
-          <AlertCircle size={18} />
-          {error}
-        </div>
-      )}
-
       <form onSubmit={handleSubmit} className="space-y-5">
-        <div className="relative">
-          <AuthInput
-            type="email"
-            name="email"
-            placeholder="Email Address"
-            value={formData.email}
-            onChange={handleChange}
-            required
-          />
-        </div>
+        <AuthInput
+          type="email"
+          name="email"
+          placeholder="Email Address"
+          value={formData.email}
+          onChange={handleChange}
+          required
+        />
 
-        <div className="relative">
-          <AuthInput
-            type="password"
-            name="password"
-            placeholder="Password"
-            value={formData.password}
-            onChange={handleChange}
-            required
-          />
-        </div>
+        <AuthInput
+          type="password"
+          name="password"
+          placeholder="Password"
+          value={formData.password}
+          onChange={handleChange}
+          required
+        />
 
         <div className="pt-2">
           <AuthButton text="Sign In" loading={loading} icon={<LogIn size={18} />} />

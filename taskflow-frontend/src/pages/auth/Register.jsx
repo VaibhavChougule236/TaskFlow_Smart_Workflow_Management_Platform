@@ -2,7 +2,8 @@ import { useState, useContext, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { registerUser } from "../../services/authService";
 import { AuthContext } from "../../context/AuthContext";
-import { UserPlus, User, Mail, Lock, AlertCircle } from "lucide-react";
+import { UserPlus } from "lucide-react";
+import toast from "react-hot-toast";
 
 import AuthLayout from "../../components/auth/AuthLayout";
 import AuthInput from "../../components/auth/AuthInput";
@@ -13,15 +14,12 @@ function Register() {
   const { user } = useContext(AuthContext);
 
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
-
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     password: "",
   });
 
-  // Redirect if already logged in
   useEffect(() => {
     if (user) {
       navigate(user.role === "ADMIN" ? "/admin/dashboard" : "/dashboard");
@@ -34,23 +32,30 @@ function Register() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    
+    // 1. Basic Validation
     if (formData.password.length < 6) {
-      return setError("Password must be at least 6 characters");
+      return toast.error("Password must be at least 6 characters");
     }
 
     setLoading(true);
-    setError("");
 
     try {
       const res = await registerUser(formData);
-      if (res.success) {
-        // Industry practice: Redirect to login with a success state
-        navigate("/login", { state: { message: "Account created! Please login." } });
+      
+      console.log("Backend Response:", res);
+
+      if (res) {
+        toast.success("Account created successfully!");
+        navigate("/login", { 
+          state: { message: "Registration successful! Please login." } 
+        });
       } else {
-        setError(res.message || "Registration failed");
+        toast.error("Registration failed: No response from server");
       }
     } catch (err) {
-      setError("Registration failed. Email might already exist.");
+      const errorMsg = err.response?.data?.message || "Email already exists or server error.";
+      toast.error(errorMsg);
     } finally {
       setLoading(false);
     }
@@ -61,13 +66,6 @@ function Register() {
       <div className="mb-8 text-center">
         <p className="text-slate-500 font-medium">Join TaskFlow to start managing work</p>
       </div>
-
-      {error && (
-        <div className="mb-6 flex items-center gap-2 bg-red-50 border border-red-100 text-red-600 px-4 py-3 rounded-xl text-sm font-medium animate-shake">
-          <AlertCircle size={18} />
-          {error}
-        </div>
-      )}
 
       <form onSubmit={handleSubmit} className="space-y-5">
         <AuthInput
