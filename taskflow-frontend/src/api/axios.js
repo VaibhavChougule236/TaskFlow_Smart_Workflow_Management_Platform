@@ -37,4 +37,6 @@ api.interceptors.response.use(
   }
 );
 
+export const IMAGE_URL = "http://localhost:8285";
+
 export default api;

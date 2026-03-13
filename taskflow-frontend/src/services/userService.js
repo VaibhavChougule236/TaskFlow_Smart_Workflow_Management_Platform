@@ -4,9 +4,8 @@ export const getProfile = () => {
   return api.get("/users/me");
 };
 
-
-export const updateProfile = (data) => {
-  return api.put("/users/update-profile", data);
+export const updateProfile = (formData) => {
+  return api.put("/users/update-profile", formData);
 };
 
 export const changePassword = (data) => {

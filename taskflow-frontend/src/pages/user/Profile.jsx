@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import { getProfile } from "../../services/userService";
 import { Link } from "react-router-dom";
-import { User, Mail, Calendar, Shield, Settings, Briefcase } from "lucide-react"; // Optional: npm install lucide-react
+import { Mail, Calendar, Shield, Settings } from "lucide-react";
+import { IMAGE_URL } from "../../api/axios";
 
 function Profile() {
   const [user, setUser] = useState(null);
@@ -27,7 +28,6 @@ function Profile() {
     );
   }
 
-  // Format the date professionally
   const joinDate = new Date(user.createdAt).toLocaleDateString("en-US", {
     year: "numeric",
     month: "long",
@@ -51,11 +51,23 @@ function Profile() {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        {/* Left Column: Avatar & Basic Info */}
         <div className="md:col-span-1 bg-white rounded-xl shadow-sm border border-gray-100 p-6 flex flex-col items-center text-center">
-          <div className="w-24 h-24 bg-gradient-to-tr from-blue-600 to-indigo-400 text-white flex items-center justify-center rounded-full text-4xl font-bold mb-4 shadow-lg">
-            {user.name.charAt(0).toUpperCase()}
+          
+          {/* UPDATED: Profile Avatar Section */}
+          <div className="w-24 h-24 rounded-full overflow-hidden shadow-lg mb-4 border-2 border-white">
+            {user.imagePath ? (
+              <img 
+                src={`${IMAGE_URL}${user.imagePath}`} 
+                alt="profile" 
+                className="w-full h-full object-cover"
+              />
+            ) : (
+              <div className="w-full h-full bg-gradient-to-tr from-blue-600 to-indigo-400 text-white flex items-center justify-center text-4xl font-bold">
+                {user.name.charAt(0).toUpperCase()}
+              </div>
+            )}
           </div>
+
           <h2 className="text-xl font-bold text-gray-800">{user.name}</h2>
           <span className="mt-1 px-3 py-1 bg-blue-50 text-blue-600 text-xs font-semibold rounded-full uppercase tracking-wider">
             {user.role}
@@ -63,7 +75,6 @@ function Profile() {
           <p className="text-gray-400 text-sm mt-4 italic">"Productivity is being able to do things that you were never able to do before."</p>
         </div>
 
-        {/* Right Column: Detailed Info & Stats */}
         <div className="md:col-span-2 space-y-6">
           <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
             <div className="px-6 py-4 border-b border-gray-50 bg-gray-50/50">

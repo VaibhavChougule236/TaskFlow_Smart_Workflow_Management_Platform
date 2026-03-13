@@ -32,12 +32,13 @@ public class User {
     @Column(nullable = false)
     private Role role;
     
+    private String imagePath;
+    
     private String resetToken;
 
     @Column(name = "created_at")
     private LocalDateTime createdAt;
 
-    // One user -> Many tasks
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Task> tasks;
 

@@ -1,10 +1,11 @@
 import { useContext, useState } from "react";
 import { AuthContext } from "../context/AuthContext";
 import { useNavigate, Link } from "react-router-dom";
-import { LogOut, Menu } from "lucide-react"; // Added Menu
+import { LogOut, Menu } from "lucide-react";
 import AddTaskModal from "../components/tasks/AddTaskModal";
+import { IMAGE_URL } from "../api/axios";
 
-function Topbar({ onMenuClick }) { // Receive toggle function
+function Topbar({ onMenuClick }) {
   const [openModal, setOpenModal] = useState(false);
   const { user, logout } = useContext(AuthContext);
   const navigate = useNavigate();
@@ -17,8 +18,7 @@ function Topbar({ onMenuClick }) { // Receive toggle function
   return (
     <div className="sticky top-0 z-10 flex items-center justify-between bg-white/80 backdrop-blur-md px-4 md:px-8 py-3 border-b border-gray-100">
       <div className="flex items-center gap-4">
-        {/* Mobile Menu Button - Visible on lg:hidden */}
-        <button 
+        <button
           onClick={onMenuClick}
           className="lg:hidden p-2 text-gray-600 hover:bg-gray-100 rounded-lg transition-colors"
         >
@@ -34,9 +34,20 @@ function Topbar({ onMenuClick }) { // Receive toggle function
 
         <div className="flex items-center gap-2 md:gap-4">
           <Link to="/profile" className="group flex items-center gap-3">
-            <div className="w-8 h-8 md:w-9 md:h-9 rounded-full bg-gradient-to-tr from-blue-600 to-indigo-400 text-white flex items-center justify-center font-bold shadow-md border-2 border-white group-hover:scale-105 transition-transform shrink-0">
-              {user?.name?.charAt(0).toUpperCase()}
+            <div className="w-8 h-8 md:w-9 md:h-9 rounded-full overflow-hidden shadow-md border-2 border-white group-hover:scale-105 transition-transform shrink-0">
+              {(user?.imagePath || user?.image_path) ? (
+                <img
+                  src={`${IMAGE_URL}${user.imagePath || user.image_path}`}
+                  alt="avatar"
+                  className="w-full h-full object-cover"
+                />
+              ) : (
+                <div className="w-full h-full bg-gradient-to-tr from-blue-600 to-indigo-400 text-white flex items-center justify-center font-bold">
+                  {user?.name ? user.name.charAt(0).toUpperCase() : 'A'}
+                </div>
+              )}
             </div>
+
             <div className="hidden lg:block">
               <p className="text-sm font-bold text-gray-700 leading-none mb-1">{user?.name}</p>
               <p className="text-[10px] text-blue-600 font-bold uppercase tracking-tighter">View Profile</p>

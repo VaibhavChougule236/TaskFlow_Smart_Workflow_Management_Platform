@@ -8,13 +8,10 @@ function AppLayout({ children }) {
 
   return (
     <div className="bg-gray-50 min-h-screen">
-      {/* Sidebar - Now receives toggle props */}
-      <Sidebar isOpen={isSidebarOpen} setIsOpen={setIsSidebarOpen} />
-
-      {/* Mobile Overlay - Closes sidebar when clicking outside */}
+    <Sidebar isOpen={isSidebarOpen} setIsOpen={setIsSidebarOpen} />
       {isSidebarOpen && (
-        <div 
-          className="fixed inset-0 bg-black/50 z-40 lg:hidden" 
+        <div
+          className="fixed inset-0 bg-black/50 z-40 lg:hidden"
           onClick={() => setIsSidebarOpen(false)}
         />
       )}

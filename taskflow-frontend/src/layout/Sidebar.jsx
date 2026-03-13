@@ -1,6 +1,7 @@
 import { Link, useLocation } from "react-router-dom";
 import { useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
+import { IMAGE_URL } from "../api/axios"; 
 import { 
   LayoutDashboard, 
   ClipboardList, 
@@ -16,7 +17,7 @@ import {
   GraduationCap,
   ChevronRight,
   Filter,
-  X // Added for mobile close
+  X 
 } from "lucide-react";
 
 function Sidebar({ isOpen, setIsOpen }) {
@@ -47,7 +48,6 @@ function Sidebar({ isOpen, setIsOpen }) {
             <h1 className="text-xl font-bold tracking-tight">TaskFlow</h1>
           </Link>
           
-          {/* Close button for mobile */}
           <button className="lg:hidden text-gray-400 p-1" onClick={() => setIsOpen(false)}>
             <X size={20} />
           </button>
@@ -139,8 +139,16 @@ function Sidebar({ isOpen, setIsOpen }) {
           }`}
         >
           <div className="flex items-center gap-3 overflow-hidden">
-            <div className="w-9 h-9 bg-blue-600 rounded-full flex items-center justify-center font-bold text-sm border border-blue-500 shadow-inner text-white shrink-0">
-              {user?.name?.charAt(0)?.toUpperCase()}
+            <div className="w-9 h-9 rounded-full overflow-hidden flex items-center justify-center font-bold text-sm border border-gray-700 shadow-inner shrink-0 bg-blue-600">
+              {user?.imagePath || user?.image_path ? (
+                <img 
+                  src={`${IMAGE_URL}${user.imagePath || user.image_path}`} 
+                  alt="User" 
+                  className="w-full h-full object-cover" 
+                />
+              ) : (
+                <span className="text-white">{user?.name ? user.name.charAt(0).toUpperCase() : 'V'}</span>
+              )}
             </div>
             <div className="overflow-hidden">
               <p className="text-sm font-semibold truncate w-24">

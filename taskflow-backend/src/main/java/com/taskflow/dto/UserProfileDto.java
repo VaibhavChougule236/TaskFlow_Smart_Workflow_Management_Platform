@@ -14,6 +14,7 @@ public class UserProfileDto {
 	String name;
 	String email;
 	Role role;
+	String imagePath;
 	LocalDateTime createdAt;
 			
 }

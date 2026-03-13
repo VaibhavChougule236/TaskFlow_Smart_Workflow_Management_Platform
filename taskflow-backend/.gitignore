@@ -35,3 +35,5 @@ build/
 # Application secrets
 application-local.yml
 application-dev.yml
+
+uploads/
