@@ -28,8 +28,7 @@ function App() {
 
   return (
     <BrowserRouter>
-      {/* Global Toast Notifications */}
-      // Replace your current <Toaster /> with this:
+
       <Toaster
         position="top-center"
         reverseOrder={false}

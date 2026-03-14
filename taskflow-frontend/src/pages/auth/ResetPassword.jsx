@@ -4,6 +4,9 @@ import { resetPassword } from "../../services/userService";
 import { success, error } from "../../utils/toast";
 import { Lock, ShieldCheck } from "lucide-react";
 
+import Header from "../../layout/Header";
+import Footer from "../../layout/Footer";
+
 function ResetPassword() {
   const { token } = useParams();
   const navigate = useNavigate();
@@ -25,6 +28,8 @@ function ResetPassword() {
   };
 
   return (
+    <div className="min-h-screen bg-slate-50 flex flex-col">
+      <Header/>
     <div className="min-h-[80vh] flex items-center justify-center px-4">
       <div className="max-w-md w-full bg-white rounded-2xl shadow-xl border border-gray-100 p-8">
         <div className="text-center mb-8">
@@ -59,6 +64,8 @@ function ResetPassword() {
           </button>
         </form>
       </div>
+    </div>
+    <Footer/>
     </div>
   );
 }

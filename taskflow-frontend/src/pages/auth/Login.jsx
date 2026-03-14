@@ -8,6 +8,8 @@ import toast from "react-hot-toast";
 import AuthLayout from "../../components/auth/AuthLayout";
 import AuthInput from "../../components/auth/AuthInput";
 import AuthButton from "../../components/auth/AuthButton";
+import Header from "../../layout/Header";
+import Footer from "../../layout/Footer";
 
 function Login() {
   const navigate = useNavigate();
@@ -21,10 +23,8 @@ function Login() {
   });
 
   useEffect(() => {
-    // Show success message if redirected from Register
     if (location.state?.message) {
       toast.success(location.state.message);
-      // Clean up the state so message doesn't persist on refresh
       window.history.replaceState({}, document.title);
     }
 
@@ -46,17 +46,26 @@ function Login() {
       if (res.success) {
         toast.success(`Welcome, ${res.data.name}!`);
         login(res.data);
-      } else {
-        toast.error(res.message || "Invalid email or password");
       }
     } catch (err) {
-      toast.error("Failed to connect to the server.");
+      const status = err.response?.status;
+      const isNetworkError = err.code === "ERR_NETWORK" || !err.response;
+
+      if (status === 401 || status === 403) {
+        toast.error("Wrong credentials");
+      } else if (isNetworkError) {
+        toast.error("Failed to connect to the server.");
+      } else {
+        toast.error("An unexpected error occurred.");
+      }
     } finally {
       setLoading(false);
     }
   };
 
   return (
+    <div className="min-h-screen bg-slate-50 flex flex-col">
+      <Header />
     <AuthLayout title="Welcome Back">
       <div className="mb-8 text-center">
         <p className="text-slate-500 font-medium">Please enter your details to sign in</p>
@@ -72,14 +81,24 @@ function Login() {
           required
         />
 
-        <AuthInput
-          type="password"
-          name="password"
-          placeholder="Password"
-          value={formData.password}
-          onChange={handleChange}
-          required
-        />
+        <div className="space-y-1">
+          <AuthInput
+            type="password"
+            name="password"
+            placeholder="Password"
+            value={formData.password}
+            onChange={handleChange}
+            required
+          />
+          <div className="flex justify-end">
+            <Link 
+              to="/forgot-password" 
+              className="text-xs font-bold text-blue-600 hover:text-blue-700 transition-colors"
+            >
+              Forgot Password?
+            </Link>
+          </div>
+        </div>
 
         <div className="pt-2">
           <AuthButton text="Sign In" loading={loading} icon={<LogIn size={18} />} />
@@ -95,6 +114,8 @@ function Login() {
         </p>
       </div>
     </AuthLayout>
+    <Footer />
+    </div>
   );
 }
 

@@ -8,6 +8,9 @@ import toast from "react-hot-toast";
 import AuthLayout from "../../components/auth/AuthLayout";
 import AuthInput from "../../components/auth/AuthInput";
 import AuthButton from "../../components/auth/AuthButton";
+import Header from "../../layout/Header";
+import Footer from "../../layout/Footer";
+
 
 function Register() {
   const navigate = useNavigate();
@@ -78,6 +81,8 @@ function Register() {
   };
 
   return (
+    <div className="min-h-screen bg-slate-50 flex flex-col">
+      <Header />
     <AuthLayout title="Create Account">
       <div className="mb-8 text-center">
         <p className="text-slate-500 font-medium">Join TaskFlow to start managing work</p>
@@ -132,6 +137,8 @@ function Register() {
         </p>
       </div>
     </AuthLayout>
+    <Footer />
+    </div>
   );
 }
 

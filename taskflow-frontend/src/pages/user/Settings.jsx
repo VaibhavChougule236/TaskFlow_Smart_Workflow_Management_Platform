@@ -1,7 +1,7 @@
 import { useEffect, useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
-import { getProfile, updateProfile } from "../../services/userService";
+import { getProfile, updateProfile, deleteAccount } from "../../services/userService";
 import { User, Lock, CheckCircle, Loader2, ShieldAlert, Camera, Trash2 } from "lucide-react";
 import { success, error } from "../../utils/toast";
 import { AuthContext } from "../../context/AuthContext";

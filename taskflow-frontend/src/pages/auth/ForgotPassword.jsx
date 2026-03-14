@@ -3,6 +3,8 @@ import { forgotPassword } from "../../services/userService";
 import { success, error } from "../../utils/toast";
 import { Mail, ArrowLeft, Send } from "lucide-react";
 import { Link } from "react-router-dom";
+import Header from "../../layout/Header";
+import Footer from "../../layout/Footer";
 
 function ForgotPassword() {
   const [email, setEmail] = useState("");
@@ -23,43 +25,47 @@ function ForgotPassword() {
   };
 
   return (
-    <div className="min-h-[80vh] flex items-center justify-center px-4">
-      <div className="max-w-md w-full bg-white rounded-2xl shadow-xl border border-gray-100 p-8">
-        <div className="text-center mb-8">
-          <div className="w-16 h-16 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center mx-auto mb-4">
-            <Mail size={32} />
-          </div>
-          <h2 className="text-2xl font-bold text-gray-900">Forgot Password?</h2>
-          <p className="text-gray-500 mt-2">No worries, we'll send you reset instructions.</p>
-        </div>
-
-        <form onSubmit={handleSubmit} className="space-y-6">
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">Email Address</label>
-            <input
-              type="email"
-              required
-              placeholder="name@company.com"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              className="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all"
-            />
+    <div className="min-h-screen bg-slate-50 flex flex-col">
+      <Header />
+      <div className="min-h-[80vh] flex items-center justify-center px-4">
+        <div className="max-w-md w-full bg-white rounded-2xl shadow-xl border border-gray-100 p-8">
+          <div className="text-center mb-8">
+            <div className="w-16 h-16 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center mx-auto mb-4">
+              <Mail size={32} />
+            </div>
+            <h2 className="text-2xl font-bold text-gray-900">Forgot Password?</h2>
+            <p className="text-gray-500 mt-2">No worries, we'll send you reset instructions.</p>
           </div>
 
-          <button
-            disabled={loading}
-            className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-xl flex items-center justify-center gap-2 transition-all shadow-lg shadow-blue-200 disabled:bg-blue-300"
-          >
-            {loading ? "Sending..." : <><Send size={18} /> Send Reset Link</>}
-          </button>
-        </form>
+          <form onSubmit={handleSubmit} className="space-y-6">
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">Email Address</label>
+              <input
+                type="email"
+                required
+                placeholder="name@company.com"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all"
+              />
+            </div>
 
-        <div className="mt-8 text-center">
-          <Link to="/login" className="text-sm font-medium text-gray-500 hover:text-blue-600 flex items-center justify-center gap-2 transition-colors">
-            <ArrowLeft size={16} /> Back to Log In
-          </Link>
+            <button
+              disabled={loading}
+              className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-xl flex items-center justify-center gap-2 transition-all shadow-lg shadow-blue-200 disabled:bg-blue-300"
+            >
+              {loading ? "Sending..." : <><Send size={18} /> Send Reset Link</>}
+            </button>
+          </form>
+
+          <div className="mt-8 text-center">
+            <Link to="/login" className="text-sm font-medium text-gray-500 hover:text-blue-600 flex items-center justify-center gap-2 transition-colors">
+              <ArrowLeft size={16} /> Back to Log In
+            </Link>
+          </div>
         </div>
       </div>
+      <Footer />
     </div>
   );
 }
