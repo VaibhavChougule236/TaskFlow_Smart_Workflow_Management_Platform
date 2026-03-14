@@ -10,8 +10,13 @@ import com.taskflow.entity.User;
 
 public interface UserRepository extends JpaRepository<User, Long> {
 	Optional<User> findByEmail(String email);
+
 	Page<User> findAll(Pageable pageable);
+
 	long count();
-	Optional<User> findByResetToken(String token);
+
+	Optional<User> findByVerificationOtp(String verificationOtp);
+
+	Boolean existsByEmail(String email);
 
 }

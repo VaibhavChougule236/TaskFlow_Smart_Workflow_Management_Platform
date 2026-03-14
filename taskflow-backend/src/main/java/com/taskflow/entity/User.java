@@ -34,7 +34,8 @@ public class User {
     
     private String imagePath;
     
-    private String resetToken;
+    private boolean enabled = false; 
+    private String verificationOtp;
 
     @Column(name = "created_at")
     private LocalDateTime createdAt;
