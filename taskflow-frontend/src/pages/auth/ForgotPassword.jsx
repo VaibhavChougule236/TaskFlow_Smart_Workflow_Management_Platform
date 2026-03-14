@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { forgotPassword } from "../../services/userService";
+import { forgotPassword } from "../../services/authService";
 import { success, error } from "../../utils/toast";
 import { Mail, ArrowLeft, Send } from "lucide-react";
 import { Link } from "react-router-dom";

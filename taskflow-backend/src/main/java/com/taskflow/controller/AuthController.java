@@ -52,4 +52,19 @@ public class AuthController {
         ApiResponse<AuthResponse> apiResponse = new ApiResponse<>(true, "Login successful", response);
         return ResponseEntity.ok(apiResponse);
     }
+    
+    @PostMapping("/forgot-password")
+    public ResponseEntity<ApiResponse<String>> forgotPassword(@RequestBody Map<String, String> request) {
+        String email = request.get("email");
+        authService.processForgotPassword(email);
+        return ResponseEntity.ok(new ApiResponse<>(true, "Reset link sent to your email", null));
+    }
+
+    @PostMapping("/reset-password")
+    public ResponseEntity<ApiResponse<String>> resetPassword(@RequestBody Map<String, String> request) {
+        String token = request.get("token");
+        String newPassword = request.get("newPassword");
+        authService.updatePasswordWithToken(token, newPassword);
+        return ResponseEntity.ok(new ApiResponse<>(true, "Password updated successfully", null));
+    }
 }

@@ -21,4 +21,14 @@ public class EmailService {
         
         mailSender.send(message);
     }
+
+    public void sendEmail(String to, String subject, String body) {
+        SimpleMailMessage message = new SimpleMailMessage();
+        message.setTo(to);
+        message.setSubject(subject);
+        message.setText(body);
+        message.setFrom("TaskFlow <noreply@taskflow.com>");
+        
+        mailSender.send(message);
+    }
 }

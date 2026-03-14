@@ -36,6 +36,9 @@ public class User {
     
     private boolean enabled = false; 
     private String verificationOtp;
+    
+    @Column(name = "reset_token")
+    private String resetToken;
 
     @Column(name = "created_at")
     private LocalDateTime createdAt;

@@ -2,7 +2,8 @@ import { useState, useContext, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { registerUser, sendOtp, verifyOtp } from "../../services/authService";
 import { AuthContext } from "../../context/AuthContext";
-import { UserPlus, Sparkles, AlertCircle, CheckCircle, Send } from "lucide-react";
+// Added Eye and EyeOff to the lucide-react imports
+import { UserPlus, Sparkles, CheckCircle, Send, Eye, EyeOff } from "lucide-react"; 
 import toast from "react-hot-toast";
 
 import AuthLayout from "../../components/auth/AuthLayout";
@@ -16,6 +17,7 @@ function Register() {
   const { user } = useContext(AuthContext);
 
   const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false); // State for eye icon toggle
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -102,7 +104,6 @@ function Register() {
     <div className="min-h-screen bg-slate-50 flex flex-col">
       <Header />
       
-      {/* Restored the exact original layout structure */}
       <AuthLayout title="Create Account">
         <div className="mb-8 text-center">
           <p className="text-slate-500 font-medium">Join TaskFlow to start managing work</p>
@@ -131,7 +132,6 @@ function Register() {
             {isVerified && <CheckCircle className="absolute right-3 top-2.5 text-green-500" size={18} />}
           </div>
 
-          {/* Verification Code Button - Styled to match your blue branding */}
           {!isVerified && (
             <button
               type="button"
@@ -144,7 +144,6 @@ function Register() {
             </button>
           )}
 
-          {/* Inline OTP Input */}
           {otpSent && !isVerified && (
             <div className="flex gap-2 animate-in fade-in duration-300">
               <input
@@ -164,14 +163,24 @@ function Register() {
             </div>
           )}
 
-          <AuthInput
-            type="password"
-            name="password"
-            placeholder="Create Password (Min. 6 chars)"
-            value={formData.password}
-            onChange={handleChange}
-            required
-          />
+          {/* PASSWORD FIELD WITH EYE ICON */}
+          <div className="relative">
+            <AuthInput
+              type={showPassword ? "text" : "password"} // Dynamic type
+              name="password"
+              placeholder="Create Password (Min. 6 chars)"
+              value={formData.password}
+              onChange={handleChange}
+              required
+            />
+            <button
+              type="button"
+              onClick={() => setShowPassword(!showPassword)}
+              className="absolute right-3 top-3 text-slate-400 hover:text-slate-600 transition-colors"
+            >
+              {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+            </button>
+          </div>
 
           <div className="pt-2">
             <AuthButton 

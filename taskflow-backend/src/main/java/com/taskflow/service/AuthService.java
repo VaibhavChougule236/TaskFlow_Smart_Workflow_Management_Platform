@@ -84,4 +84,29 @@ public class AuthService {
         String token = jwtService.generateToken(user.getEmail());
         return new AuthResponse(token, user);
     }
+    
+    public void processForgotPassword(String email) {
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("Email not found"));
+
+        
+        String token = UUID.randomUUID().toString();
+        user.setResetToken(token); 
+        userRepository.save(user);
+
+        String resetLink = "http://localhost:5173/reset-password?token=" + token;
+        
+        String emailBody = "Click the link below to reset your TaskFlow password:\n\n" + resetLink;
+        
+        emailService.sendEmail(email, "Reset Your Password", emailBody);
+    }
+
+    public void updatePasswordWithToken(String token, String newPassword) {
+        User user = userRepository.findByResetToken(token)
+                .orElseThrow(() -> new RuntimeException("Invalid or expired reset token"));
+
+        user.setPassword(passwordEncoder.encode(newPassword));
+        user.setResetToken(null); 
+        userRepository.save(user);
+    }
 }
