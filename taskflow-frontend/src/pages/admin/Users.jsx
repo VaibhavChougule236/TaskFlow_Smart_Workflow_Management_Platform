@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { getUsers, deleteUser } from "../../services/adminService";
 import { success, error } from "../../utils/toast";
 import { Trash2, User as UserIcon } from "lucide-react";
+import toast from "react-hot-toast";
 
 function AdminUsers() {
   const [users, setUsers] = useState([]);
@@ -24,23 +25,64 @@ function AdminUsers() {
     }
   };
 
-  const handleDelete = async (id) => {
-    if (currentUser?.role === "ADMIN" && currentUser?.id === id) {
-      error("Admin cannot delete their own account");
-      return;
-    }
+  const handleDelete = (id) => {
+  if (currentUser?.id === id) {
+    error("You cannot delete your own admin account");
+    return;
+  }
 
-    const confirmDelete = window.confirm("Are you sure you want to delete this user?");
-    if (!confirmDelete) return;
+  toast((t) => (
+    <div className="min-w-[280px] bg-white">
+      <div className="flex items-start gap-3">
+        <div className="bg-red-50 p-2 rounded-full">
+          <Trash2 size={18} className="text-red-600" />
+        </div>
+        <div>
+          <h3 className="text-sm font-bold text-slate-900">Delete User Account</h3>
+          <p className="text-xs text-slate-500 mt-1">
+            All data associated with this user will be lost.
+          </p>
+        </div>
+      </div>
 
-    try {
-      await deleteUser(id);
-      success("User deleted successfully");
-      fetchUsers(page);
-    } catch (err) {
-      error(err.response?.data?.message || "Failed to delete user");
-    }
-  };
+      <div className="flex justify-end gap-3 mt-5 pt-3 border-t border-slate-100">
+        <button
+          onClick={() => toast.dismiss(t.id)}
+          className="px-3 py-1.5 text-xs font-semibold text-slate-600 hover:bg-slate-50 rounded-lg transition-all"
+        >
+          Cancel
+        </button>
+        <button
+          onClick={async () => {
+            toast.dismiss(t.id);
+            try {
+              await deleteUser(id);
+              fetchUsers(page); 
+              setTimeout(() => {
+                success("User account removed successfully");
+              }, 150);
+            } catch (err) {
+              error(err.response?.data?.message || "Failed to delete user");
+            }
+          }}
+          className="px-4 py-1.5 text-xs font-bold text-white bg-red-600 hover:bg-red-700 rounded-lg shadow-sm shadow-red-100 transition-all active:scale-95"
+        >
+          Confirm Delete
+        </button>
+      </div>
+    </div>
+  ), {
+    duration: Infinity,
+    position: 'top-center',
+    style: {
+      background: '#ffffff',
+      padding: '16px',
+      borderRadius: '16px',
+      border: '1px solid #f1f5f9',
+      boxShadow: '0 20px 25px -5px rgb(0 0 0 / 0.1)',
+    },
+  });
+};
 
   return (
     <div className="p-4 md:p-0">

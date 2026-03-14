@@ -1,16 +1,17 @@
 import { useEffect, useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
 import { getProfile, updateProfile } from "../../services/userService";
-import { User, Lock, CheckCircle, Loader2, ShieldAlert, Camera } from "lucide-react";
+import { User, Lock, CheckCircle, Loader2, ShieldAlert, Camera, Trash2 } from "lucide-react";
 import { success, error } from "../../utils/toast";
 import { AuthContext } from "../../context/AuthContext";
-import api, { IMAGE_URL} from "../../api/axios";
+import api, { IMAGE_URL } from "../../api/axios";
 
 function Settings() {
   const [user, setUser] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
   const [newName, setNewName] = useState("");
-  const [selectedFile, setSelectedFile] = useState(null); 
+  const [selectedFile, setSelectedFile] = useState(null);
   const [isUpdating, setIsUpdating] = useState(false);
 
   const navigate = useNavigate();
@@ -39,25 +40,20 @@ function Settings() {
     }
 
     try {
-      // Use 'api' which we just imported
       const res = await api.put("/users/update-profile", formData, {
         headers: { "Content-Type": "multipart/form-data" },
       });
 
       if (res.data.success) {
-        // 1. Retrieve current token from localStorage
         const storedUser = JSON.parse(localStorage.getItem("user"));
         const currentToken = storedUser?.token;
 
-        // 2. Update Context with NEW user data + OLD token
-        // This is the key to NOT being redirected to login
         login({ ...res.data.data, token: currentToken });
 
         success("Profile updated successfully!");
         setIsEditing(false);
         setSelectedFile(null);
 
-        // Refresh local state if necessary
         if (typeof fetchProfile === 'function') {
           fetchProfile();
         }
@@ -68,6 +64,67 @@ function Settings() {
     } finally {
       setIsUpdating(false);
     }
+  };
+
+  const handleDeleteAccount = () => {
+    if (user?.role === "ADMIN") {
+      error("Admin accounts cannot be deleted directly. Contact system support.");
+      return;
+    }
+    toast((t) => (
+      <div className="min-w-[280px] bg-white">
+        <div className="flex items-start gap-3">
+          <div className="bg-red-50 p-2 rounded-full">
+            <ShieldAlert size={18} className="text-red-600" />
+          </div>
+          <div>
+            <h3 className="text-sm font-bold text-slate-900">Delete Account?</h3>
+            <p className="text-xs text-slate-500 mt-1">
+              This action is permanent and will remove all your tasks.
+            </p>
+          </div>
+        </div>
+
+        <div className="flex justify-end gap-3 mt-5 pt-3 border-t border-slate-100">
+          <button
+            onClick={() => toast.dismiss(t.id)}
+            className="px-3 py-1.5 text-xs font-semibold text-slate-600 hover:bg-slate-50 rounded-lg"
+          >
+            Cancel
+          </button>
+          <button
+            onClick={async () => {
+              toast.dismiss(t.id);
+              try {
+                const res = await deleteAccount();
+                if (res.success) {
+                  success("Account deleted successfully");
+
+                  setTimeout(() => {
+                    logout();
+                    navigate("/login");
+                  }, 1500);
+                }
+              } catch (err) {
+                error(err.response?.data?.message || "Failed to delete account");
+              }
+            }}
+            className="px-4 py-1.5 text-xs font-bold text-white bg-red-600 hover:bg-red-700 rounded-lg shadow-sm"
+          >
+            Delete Permanently
+          </button>
+        </div>
+      </div>
+    ), {
+      duration: Infinity,
+      position: 'top-center',
+      style: {
+        background: '#ffffff',
+        padding: '16px',
+        borderRadius: '16px',
+        border: '1px solid #f1f5f9',
+      },
+    });
   };
 
   const handleLogout = () => {
@@ -191,6 +248,27 @@ function Settings() {
               </button>
             </div>
           </section>
+          {user?.role !== "ADMIN" && (
+            <section className="bg-white border-2 border-red-50 rounded-2xl p-6">
+              <div className="flex flex-col md:flex-row justify-between items-center gap-6">
+                <div className="flex items-center gap-4">
+                  <div className="p-3 bg-red-50 text-red-500 rounded-xl">
+                    <Trash2 size={24} />
+                  </div>
+                  <div>
+                    <h4 className="text-gray-900 font-bold">Delete Account</h4>
+                    <p className="text-gray-500 text-sm font-medium">Permanently remove your account and all your tasks.</p>
+                  </div>
+                </div>
+                <button
+                  onClick={handleDeleteAccount}
+                  className="w-full md:w-auto text-red-600 border-2 border-red-100 px-8 py-3 rounded-xl hover:bg-red-50 font-bold transition-all"
+                >
+                  Delete Account
+                </button>
+              </div>
+            </section>
+          )}
         </div>
       </div>
     </div>

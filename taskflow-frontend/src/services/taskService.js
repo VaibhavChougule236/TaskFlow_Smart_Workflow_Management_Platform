@@ -40,6 +40,10 @@ export const toggleTaskDone = (id) => {
 export const deleteTask = (id) => {
   return api.delete(`/my-tasks/${id}`);
 };
+export const deleteAdminTask = async (id) => {
+  const res = await api.delete(`/tasks/${id}`); 
+  return res.data;
+};
 
 export const createAdminTask = (task) => {
   return api.post("/tasks", task);

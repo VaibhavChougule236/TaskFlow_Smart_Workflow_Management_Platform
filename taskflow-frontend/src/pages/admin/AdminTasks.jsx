@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
 import api from "../../api/axios";
-import { success, error } from "../../utils/toast";
+import toast from "react-hot-toast";
 import TaskDetailModal from "../../components/tasks/TaskDetailModal";
 import { Search, Trash2, Eye } from "lucide-react";
+import { success, error } from "../../utils/toast";
+import { deleteAdminTask } from "../../services/taskService";
 
 function AdminTasks() {
   const [tasks, setTasks] = useState([]);
@@ -30,16 +32,62 @@ function AdminTasks() {
     }
   };
 
-  const handleDelete = async (id) => {
-    if (!window.confirm("Are you sure you want to delete this task?")) return;
-    try {
-      await api.delete(`/tasks/${id}`);
-      success("Task deleted successfully");
-      fetchTasks();
-    } catch {
-      error("Failed to delete task");
-    }
-  };
+  const handleDelete = (id) => {
+  toast((t) => (
+    <div className="min-w-[280px] bg-white">
+      <div className="flex items-start gap-3">
+        <div className="bg-red-50 p-2 rounded-full">
+          <Trash2 size={18} className="text-red-600" />
+        </div>
+        <div>
+          <h3 className="text-sm font-bold text-slate-900">Admin: Delete Task</h3>
+          <p className="text-xs text-slate-500 mt-1">
+            This will remove the task for all users.
+          </p>
+        </div>
+      </div>
+
+      <div className="flex justify-end gap-3 mt-5 pt-3 border-t border-slate-100">
+        <button
+          onClick={() => toast.dismiss(t.id)}
+          className="px-3 py-1.5 text-xs font-semibold text-slate-600 hover:bg-slate-50 rounded-lg"
+        >
+          Cancel
+        </button>
+        <button
+          onClick={async () => {
+            toast.dismiss(t.id);
+            try {
+              // CALL THE ADMIN DELETE SERVICE
+              await deleteAdminTask(id); 
+              
+              fetchTasks(); // Refresh the list
+              
+              setTimeout(() => {
+                success("Task deleted by Admin");
+              }, 150);
+            } catch (err) {
+              const msg = err.response?.data?.message || "Admin delete failed";
+              error(msg);
+            }
+          }}
+          className="px-4 py-1.5 text-xs font-bold text-white bg-red-600 hover:bg-red-700 rounded-lg shadow-sm"
+        >
+          Delete Task
+        </button>
+      </div>
+    </div>
+  ), {
+    duration: Infinity,
+    position: 'top-center',
+    style: {
+      background: '#ffffff',
+      padding: '16px',
+      borderRadius: '16px',
+      border: '1px solid #f1f5f9',
+    },
+  });
+};
 
   const handleSort = (field) => {
     if (sortBy === field) {

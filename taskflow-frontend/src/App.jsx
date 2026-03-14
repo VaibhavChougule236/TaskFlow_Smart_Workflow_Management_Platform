@@ -29,19 +29,37 @@ function App() {
   return (
     <BrowserRouter>
       {/* Global Toast Notifications */}
-      <Toaster 
-        position="top-center" 
-        reverseOrder={false} 
+      // Replace your current <Toaster /> with this:
+      <Toaster
+        position="top-center"
+        reverseOrder={false}
         toastOptions={{
-          duration: 3000,
+          duration: 3500,
           style: {
-            borderRadius: '12px',
-            background: '#333',
-            color: '#fff',
+            borderRadius: '16px',
+            background: '#ffffff',
+            color: '#1e293b',
+            fontSize: '14px',
+            fontWeight: '500',
+            boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)',
+            border: '1px solid #f1f5f9',
+            padding: '12px 24px',
+          },
+          success: {
+            iconTheme: {
+              primary: '#2563eb',
+              secondary: '#fff',
+            },
+          },
+          error: {
+            iconTheme: {
+              primary: '#ef4444',
+              secondary: '#fff',
+            },
           },
         }}
       />
-      
+
       <Routes>
         <Route path="/" element={<Home />} />
 

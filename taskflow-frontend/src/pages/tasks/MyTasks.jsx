@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
-import { Search, ArrowUpDown, Plus, SlidersHorizontal } from "lucide-react";
+import { Search, ArrowUpDown, Plus, SlidersHorizontal, Trash2 } from "lucide-react";
 import { getMyTasks, deleteTask, toggleTaskDone } from "../../services/taskService";
 import TaskList from "../../components/tasks/TaskList";
 import AddTaskModal from "../../components/tasks/AddTaskModal";
 import TaskDetailModal from "../../components/tasks/TaskDetailModal";
+import toast from "react-hot-toast";
 import { success, error } from "../../utils/toast";
 
 function MyTasks() {
@@ -54,15 +55,58 @@ function MyTasks() {
     fetchTasks();
   }, [page, keyword, sortBy, direction, filter, sidebarFilter, sidebarCategory]);
 
-  const handleDelete = async (id) => {
-    if (!window.confirm("Delete this task?")) return;
-    try {
-      await deleteTask(id);
-      success("Task deleted");
-      fetchTasks();
-    } catch {
-      error("Delete failed");
-    }
+  const handleDelete = (id) => {
+    toast((t) => (
+      <div className="min-w-[280px] bg-white">
+        <div className="flex items-start gap-3">
+          <div className="bg-red-50 p-2 rounded-full">
+            <Trash2 size={18} className="text-red-600" />
+          </div>
+          <div>
+            <h3 className="text-sm font-bold text-slate-900">Delete Task</h3>
+            <p className="text-xs text-slate-500 mt-1">
+              Are you sure? This action is permanent.
+            </p>
+          </div>
+        </div>
+
+        <div className="flex justify-end gap-3 mt-5 pt-3 border-t border-slate-100">
+          <button
+            onClick={() => toast.dismiss(t.id)}
+            className="px-3 py-1.5 text-xs font-semibold text-slate-600 hover:bg-slate-50 rounded-lg transition-all"
+          >
+            Cancel
+          </button>
+          <button
+            onClick={async () => {
+              toast.dismiss(t.id);
+              try {
+                await deleteTask(id);
+                fetchTasks();
+                setTimeout(() => {
+                  success("Task deleted successfully");
+                }, 150);
+              } catch (err) {
+                error("Could not delete task");
+              }
+            }}
+            className="px-4 py-1.5 text-xs font-bold text-white bg-red-600 hover:bg-red-700 rounded-lg shadow-sm shadow-red-100 transition-all active:scale-95"
+          >
+            Delete Task
+          </button>
+        </div>
+      </div>
+    ), {
+      duration: Infinity,
+      position: 'top-center',
+      style: {
+        background: '#ffffff',
+        padding: '16px',
+        borderRadius: '16px',
+        border: '1px solid #f1f5f9',
+        boxShadow: '0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1)',
+      },
+    });
   };
 
   const handleToggle = async (id) => {
@@ -82,7 +126,6 @@ function MyTasks() {
 
   return (
     <div className="space-y-6">
-      {/* Header - Stack on mobile, row on desktop */}
       <div className="flex flex-col lg:flex-row lg:justify-between lg:items-center gap-4 mb-4">
         <div>
           <h2 className="text-2xl font-bold text-gray-800 tracking-tight">My Tasks</h2>
@@ -90,7 +133,6 @@ function MyTasks() {
         </div>
 
         <div className="flex flex-wrap gap-2 md:gap-3 items-center">
-          {/* Search - Full width on mobile */}
           <div className="relative group w-full md:w-64">
             <Search size={18} className="absolute left-3 top-2.5 text-gray-400 group-focus-within:text-blue-500 transition-colors" />
             <input
@@ -119,8 +161,6 @@ function MyTasks() {
           </button>
         </div>
       </div>
-
-      {/* Filter buttons - Scrollable on very small screens */}
       <div className="flex gap-2 overflow-x-auto pb-2 no-scrollbar">
         {[
           { id: "all", label: "All", color: "bg-gray-800", light: "bg-gray-100" },
@@ -156,7 +196,6 @@ function MyTasks() {
         </div>
       )}
 
-      {/* Pagination - Simplified for mobile */}
       {totalPages > 1 && (
         <div className="flex justify-center items-center gap-1 md:gap-2 mt-8 pb-10">
           <button
@@ -169,7 +208,7 @@ function MyTasks() {
 
           <div className="flex items-center gap-1">
             {Array.from({ length: totalPages }).map((_, i) => {
-              // Only show 3 pages on mobile to prevent overflow
+
               if (totalPages > 5 && Math.abs(page - i) > 1 && i !== 0 && i !== totalPages - 1) return null;
               return (
                 <button
@@ -198,7 +237,7 @@ function MyTasks() {
       <AddTaskModal
         isOpen={openModal}
         onClose={() => { setOpenModal(false); setEditingTask(null); }}
-        onTaskCreated={() => { fetchTasks(); success(editingTask ? "Task updated" : "Task created"); }}
+        onTaskCreated={() => { fetchTasks(); }}
         editTask={editingTask}
       />
 

@@ -71,6 +71,15 @@ public class UserController {
         userRepository.save(user);
         return ResponseEntity.ok(new ApiResponse<>(true, "Profile updated successfully", convertToDto(user)));
     }
+    
+    @DeleteMapping("/delete-account")
+	public ResponseEntity<ApiResponse<String>> deleteAccount(Authentication authentication) {
+		String email = authentication.getName();
+		User user = userRepository.findByEmail(email).orElseThrow(() -> new RuntimeException("User not found"));
+
+		userRepository.delete(user);
+		return ResponseEntity.ok(new ApiResponse<>(true, "Account deleted successfully", "Success"));
+	}
 
     @PostMapping("/change-password")
     public ResponseEntity<ApiResponse<String>> changePassword(

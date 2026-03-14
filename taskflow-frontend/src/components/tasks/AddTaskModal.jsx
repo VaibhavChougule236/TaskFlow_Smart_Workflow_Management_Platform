@@ -14,8 +14,6 @@ function AddTaskModal({ isOpen, onClose, onTaskCreated, editTask }) {
 
   const [form, setForm] = useState(initialForm);
 
-  /* Prefill when editing */
-
   useEffect(() => {
 
     if (editTask) {
@@ -64,14 +62,10 @@ function AddTaskModal({ isOpen, onClose, onTaskCreated, editTask }) {
         success("Task created successfully");
 
       }
-
-      // refresh tasks if parent provided callback
       onTaskCreated?.();
 
-      // close modal
       onClose?.();
 
-      // reset form
       setForm(initialForm);
 
     } catch (err) {
@@ -91,7 +85,6 @@ function AddTaskModal({ isOpen, onClose, onTaskCreated, editTask }) {
 
       <div className="bg-white rounded-xl shadow-xl w-full max-w-md">
 
-        {/* Header */}
 
         <div className="flex justify-between items-center border-b px-6 py-4">
 
@@ -108,11 +101,9 @@ function AddTaskModal({ isOpen, onClose, onTaskCreated, editTask }) {
 
         </div>
 
-        {/* Form */}
 
         <form onSubmit={handleSubmit} className="p-6 space-y-4">
 
-          {/* Title */}
 
           <div>
 
@@ -132,7 +123,6 @@ function AddTaskModal({ isOpen, onClose, onTaskCreated, editTask }) {
 
           </div>
 
-          {/* Description */}
 
           <div>
 
@@ -151,7 +141,6 @@ function AddTaskModal({ isOpen, onClose, onTaskCreated, editTask }) {
 
           </div>
 
-          {/* Category + Priority */}
 
           <div className="grid grid-cols-2 gap-4">
 
@@ -195,7 +184,6 @@ function AddTaskModal({ isOpen, onClose, onTaskCreated, editTask }) {
 
           </div>
 
-          {/* Due Date */}
 
           <div>
 
@@ -213,7 +201,6 @@ function AddTaskModal({ isOpen, onClose, onTaskCreated, editTask }) {
 
           </div>
 
-          {/* Buttons */}
 
           <div className="flex justify-end gap-3 pt-4">
 
