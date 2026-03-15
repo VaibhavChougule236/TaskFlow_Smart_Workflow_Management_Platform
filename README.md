@@ -5,7 +5,7 @@ It allows users to organize their daily work, track deadlines, and monitor produ
 
 The system includes **JWT Authentication, Email OTP Verification, and Role-Based Access Control (RBAC)** to provide enterprise-grade security and user management.
 
-The platform follows a **modern full-stack architecture using React, Spring Boot, and PostgreSQL**, making it scalable and maintainable.
+The platform follows a **modern full-stack architecture using React, Spring Boot, and MySQL**, making it scalable and maintainable.
 
 ---
 
