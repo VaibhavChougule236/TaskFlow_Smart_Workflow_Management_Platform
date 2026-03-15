@@ -30,12 +30,12 @@ function Sidebar({ isOpen, setIsOpen }) {
     `flex items-center gap-3 px-4 py-2 rounded-lg transition-all duration-200 text-sm ${
       isActive(path)
         ? "bg-blue-600 text-white shadow-md shadow-blue-900/20 font-medium"
-        : "text-gray-400 hover:bg-gray-800 hover:text-white"
+        : "text-gray-400 hover:bg-gray-800 hover:text-white dark:hover:bg-slate-800"
     }`;
 
   return (
     <div className={`
-      fixed left-0 top-0 w-64 h-screen bg-gray-900 text-white flex flex-col justify-between p-4 border-r border-gray-800 overflow-y-auto custom-scrollbar z-50 transition-transform duration-300
+      fixed left-0 top-0 w-64 h-screen bg-gray-900 dark:bg-slate-900 text-white flex flex-col justify-between p-4 border-r border-gray-800 dark:border-slate-800 overflow-y-auto custom-scrollbar z-50 transition-transform duration-300
       ${isOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"}
     `}>
       
@@ -57,7 +57,7 @@ function Sidebar({ isOpen, setIsOpen }) {
         {user?.role === "USER" && (
           <div className="space-y-6">
             <div>
-              <p className="px-4 text-[10px] font-bold text-gray-500 uppercase tracking-widest mb-2">Main</p>
+              <p className="px-4 text-[10px] font-bold text-gray-500 dark:text-slate-500 uppercase tracking-widest mb-2">Main</p>
               <nav className="space-y-1">
                 <Link to="/dashboard" onClick={() => setIsOpen(false)} className={linkClass("/dashboard")}>
                   <LayoutDashboard size={16} /> Dashboard
@@ -69,7 +69,7 @@ function Sidebar({ isOpen, setIsOpen }) {
             </div>
 
             <div>
-              <p className="px-4 text-[10px] font-bold text-gray-500 uppercase tracking-widest mb-2">Task Filters</p>
+              <p className="px-4 text-[10px] font-bold text-gray-500 dark:text-slate-500 uppercase tracking-widest mb-2">Task Filters</p>
               <nav className="space-y-1">
                 <Link to="/my-tasks?filter=all" onClick={() => setIsOpen(false)} className={linkClass("/my-tasks?filter=all")}>
                   <Filter size={16} /> All Tasks
@@ -87,7 +87,7 @@ function Sidebar({ isOpen, setIsOpen }) {
             </div>
 
             <div>
-              <p className="px-4 text-[10px] font-bold text-gray-500 uppercase tracking-widest mb-2">Categories</p>
+              <p className="px-4 text-[10px] font-bold text-gray-500 dark:text-slate-500 uppercase tracking-widest mb-2">Categories</p>
               <nav className="space-y-1">
                 <Link to="/my-tasks?category=work" onClick={() => setIsOpen(false)} className={linkClass("/my-tasks?category=work")}>
                   <Briefcase size={16} /> Work
@@ -107,7 +107,7 @@ function Sidebar({ isOpen, setIsOpen }) {
         {user?.role === "ADMIN" && (
           <div className="space-y-6 mt-4">
             <div>
-              <p className="px-4 text-[10px] font-bold text-gray-500 uppercase tracking-widest mb-2">Admin Panel</p>
+              <p className="px-4 text-[10px] font-bold text-gray-500 dark:text-slate-500 uppercase tracking-widest mb-2">Admin Panel</p>
               <nav className="space-y-1">
                 <Link to="/admin/dashboard" onClick={() => setIsOpen(false)} className={linkClass("/admin/dashboard")}>
                   <ShieldCheck size={16} /> Admin Dashboard
@@ -124,7 +124,7 @@ function Sidebar({ isOpen, setIsOpen }) {
         )}
       </div>
 
-      <div className="border-t border-gray-800 pt-4 mt-4">
+      <div className="border-t border-gray-800 dark:border-slate-800 pt-4 mt-4">
         <div className="px-2 mb-2">
            <Link to="/settings" onClick={() => setIsOpen(false)} className={linkClass("/settings")}>
               <Settings size={16} /> Settings
@@ -135,11 +135,11 @@ function Sidebar({ isOpen, setIsOpen }) {
           to="/profile" 
           onClick={() => setIsOpen(false)}
           className={`flex items-center justify-between p-2 rounded-xl transition-colors ${
-            location.pathname === "/profile" ? "bg-gray-800" : "hover:bg-gray-800/50"
+            location.pathname === "/profile" ? "bg-gray-800 dark:bg-slate-800" : "hover:bg-gray-800/50 dark:hover:bg-slate-800/50"
           }`}
         >
           <div className="flex items-center gap-3 overflow-hidden">
-            <div className="w-9 h-9 rounded-full overflow-hidden flex items-center justify-center font-bold text-sm border border-gray-700 shadow-inner shrink-0 bg-blue-600">
+            <div className="w-9 h-9 rounded-full overflow-hidden flex items-center justify-center font-bold text-sm border border-gray-700 dark:border-slate-700 shadow-inner shrink-0 bg-blue-600">
               {user?.imagePath || user?.image_path ? (
                 <img 
                   src={`${IMAGE_URL}${user.imagePath || user.image_path}`} 
@@ -154,12 +154,12 @@ function Sidebar({ isOpen, setIsOpen }) {
               <p className="text-sm font-semibold truncate w-24">
                 {user?.name}
               </p>
-              <p className="text-[10px] text-gray-500 font-medium uppercase tracking-tighter">
+              <p className="text-[10px] text-gray-500 dark:text-slate-500 font-medium uppercase tracking-tighter">
                 {user?.role}
               </p>
             </div>
           </div>
-          <ChevronRight size={14} className="text-gray-600 shrink-0" />
+          <ChevronRight size={14} className="text-gray-600 dark:text-slate-600 shrink-0" />
         </Link>
       </div>
     </div>

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { getAdminStats } from "../../services/adminService";
-import { Users, Layout, CheckCircle, Clock } from "lucide-react"; // Added icons
+import { Users, Layout, CheckCircle, Clock } from "lucide-react";
 
 import StatsCards from "../../components/dashboard/StatsCards";
 import TaskStatusChart from "../../components/dashboard/TaskStatusChart";
@@ -50,14 +50,14 @@ function AdminDashboard() {
   );
 
   return (
-    <div className="space-y-8 animate-in fade-in duration-500">
+    <div className="space-y-8 animate-in fade-in duration-500 transition-colors duration-300">
       {/* Industry-Ready Header */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-          <h2 className="text-3xl font-extrabold text-slate-900 tracking-tight">System Overview</h2>
-          <p className="text-slate-500 font-medium">Real-time analytics and platform health metrics.</p>
+          <h2 className="text-3xl font-extrabold text-slate-900 dark:text-white tracking-tight">System Overview</h2>
+          <p className="text-slate-500 dark:text-slate-400 font-medium">Real-time analytics and platform health metrics.</p>
         </div>
-        <div className="text-sm font-semibold text-blue-600 bg-blue-50 px-4 py-2 rounded-full border border-blue-100">
+        <div className="text-sm font-semibold text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/20 px-4 py-2 rounded-full border border-blue-100 dark:border-blue-800/50">
           Updated: {new Date().toLocaleTimeString()}
         </div>
       </div>
@@ -67,23 +67,23 @@ function AdminDashboard() {
 
       {/* Charts Grid */}
       <div className="grid lg:grid-cols-2 gap-8">
-        <div className="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 hover:shadow-md transition-shadow">
-          <h3 className="text-lg font-bold text-slate-800 mb-6 flex items-center gap-2">
+        <div className="bg-white dark:bg-slate-800 p-6 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-700 hover:shadow-md transition-all">
+          <h3 className="text-lg font-bold text-slate-800 dark:text-slate-100 mb-6 flex items-center gap-2">
             <CheckCircle className="text-green-500" size={20} /> Task Completion Rates
           </h3>
           <TaskStatusChart completed={stats.completed} pending={stats.pending} />
         </div>
 
-        <div className="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 hover:shadow-md transition-shadow">
-          <h3 className="text-lg font-bold text-slate-800 mb-6 flex items-center gap-2">
+        <div className="bg-white dark:bg-slate-800 p-6 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-700 hover:shadow-md transition-all">
+          <h3 className="text-lg font-bold text-slate-800 dark:text-slate-100 mb-6 flex items-center gap-2">
             <Clock className="text-orange-500" size={20} /> Priority Distribution
           </h3>
           <PriorityChart data={stats.priority} />
         </div>
       </div>
 
-      <div className="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 hover:shadow-md transition-shadow">
-        <h3 className="text-lg font-bold text-slate-800 mb-6 flex items-center gap-2">
+      <div className="bg-white dark:bg-slate-800 p-6 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-700 hover:shadow-md transition-all">
+        <h3 className="text-lg font-bold text-slate-800 dark:text-slate-100 mb-6 flex items-center gap-2">
           <Layout className="text-blue-500" size={20} /> Tasks by Category
         </h3>
         <CategoryChart data={stats.category} />
