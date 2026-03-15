@@ -73,7 +73,7 @@ public class AuthService {
         User user = userRepository.findByEmail(request.getEmail())
                 .orElseThrow(() -> new RuntimeException("Invalid credentials"));
 
-        if (!user.isEnabled()) {
+        if (user.getRole()!=Role.ADMIN && !user.isEnabled()) {
             throw new RuntimeException("Please verify your email before logging in.");
         }
 
