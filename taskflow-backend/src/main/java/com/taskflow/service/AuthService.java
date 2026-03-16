@@ -29,7 +29,7 @@ public class AuthService {
         User user = userRepository.findByEmail(email).orElse(new User());
         user.setEmail(email);
         user.setVerificationOtp(otp);
-        user.setEnabled(false); // Crucial: they can't login yet
+        user.setEnabled(false); 
         
         if (user.getId() == null) {
             user.setName("Pending");
