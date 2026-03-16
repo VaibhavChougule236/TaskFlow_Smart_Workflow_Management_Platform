@@ -445,9 +445,9 @@ Full Stack Developer
 Java • Spring Boot • React  • SQL 
 
 GitHub:  
-[https://github.com/YOUR_GITHUB_USERNAME](https://github.com/VaibhavChougule236)
+https://github.com/VaibhavChougule236
 
 LinkedIn:  
-[(Add LinkedIn Profile)](https://www.linkedin.com/in/vaibhavchougule124/)
+https://www.linkedin.com/in/vaibhavchougule124/
 
 
