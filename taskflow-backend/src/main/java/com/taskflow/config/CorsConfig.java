@@ -14,6 +14,7 @@ public class CorsConfig {
 
         CorsConfiguration config = new CorsConfiguration();
 
+        config.addAllowedOrigin("https://task-flow-smart-workflow.vercel.app");
         config.addAllowedOrigin("http://localhost:5173");
         config.addAllowedHeader("*");
         config.addAllowedMethod("*");
