@@ -94,7 +94,7 @@ public class AuthService {
         user.setResetToken(token); 
         userRepository.save(user);
 
-        String resetLink = "http://localhost:5173/reset-password?token=" + token;
+        String resetLink = "https://task-flow-smart-workflow.vercel.app/reset-password?token=" + token;
         
         String emailBody = "Click the link below to reset your TaskFlow password:\n\n" + resetLink;
         
