@@ -2,7 +2,7 @@ import axios from "axios";
 import { error } from "../utils/toast";
 
 const api = axios.create({
-  baseURL: "http://localhost:8285/api"
+  baseURL: "https://taskflow-backend-h4d0.onrender.com/api"
 });
 
 api.interceptors.request.use((config) => {
